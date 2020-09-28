@@ -1,7 +1,6 @@
 # App Track Cooler
-## Sobre o Projeto
 
-É um aplicativo que irá fornecer as coordenadas do celular do usuário para o cooler segui-lo, além de mostrar as informações referente ao cooler.
+É um aplicatico com interface que permitirá a conexão do aparelho ao Track Cooler, atualizações, ações por comando de voz e monitoramento do status de consumo das baterias e temperatura do cooler. Além de fazer o envio das coordenadas do celular do usuário para que o cooler possa segui-lo.
 
 ## Equipe do Projeto
 
