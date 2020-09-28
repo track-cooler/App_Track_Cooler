@@ -14,5 +14,3 @@
 |Matheus Filipe Faria Alves de Andrade|<mafieu666@hotmail.com>         |[MatheusFilipe95](https://github.com/MatheusFilipe95)           |
 |Sannya Santana de Arvelos            |<sannyasantana@gmail.com>       |[SannyaArvelos](https://github.com/SannyaArvelos)               |
 
-<a href="https://fga.unb.br" target="_blank"><img width="200"src="https://4.bp.blogspot.com/-0aa6fAFnSnA/VzICtBQgciI/AAAAAAAARn4/SxVsQPFNeE0fxkCPVgMWbhd5qIEAYCMbwCLcB/s1600/unb-gama.png"></a>
-</p>
