@@ -1,6 +1,6 @@
 ---
 name: Doc
-about: ''
+about: Template de Doc
 title: '[DOC]'
 labels: ''
 assignees: ''

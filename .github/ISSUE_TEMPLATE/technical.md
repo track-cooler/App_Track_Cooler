@@ -1,6 +1,6 @@
 ---
 name: Technical
-about: ''
+about: Template de Feature Técnica
 title: '[TS]'
 labels: ''
 assignees: ''

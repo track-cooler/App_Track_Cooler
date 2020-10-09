@@ -1,6 +1,6 @@
 ---
 name: Bug
-about: ''
+about: Template de Bug
 title: '[BUG]'
 labels: ''
 assignees: ''

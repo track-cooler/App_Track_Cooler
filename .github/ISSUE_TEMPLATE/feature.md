@@ -1,6 +1,6 @@
 ---
 name: Feature
-about: ''
+about: Template de Feature
 title: '[US]'
 labels: ''
 assignees: ''
