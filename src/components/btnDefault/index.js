@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {ItemView, Title, Image} from './styles';
+import { ItemView, Title, Image } from './styles';
 
-const SmallItem = ({btnColor, textColor, fontSize, text, icon, onPress}) => (
-  <ItemView onPress={onPress} btnColor={btnColor}>
+const BtnDefault = ({ btnColor, textColor, fontSize, text, icon, btnWidth, btnHeight, onPress }) => (
+  <ItemView onPress={onPress} btnColor={btnColor} btnHeight={btnHeight} btnWidth={btnWidth}>
     <Title textColor={textColor} size={fontSize}>
       {text}
     </Title>
@@ -11,4 +11,4 @@ const SmallItem = ({btnColor, textColor, fontSize, text, icon, onPress}) => (
   </ItemView>
 );
 
-export default SmallItem;
+export default BtnDefault;
