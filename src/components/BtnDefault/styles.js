@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
-export const ItemView = styled.TouchableOpacity`
+export const Button = styled.TouchableOpacity`
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   flex-direction: row;
   margin: 0px 2% 0px 2%;
-  padding: 5px;
+  padding: 10px 0px 0px 0px;
   width: ${(props) => props.btnWidth};
   height: ${(props) => props.btnHeight};
   border-radius: 10px;
