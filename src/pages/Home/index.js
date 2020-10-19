@@ -1,5 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {Alert} from 'react-native'
 import {Header} from 'react-native-elements';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // Components
 import BtnDefault from '../../components/BtnDefault';
@@ -29,7 +31,26 @@ function Home() {
   const buttonFontSize = '18px';
   const buttonWidth = '46%';
 
-  const [userName, setUserName] = useState('Maria');
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    saveName();
+    loadUserName();
+  });
+
+  loadUserName = async() =>{
+    let name = await AsyncStorage.getItem('@username');
+    setUserName(name);
+  };
+  
+  saveName = async () => {
+    try {
+      await AsyncStorage.setItem('@username', 'Maria');
+      Alert.alert('Sucesso', 'Nome de usuário salvo com sucesso');
+    } catch (e) {
+      alert(e);
+    }
+  };
 
   return (
     <>
