@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Alert} from 'react-native'
+import {Alert} from 'react-native';
 import {Header} from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -38,12 +38,12 @@ function Home() {
     loadUserName();
   });
 
-  loadUserName = async() =>{
+  let loadUserName = async () => {
     let name = await AsyncStorage.getItem('@username');
     setUserName(name);
   };
-  
-  saveName = async () => {
+
+  let saveName = async () => {
     try {
       await AsyncStorage.setItem('@username', 'Maria');
       Alert.alert('Sucesso', 'Nome de usuário salvo com sucesso');

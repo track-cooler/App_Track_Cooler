@@ -4,6 +4,8 @@ node_js:
   - "stable"
 install:
   - npm install -g codecov
+notifications:
+  slack: $SLACK_TOKEN
 script:
   - codecov
   - bash <(curl -s https://codecov.io/bash)
