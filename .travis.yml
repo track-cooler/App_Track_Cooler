@@ -5,7 +5,9 @@ node_js:
 install:
   - npm install -g codecov
 notifications:
-  slack: $SLACK_TOKEN
+  slack:
+    rooms:
+	  - $SLACK_TOKEN
 script:
   - codecov
   - bash <(curl -s https://codecov.io/bash)
