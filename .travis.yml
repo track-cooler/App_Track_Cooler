@@ -1,0 +1,11 @@
+language:
+  node_js
+node_js:
+  - "stable"
+install:
+  - npm install -g codecov
+notifications:
+  slack: $SLACK_TOKEN
+script:
+  - codecov
+  - bash <(curl -gits https://codecov.io/bash)
