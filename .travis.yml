@@ -5,7 +5,8 @@ node_js:
 install:
   - npm install -g codecov
 notifications:
-  slack: $SLACK_TOKEN
+  slack:
+    secure: "fRVySVRH94rjqpFvI9eTDwngZNLDfrG7YhKC3riF0lPhTMA6d1wT7qmYPH0tGNzTtF6je84aMHbxydpnzYo3Dl3yB8cKMXKp16zGm9eEI6U0C9jm13yUUPTAsc6GORqlDdlS6qt09im9y+lLeAgTIXXsxh+B7yrH03wx4bJNsJKPyjhqWaD5UfFUUFYDYNvXzpzp5H/ZJNRxNjwNKAdQJAJkCD5d3436Ai6SipC6yk4tQJjPxez7X290h17bU/jvlhktKCRgUqUnj3c3bb3hX2pAHvfDfQ4H6Fh/9qS21KD9UOzYoLQLd/jbXXeJ4xB84F95npHo1MJ1+nc+UaQ/mS1pL248AA8sRuyTyk6xRV0Y373mSUR09C7CXiI8N3DH6uWiEyTzoIbam6iafe+OKknSRdu9F9H9ZXsmxSUCQWzhjEyFurYNukps/JRhl5ifK5qN+oIshlLnnzRXh7t9dtWOWa6HRO5h2y6je3xVa09xqDAZlvXugT+BNlKF8npDKxxKfWB5qMy2Tq5xK5RpvzWy2Mzs9DmfSD7CtaeZ8Y0C/Tu0lFtIeIW8V95vMHmLA2oMGWsMzqD1HX5oHJriGIZJ0DWkabyQWkYgxjrEn0QUF2ZpEBs1LvhPnHMX8nG0FwWND5jfriABSZEYBtniSlsShBTw2arK/Ue2FYET74I="
 script:
   - codecov
   - bash <(curl -gits https://codecov.io/bash)
