@@ -39,7 +39,9 @@ de cada _branch_ e como elas devem interagir. Apesar dele ser um pouco mais comp
 outros _workflows_, ele disponibiliza um framework robusto para gerenciar projetos mais
 complexos.
 
-Figura – Exemplo do funcionamento do GitFlow. Fonte: Autor
+![Figura – Exemplo do funcionamento do GitFlow.](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/gitflow.png?raw=true)
+
+<center>Figura – Exemplo do funcionamento do GitFlow. Fonte: Autor.</center>
 
 A master será a _branch_ estável do projeto, sendo ela proveniente da _devel_ por meio
 de aprovação de _pull request_ ao fim de cada _release_. Nenhum membro será autorizado a

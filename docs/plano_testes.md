@@ -1,6 +1,7 @@
 ---
 id: planoTeste
 title: Plano de Testes - Especificação das Histórias de Teste
+sidebar_label: Plano de Testes
 ---
 
 
