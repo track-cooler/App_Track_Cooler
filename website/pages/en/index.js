@@ -35,6 +35,26 @@ class HomeSplash extends React.Component {
       </div>
     );
 
+
+    const Features = () => (
+      <Block layout="fourColumn">
+        {[
+          {
+            content: '<p align="justify"> FALAR SOBRE O TRACK COOLER </p>',
+            image: imgUrl('sobre.jpg'),
+            imageAlign: 'top',
+            title: 'Sobre',
+          },
+          {
+            content: '<p align="justify">O <i>software</i>  <a href="https://github.com/track-cooler/app_track_cooler">Repósitorio</a>, contendo uma aplicação visual para facilitar a usabilidade do sistema. Aqui está registrada toda a documentação para que programadores possam ter um bom entendimento do <i>software</i> e de como contribuir com o mesmo.</p>',
+            image: imgUrl('repositorio.jpg'),
+            imageAlign: 'top',
+            title: 'Repositório',
+          },
+        ]}
+      </Block>
+    );
+
     const ProjectTitle = (props) => (
       <h2 className="projectTitle">
         {props.title}
@@ -60,14 +80,9 @@ class HomeSplash extends React.Component {
 
     return (
       <SplashContainer>
-        <Logo img_src={`${baseUrl}img/undraw_monitor.svg`} />
+        <Logo img_src={`${baseUrl}img/cooler.svg`} />
         <div className="inner">
           <ProjectTitle tagline={siteConfig.tagline} title={siteConfig.title} />
-          <PromoSection>
-            <Button href="#try">Try It Out</Button>
-            <Button href={docUrl('doc1.html')}>Example Link</Button>
-            <Button href={docUrl('doc2.html')}>Example Link 2</Button>
-          </PromoSection>
         </div>
       </SplashContainer>
     );

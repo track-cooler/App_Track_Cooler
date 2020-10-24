@@ -1,8 +1,12 @@
 {
   "docs": {
-    "Docusaurus": ["doc1"],
-    "First Category": ["doc2"],
-    "Second Category": ["doc3"]
+    "Arquitetura da Informação": ["tecUtilizadas", "manutencao", "prototipo"],
+    "Modelagem de Requisitos": ["casoUso", "espSuplementar"],
+    "Arquitetura do Software": ["definicaoArquitetural", "modelagemDados"],
+    "Planos de Software": ["planoTeste", "planoConfiguracao"],
+    "Inovação": ["inovacao"],
+    "Sprint": ["sprint0", "sprint1", "sprint2"]
+
   },
   "docs-other": {
     "First Category": ["doc4", "doc5"]
