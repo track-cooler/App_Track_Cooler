@@ -11,7 +11,7 @@ ou operação.
 
 ### Fluxo Inicial
 
-![fluxoInicial](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/fluxoIncial.png?raw=true)
+![Fluxo Inicial](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/fluxoIncial.png?raw=true)
 
 <center>Figura – Diagrama de Sequência - Fluxo Inicial. Fonte: Autor.</center>
 
@@ -21,7 +21,7 @@ do nome do usuário e a transmissão de dados com o cooler.
 
 ### Fluxo de Informação
 
-![fluxoInformacao](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/fluxoInforma%C3%A7%C3%B5es.png?raw=true)
+![Fluxo Informação](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/fluxoInforma%C3%A7%C3%B5es.png?raw=true)
 
 <center>Figura – Diagrama de Sequência - Fluxo de Informação. Fonte: Autor.</center>
 
@@ -30,7 +30,7 @@ o cooler, mostrando também a gravação das informações na memória do celula
 
 ### Fluxo de Acessibilidade
 
-![fluxoAcessibilidade](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/fluxoAcessibilidade.png?raw=true)
+![Fluxo Acessibilidade](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/fluxoAcessibilidade.png?raw=true)
 
 <center>Figura – Diagrama de Sequência - Fluxo de Acessibilidade. Fonte: Autor.</center>
 
@@ -40,7 +40,7 @@ fonte e cores e o controle por voz.
 
 ### Fluxo de Configuração
 
-![fluxoConfiguracao](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/fluxoConfigura%C3%A7%C3%B5es.png?raw=true)
+![Fluxo Configuração](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/fluxoConfigura%C3%A7%C3%B5es.png?raw=true)
 
 <center>Figura – Diagrama de Sequência - Fluxo de Configuração. Fonte: Autor.</center>
 
@@ -56,13 +56,13 @@ estados apresenta uma especificidade em relação ao objeto que está sendo mode
 
 ### Cadastro
 
-![diagramaEstado1](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/diagrama_de_estado02.jpg?raw=true)
+![Diagrama Estado Cadastro](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/diagrama_de_estado02.jpg?raw=true)
 
 <center>Figura – Diagrama de Estado. Fonte: Autor.</center>
 
 ### Usuário padrão
 
-![diagramaEstado2](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/diagrama_de_estado01.2.jpg?raw=true)
+![Diagrama Estado Usuário](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/diagrama_de_estado01.2.jpg?raw=true)
 
 <center>Figura – Diagrama de Estado. Fonte: Autor.</center>
 
@@ -71,7 +71,7 @@ estados apresenta uma especificidade em relação ao objeto que está sendo mode
 O diagrama de pacotes é usado para simplificar módulos, através do agrupamento
 dos módulos em pacotes. Um pacote é uma coleção de elementos UML logicamente relacionados que ao ser criado permite uma visualização geral do software modelado.
 
-![diagramaPacotes](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/diagrama_de_pacotes.png?raw=true)
+![Diagrama Pacotes](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/diagrama_de_pacotes.png?raw=true)
 
 <center>Figura – Diagrama de Pacotes. Fonte: Autor.</center>
 
@@ -80,6 +80,6 @@ dos módulos em pacotes. Um pacote é uma coleção de elementos UML logicamente
 O diagrama de comunicação mostra como os objetos interagem, mostrando como
 as mensagens são transmitidas de um objeto para o outro, é utilizado na etapa de arquiteturação do projeto.
 
-![digramaComunicacao](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/Diagrama_de_Comunica%C3%A7%C3%A3o.png?raw=true)
+![Digrama Comunicação](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/Diagrama_de_Comunica%C3%A7%C3%A3o.png?raw=true)
 
 <center>Figura – Diagrama de Comunicação. Fonte: Autor.</center>

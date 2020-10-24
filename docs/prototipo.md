@@ -12,7 +12,7 @@ ferramenta de design de interface na qual todo o trabalho é feito através do n
 uma ferramenta multitarefa, ou seja, equipes multidisciplinares podem explorar o mesmo
 projeto juntas vendo as alterações em tempo real.
 
-![telaPrincipal](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_principal.png?raw=true)
+![Tela Principal](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_principal.png?raw=true)
 
 <center>Figura  – Tela Principal do Aplicativo. Fonte: Autor.</center>
 
@@ -21,7 +21,7 @@ escolher entre ver informações do cooler, configurações gerais, conectar dis
 a um cooler, atualizar cooler e também poderá saber sobre o time de desenvolvimento e
 o projeto.
 
-![telaConfiguracao](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_configuracoes.png?raw=true)
+![Tela Configuracao](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_configuracoes.png?raw=true)
 
 <center>Figura – Tela de Configurações do Aplicativo. Fonte: Autor.</center>
 
@@ -29,7 +29,7 @@ o projeto.
 Ao escolher a tela de configurações, o usuário terá acesso a diversas configurações de sistema, podendo definir um nome que será usado no aplicativo, ligar/desligar o
 bluetooth,ligar/desligar a localização e ligar/desligar o modo seguir.
 
-![telaInfo](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_info_cooler.png?raw=true)
+![Tela Informação](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_info_cooler.png?raw=true)
 
 <center>Figura – Tela de Informações do Cooler. Fonte: Autor.</center>
 
@@ -39,7 +39,7 @@ informações referentes ao cooler, sendo essas o status de conexão mostrando q
 está conectado, temperatura interna do cooler, nível de bateria do cooler e o histórico de
 coolers.
 
-![telaConexao](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_conectar.png?raw=true)
+![Tela Conexão](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_conectar.png?raw=true)
 
 <center>Figura – Tela de Conexão ao Cooler. Fonte: Autor.</center>
 
@@ -47,11 +47,11 @@ coolers.
 Na tela de conexão do cooler, o usuário terá acesso à dispositivos móveis pelo
 bluetooth, podendo assim escolher o cooler para fazer a conexão.
 
-![telaQuemSomos](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_quem_somos.png?raw=true)
+![Tela Quem Somos](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_quem_somos.png?raw=true)
 
 <center>Figura – Tela Quem Somos. Fonte: Autor.</center>
 
-![telaSobreProjeto](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_sobre_projeto.png?raw=true)
+![Tela Sobre Projeto](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_sobre_projeto.png?raw=true)
 
 <center>Figura – Tela Sobre o Projeto. Fonte: Autor.</center>
 

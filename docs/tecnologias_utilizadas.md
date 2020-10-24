@@ -56,7 +56,7 @@ Ao commitar uma nova modificação do código no repositório do github será fe
 uma verificação através de uma build que possui os testes que irão validar o código, é
 possível fazer diversas alterações na build para que os testes sejam mais eficientes.
 
-![diagramatravisGit](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/travisAndGit.jpg?raw=true)
+![Diagrama Travis e Git](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/travisAndGit.jpg?raw=true)
 
 <center>Figura – Diagrama de integração travis Ci e Github. Fonte: Autor.</center>
 
@@ -68,7 +68,7 @@ formato string necessitando da conversão dos objetos que compõem nome e senha 
 usuário em tipo string por meio da função JSON.stringfy() durante o armazenamento e
 JSON.parse() durante a leitura.
 
-![digramaReactAsnync](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/ReactandCooler2.png?raw=true)
+![Digrama React Native AsnyncStorage](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/ReactandCooler2.png?raw=true)
 
 <center>Figura – Diagrama de integração React Native e AsyncStorage. Fonte: Autor.</center>
 
@@ -83,6 +83,6 @@ pelos quais contêm um conjunto de informações, aparecem e desaparecem de acor
 as operações que ocorrem durante um determinado processo, que será gerenciado pelo
 React.
 
-![diagramaIntegracao](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/comunica%C3%A7aoCooler.jpg?raw=true)
+![Diagrama de Integracao](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/comunica%C3%A7aoCooler.jpg?raw=true)
 
 <center>Figura – Diagrama de Integração. Fonte: Autor.</center>

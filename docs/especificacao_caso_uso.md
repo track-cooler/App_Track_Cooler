@@ -11,7 +11,7 @@ atores do sistema, que por sua vez recebem o retorno destas ações. É muito ut
 na representação de requisitos funcionais de aplicações. Diagramas de caso de uso são
 representações gráficas dos casos de uso e dos atores com os quais interagem.
 
-![digramaCasoUso](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/casoDeUso.png?raw=true)
+![Digrama de Caso de Uso](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/casoDeUso.png?raw=true)
 
 <center>Figura – Diagrama de casos de uso. Fonte: Autor.</center>
 

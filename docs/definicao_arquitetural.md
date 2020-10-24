@@ -11,7 +11,7 @@ O software monolítico é projetado para ser independente, os componentes do pro
 o caso dos programas de software modulares. Em uma arquitetura bem acoplada, cada componente e seus componentes associados devem estar presentes para que o código seja
 executado ou compilado.
 
-![digramaArquitetura](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/diagrama_monol%C3%ADtico.png?raw=true)
+![Digrama de Arquitetura](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/diagrama_monol%C3%ADtico.png?raw=true)
 
 <center>Figura – Diagrama Arquitetural de Software. Fonte: Autor.</center>
 
