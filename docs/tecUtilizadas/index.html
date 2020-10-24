@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Tecnologias Utilizadas · Track Cooler</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="As tecnologias utilizadas neste projeto estão listadas abaixo."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Tecnologias Utilizadas · Track Cooler"/><meta property="og:type" content="website"/><meta property="og:url" content="https://track-cooler.github.io/app_track_cooler/"/><meta property="og:description" content="As tecnologias utilizadas neste projeto estão listadas abaixo."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/app_track_cooler/img/logo.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/app_track_cooler/js/scrollSpy.js"></script><link rel="stylesheet" href="/app_track_cooler/css/main.css"/><script src="/app_track_cooler/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/app_track_cooler/"><img class="logo" src="/app_track_cooler/img/logo.png" alt="Track Cooler"/><h2 class="headerTitleWithLogo">Track Cooler</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/app_track_cooler/docs/casoUso" target="_self">Docs</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Arquitetura da Informação</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Arquitetura da Informação</h3><ul class=""><li class="navListItem navListItemActive"><a class="navItem" href="/app_track_cooler/docs/tecUtilizadas">Tecnologias Utilizadas</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/manutencao">Manutenção</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/prototipo">Protótipo</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Modelagem de Requisitos</h3><ul class=""><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/casoUso">Especificação de Caso de Uso</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/espSuplementar">Especificação Suplementar</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Arquitetura do Software</h3><ul class=""><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/definicaoArquitetural">Definicao Arquitetural</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/modelagemDados">Modelagem Dados</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Planos de Software</h3><ul class=""><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/planoTeste">Plano de Testes - Especificação das Histórias de Teste</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/planoConfiguracao">Plano de Gerência e Configuração de Software</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Inovação</h3><ul class=""><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/inovacao">Inovação</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Sprint</h3><ul class=""><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/sprint0">Sprint 0</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/sprint1">Sprint 1</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/sprint2">Sprint 2</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Tecnologias Utilizadas</h1></header><article><div><span><p>As tecnologias utilizadas neste projeto estão listadas abaixo.</p>
+<h2><a class="anchor" aria-hidden="true" id="react-native"></a><a href="#react-native" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>React Native</h2>
+<p>React Native é um framework javascript para o desenvolvimento de aplicativos em
+múltiplas plataformas, como Android e IOS. Ele combina componentes do React - outro
+framework javascript, mas para desenvolvimento web - com os componentes nativos de
+cada plataforma para o qual está sendo desenvolvido. Esse framework foi escolhido, pois
+alguns membros já têm familiaridade com a tecnologia, além de ser fácil de aprender e
+ser amplamente usado, inclusive por grandes empresas, como o Facebook.</p>
+<h2><a class="anchor" aria-hidden="true" id="android"></a><a href="#android" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Android</h2>
+<p>Android é um dos sistemas operacionais móveis mais usados e por isso foi escolhido
+como plataforma para o aplicativo, além de ser mais fácil e barato de desenvolver, já que
+não tem tantos requisitos, como o IOS, por exemplo. Mais especificamente, serão usados
+as API 23 (Android Marshmallow) à 28 (Android Pie) que, de acordo com o site oficial
+do Android, são as mais utilizadas.</p>
+<h2><a class="anchor" aria-hidden="true" id="travis-ci"></a><a href="#travis-ci" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Travis CI</h2>
+<p>Travis CI é uma ferramenta de teste e deploy integrada com o Github que executa
+os testes desenvolvidos a cada commit feito. Será utilizado para garantir que novas features
+ou correções feitas não gere novos bugs e comportamentos inesperados.</p>
+<h2><a class="anchor" aria-hidden="true" id="bluetooth"></a><a href="#bluetooth" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Bluetooth</h2>
+<p>Bluetooth é uma tecnologia que permite a conexão e comunicação entre dois dispositivos através de rádio frequência. Nos últimos anos o Bluetooth se tornou uma das principais formas de conectar e trocar informações entre dispositivos sem fio. Fones de
+ouvido, mouse, teclado, celular, relógios inteligentes são alguns exemplos de dispositivos
+que usam essa tecnologia e, por esse amplo uso e crescimento, foi escolhida essa tecnologia
+para fazer a comunicação entre o aplicativo e o Track Cooler.</p>
+<h2><a class="anchor" aria-hidden="true" id="reconhecimento-de-voz"></a><a href="#reconhecimento-de-voz" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reconhecimento de voz</h2>
+<p>O aplicativo permitirá que o usuário o utilize por meio de comandos de voz e para
+isso será usado o pacote @react-native-community/voice do React Native, que utiliza os
+motores de reconhecimento de fala presentes no dispositivo.</p>
+<h2><a class="anchor" aria-hidden="true" id="asyncstorage"></a><a href="#asyncstorage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>AsyncStorage</h2>
+<p>Por não haver necessidade de guardar muitos dados, uma estrutura de banco de
+dados não será utilizada. Ao invés, será utilizado o AsyncStorage, um sistema chave-valor
+que armazena diferentes tipos de dados de forma simples e fácil.</p>
+<h2><a class="anchor" aria-hidden="true" id="comunicação-das-tecnologias"></a><a href="#comunicação-das-tecnologias" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Comunicação das Tecnologias</h2>
+<h3><a class="anchor" aria-hidden="true" id="travis-ci-e-github"></a><a href="#travis-ci-e-github" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Travis CI e github</h3>
+<p>Ao commitar uma nova modificação do código no repositório do github será feita
+uma verificação através de uma build que possui os testes que irão validar o código, é
+possível fazer diversas alterações na build para que os testes sejam mais eficientes.</p>
+<h3><a class="anchor" aria-hidden="true" id="integração-react-native-e-asyncstorage"></a><a href="#integração-react-native-e-asyncstorage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Integração React Native e AsyncStorage</h3>
+<p>O AsyncStorage é um banco que utiliza o esquema de chave-valor para armazenar
+e persistir dados em dispositivos Android. O armazenamento é feito apenas com dados no
+formato string necessitando da conversão dos objetos que compõem nome e senha de cada
+usuário em tipo string por meio da função JSON.stringfy() durante o armazenamento e
+JSON.parse() durante a leitura.</p>
+<h3><a class="anchor" aria-hidden="true" id="integração-bluetooth-entre-celular-e-sistema-embarcado"></a><a href="#integração-bluetooth-entre-celular-e-sistema-embarcado" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Integração bluetooth entre celular e sistema embarcado</h3>
+<p>Para fazer a comunicação será utilizada a biblioteca ‘react-native-ble-plx’ que faz
+toda a manipulação de escrita e leitura dos dados transmitidos. A transmissão dos dados é
+feita através do método Base64 para codificação de dados, sendo necessário a codificação
+e decodificação das informações transmitidas. Nessa biblioteca é utilizado o conceito de
+streams que consiste em uma geração de objetos dinâmicos, em outras palavras, objetos
+pelos quais contêm um conjunto de informações, aparecem e desaparecem de acordo com
+as operações que ocorrem durante um determinado processo, que será gerenciado pelo
+React.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="/app_track_cooler/docs/manutencao"><span>Manutenção</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#react-native">React Native</a></li><li><a href="#android">Android</a></li><li><a href="#travis-ci">Travis CI</a></li><li><a href="#bluetooth">Bluetooth</a></li><li><a href="#reconhecimento-de-voz">Reconhecimento de voz</a></li><li><a href="#asyncstorage">AsyncStorage</a></li><li><a href="#comunicação-das-tecnologias">Comunicação das Tecnologias</a><ul class="toc-headings"><li><a href="#travis-ci-e-github">Travis CI e github</a></li><li><a href="#integração-react-native-e-asyncstorage">Integração React Native e AsyncStorage</a></li><li><a href="#integração-bluetooth-entre-celular-e-sistema-embarcado">Integração bluetooth entre celular e sistema embarcado</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/app_track_cooler/" class="nav-home"><img src="/app_track_cooler/img/logo.png" alt="Track Cooler" width="66" height="58"/></a><div><h5>Universidade de Brasília</h5><a href="https://github.com/track-cooler/app_track_cooler">Repositório</a><a href="https://github.com/track-cooler/app_track_cooler/blob/master/.github/plano_GCS.pdf">Contribuindo</a></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/app_track_cooler/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2020 Track Cooler</section></footer></div></body></html>
