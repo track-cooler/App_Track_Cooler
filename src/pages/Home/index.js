@@ -33,8 +33,12 @@ function Home({navigation}) {
 
     // se existir no asyncStorage pega o valor, se não seta um valor inicial
     const size = !fontSizeStorage
-      ? await AsyncStorage.setItem('fontSize', '18px')
+      ? '18px'
       : fontSizeStorage;
+    
+    if(!fontSizeStorage){
+      await AsyncStorage.setItem('fontSize', '18px')
+    }
 
     setFontSize(size);
   };
