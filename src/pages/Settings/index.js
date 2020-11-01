@@ -7,13 +7,10 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import CustomHeader from '~/components/CustomHeader';
 import Geolocation from "react-native-geolocation-service";
 
-
-
-
-
 function Settings({navigation}) {
     const [userName, setUserName] = useState('');
-
+    const [hasLocationPermission, setHasLocationPermission] = useState(false);
+    const [userPosition, setUserPosition] = useState({});
 
     const saveName = async () => {
         try {
@@ -25,11 +22,7 @@ function Settings({navigation}) {
         }
     };
 
-    const saveLocation = async () => {
-        const [hasLocationPermission, setHasLocationPermission] = useState(false);
-        const [userPosition, setUserPosition] = useState(false);
-
-        async function verifyLocationPermission() {
+    const accessPermission = async () => {
             try {
                 const granted = await PermissionsAndroid.request(
                     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
@@ -44,12 +37,9 @@ function Settings({navigation}) {
             } catch (err) {
                 console.warn(err);
             }
-        }
-
-        useEffect(() => {
-            verifyLocationPermission();
-
-            if (hasLocationPermission) {
+        console.log("CHEGOU AKI 1")
+        console.log("hasLocationPermission: ", hasLocationPermission);
+        if (hasLocationPermission) {
                 Geolocation.getCurrentPosition(
                     position => {
                         setUserPosition({
@@ -61,11 +51,9 @@ function Settings({navigation}) {
                         console.log(error.code, error.message);
                     }
                 );
-            }
-        }, [hasLocationPermission]);
-        console.log(userPosition.latitude, userPosition.longitude);
-    }
-
+        }
+        console.log("userPosition: ", userPosition);
+    };
 
     return (
         <>
@@ -80,20 +68,15 @@ function Settings({navigation}) {
                 <TouchableOpacity style={styles.botao} onPress={saveName}>
                     <Text style={styles.textBotao}>Salvar</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.botao} onPress={saveLocation}>
-                    <Text style={styles.textBotao}>Salvar</Text>
+                <TouchableOpacity style={styles.botao} onPress={accessPermission}>
+                    <Text style={styles.textBotao}>Salvar Localização</Text>
                 </TouchableOpacity>
             </View>
         </>
     );
 }
 
-
-
-
 const styles = StyleSheet.create({
-
-
     container: {
         flex: 1,
         backgroundColor: '#ccc',
