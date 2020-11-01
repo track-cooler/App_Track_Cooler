@@ -1,13 +1,15 @@
 import React from "react";
+import { Toggle, Title, Container, Image } from "./styles";
 
-import { Toggle, Title } from "./styles";
-
-const ToggleDefault = ({ text, fontSize, value, onChange }) => (
+const ToggleDefault = ({ text, fontSize, value, icon, onChange }) => (
   <>
-    <Toggle value={value} onChange={onChange}></Toggle>
+  <Container>
+    <Image source={icon} />
     <Title size={fontSize}>
       {text}
     </Title>
+    <Toggle value={value} onChange={onChange}></Toggle>
+  </Container>
   </>
 )
 
