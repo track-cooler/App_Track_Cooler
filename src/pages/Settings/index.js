@@ -1,13 +1,32 @@
-import React, {useState} from 'react';
-import {Text, TextInput, StyleSheet, View, Keyboard, Alert} from 'react-native';
+import React, { useState } from 'react';
+import { Text, TextInput, StyleSheet, View, Keyboard, Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // components
 import CustomHeader from '~/components/CustomHeader';
+import ToggleDefault from '~/components/Toggle';
+import { BleManager } from 'react-native-ble-plx';
 
-function Settings({navigation}) {
+const bleManager = new BleManager();
+async function getStateBluetooth() {
+  const status = await bleManager.state() === "PoweredOn";
+  return status;
+}
+
+async function changeStateBlutooth(state) {
+  if (state) {
+    await bleManager.enable();
+  } else {
+    await bleManager.disable();
+  }
+}
+
+function Settings({ navigation }) {
   const [userName, setUserName] = useState('');
+  const [btStatus, setBluetooth] = useState(false);
+  
+  getStateBluetooth().then((status) => setBluetooth(status));
 
   const saveName = async () => {
     try {
@@ -32,6 +51,17 @@ function Settings({navigation}) {
         <TouchableOpacity style={styles.botao} onPress={saveName}>
           <Text style={styles.textBotao}>Salvar</Text>
         </TouchableOpacity>
+
+        <ToggleDefault 
+          text="Bluetooth"
+          fontSize="12px"
+          value={btStatus}
+          onChange={(event) => {
+              event.persist();
+              changeStateBlutooth(event.nativeEvent.value).then(() => {
+                setBluetooth(event.nativeEvent.value);
+              });
+          }} />
       </View>
     </>
   );
