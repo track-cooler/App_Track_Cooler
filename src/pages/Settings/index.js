@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import { Text, TextInput, StyleSheet, View, Keyboard, Alert, PermissionsAndroid} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import { Switch } from 'react-native-paper';
 
 // components
 import CustomHeader from '~/components/CustomHeader';
@@ -14,57 +13,6 @@ import Geolocation from "react-native-geolocation-service";
 
 function Settings({navigation}) {
     const [userName, setUserName] = useState('');
-    const [hasLocationPermission, setHasLocationPermission] = useState(false);
-    const [userPosition, setUserPosition] = useState({});
-    const [isSwitchOn, setIsSwitchOn] = React.useState(false);
-    let count = 1000;
-
-    const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn)
-
-    const saveLocation = async () => {
-        console.log('saveLocation');
-        setHasLocationPermission(true);
-
-
-
-        const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            setHasLocationPermission(true);
-            console.log('hasLocation: ' , hasLocationPermission);
-            console.log('permissão concedida');
-        } else {
-            console.error('permissão negada');
-            setHasLocationPermission(false);
-        }
-
-        console.log('hasLocation1: ' , hasLocationPermission);
-        console.log('antes while');
-        console.log(isSwitchOn);
-        while(isSwitchOn) {
-            console.log(' while');
-            console.log('hasLocation2: ' , hasLocationPermission);
-
-            if (hasLocationPermission) {
-                console.log(' entrou if');
-
-                Geolocation.getCurrentPosition(
-                    position => {
-                        setUserPosition({
-                            latitude: position.coords.latitude,
-                            longitude: position.coords.longitude,
-                        });
-                        console.log(position.coords.longitude);
-                    },
-                    error => {
-                        console.log(error.code, error.message);
-                    }
-                );
-            }
-
-        }
-    }
 
 
     const saveName = async () => {
@@ -77,6 +25,48 @@ function Settings({navigation}) {
         }
     };
 
+    const saveLocation = async () => {
+        const [hasLocationPermission, setHasLocationPermission] = useState(false);
+        const [userPosition, setUserPosition] = useState(false);
+
+        async function verifyLocationPermission() {
+            try {
+                const granted = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+                );
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    console.log('permissão concedida');
+                    setHasLocationPermission(true);
+                } else {
+                    console.error('permissão negada');
+                    setHasLocationPermission(false);
+                }
+            } catch (err) {
+                console.warn(err);
+            }
+        }
+
+        useEffect(() => {
+            verifyLocationPermission();
+
+            if (hasLocationPermission) {
+                Geolocation.getCurrentPosition(
+                    position => {
+                        setUserPosition({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                        });
+                    },
+                    error => {
+                        console.log(error.code, error.message);
+                    }
+                );
+            }
+        }, [hasLocationPermission]);
+        console.log(userPosition.latitude, userPosition.longitude);
+    }
+
+
     return (
         <>
             <CustomHeader />
@@ -87,12 +77,12 @@ function Settings({navigation}) {
                     onChangeText={(text) => setUserName(text)}
                 />
 
+                <TouchableOpacity style={styles.botao} onPress={saveName}>
+                    <Text style={styles.textBotao}>Salvar</Text>
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.botao} onPress={saveLocation}>
                     <Text style={styles.textBotao}>Salvar</Text>
                 </TouchableOpacity>
-
-                <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
-
             </View>
         </>
     );
