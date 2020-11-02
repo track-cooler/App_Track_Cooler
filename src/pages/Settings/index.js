@@ -1,60 +1,76 @@
-import React, { useState } from 'react';
-import { Text, TextInput, StyleSheet, View, Keyboard, Alert, PermissionsAndroid } from 'react-native';
+import React, {useState} from 'react';
+import {
+  Text,
+  TextInput,
+  StyleSheet,
+  View,
+  Keyboard,
+  Alert,
+  PermissionsAndroid,
+} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { BleManager } from 'react-native-ble-plx';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {BleManager} from 'react-native-ble-plx';
 import Geolocation from 'react-native-geolocation-service';
 
 // components
 import CustomHeader from '~/components/CustomHeader';
 import ToggleDefault from '~/components/Toggle';
 import bluetoothIcon from '../../assets/bluetooth.png';
-import locateIcon from "../../assets/locate.png";
+import locateIcon from '../../assets/locate.png';
 
-const bleManager = new BleManager();
-async function getStateBluetooth() {
-  const status = await bleManager.state() === "PoweredOn";
-  return status;
-}
-
-async function getStateGps() {
-  const status = await AsyncStorage.getItem('gpsStatus');
-  return status? status === 'true' : false;
-}
-
-async function changeStateBlutooth(state) {
-  if (state) {
-    await bleManager.enable();
-  } else {
-    await bleManager.disable();
-  }
-}
-
-async function changeStateGps(state) {
-  if (state) {
-    const hasPermission = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
-    if (hasPermission) {
-      Geolocation.getCurrentPosition(async (position) => {
-        await AsyncStorage.setItem('gpsStatus', 'true');
-      },(error) => {
-        alert('GPS do dispositivo desativado, por favor, ative-o.')
-      });
-    } else {
-      await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
-      changeStateGps(state);
-    }
-  } else {
-    AsyncStorage.setItem('gpsStatus', 'false');
-  }
-}
-
-function Settings({ navigation }) {
+function Settings({navigation}) {
   const [userName, setUserName] = useState('');
   const [btStatus, setBluetooth] = useState(false);
   const [gpsStatus, setGpsStatus] = useState(false);
-  
+
+  const bleManager = new BleManager();
+  async function getStateBluetooth() {
+    const status = (await bleManager.state()) === 'PoweredOn';
+    return status;
+  }
+
+  async function getStateGps() {
+    const status = await AsyncStorage.getItem('gpsStatus');
+    return status ? status === 'true' : false;
+  }
+
+  async function changeStateBlutooth(state) {
+    if (state) {
+      await bleManager.enable();
+    } else {
+      await bleManager.disable();
+    }
+  }
+
+  async function changeStateGps(state) {
+    if (state) {
+      const hasPermission = await PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
+      if (hasPermission) {
+        Geolocation.getCurrentPosition(
+          async (position) => {
+            await AsyncStorage.setItem('gpsStatus', 'true');
+          },
+          (error) => {
+            // eslint-disable-next-line no-alert
+            alert('GPS do dispositivo desativado, por favor, ative-o.');
+          },
+        );
+      } else {
+        await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        );
+        changeStateGps(state);
+      }
+    } else {
+      AsyncStorage.setItem('gpsStatus', 'false');
+    }
+  }
+
   getStateBluetooth().then((status) => setBluetooth(status));
-  getStateGps().then((status) => setGpsStatus(status)); 
+  getStateGps().then((status) => setGpsStatus(status));
 
   const saveName = async () => {
     try {
@@ -80,17 +96,17 @@ function Settings({ navigation }) {
           <Text style={styles.textBotao}>Salvar</Text>
         </TouchableOpacity>
 
-        <ToggleDefault 
+        <ToggleDefault
           text="Bluetooth"
           fontSize="24px"
           value={btStatus}
           icon={bluetoothIcon}
           onChange={(event) => {
-              event.persist();
-              changeStateBlutooth(event.nativeEvent.value).then(() => {
-                setBluetooth(event.nativeEvent.value);
-              });
-          }} 
+            event.persist();
+            changeStateBlutooth(event.nativeEvent.value).then(() => {
+              setBluetooth(event.nativeEvent.value);
+            });
+          }}
         />
 
         <ToggleDefault
@@ -103,7 +119,7 @@ function Settings({ navigation }) {
             changeStateGps(event.nativeEvent.value).then(() => {
               setGpsStatus(event.nativeEvent.value);
             });
-        }} 
+          }}
         />
       </View>
     </>
