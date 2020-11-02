@@ -4,6 +4,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import { Switch } from 'react-native-paper';
 import moment from 'moment';
+import config from '../../assets/config.png';
+import {Image} from './styles';
 
 // components
 import CustomHeader from '~/components/CustomHeader';
@@ -83,6 +85,16 @@ function Settings({navigation}) {
         <>
             <CustomHeader />
             <View style={styles.container}>
+                <View>
+                    <View>
+                        <View>
+                            <Text style={title.style}>Configurações</Text>
+                        </View>
+                        <View style={title.icon}>
+                            <Image source={config}/>
+                        </View>
+                    </View>
+                </View>
                 <TextInput
                     style={styles.input}
                     placeholder="Digite um nome de usuário"
@@ -98,6 +110,22 @@ function Settings({navigation}) {
     );
 }
 
+const title = StyleSheet.create({
+    style: {
+        marginTop: -230,
+        marginRight: 130,
+        marginBottom: 100,
+
+        paddingVertical: 8,
+        color: "#20232a",
+        textAlign: "center",
+        fontSize: 30,
+        fontWeight: "bold"
+    },
+    icon: {
+        marginRight: 130,
+    }
+});
 
 const styles = StyleSheet.create({
     container: {
@@ -112,6 +140,7 @@ const styles = StyleSheet.create({
         width: 300,
         backgroundColor: '#fff',
         fontSize: 16,
+        textAlign: "center",
         fontWeight: 'bold',
         borderRadius: 3,
     },
