@@ -12,17 +12,9 @@ export const Button = styled.TouchableOpacity`
 `;
 
 export const Image = styled.Image`
-  width: 60px;
-  height: 60px;
+  width: 30px;
+  height: 30px;
   margin-left: 10px;
-`;
-
-// Text
-export const TextName = styled.Text`
-  font-size: ${(props) => props.fontSize};
-  font-weight: bold;
-  text-align: left;
-  margin-bottom: 50px;
 `;
 
 export const ButtonColumn = styled.View`

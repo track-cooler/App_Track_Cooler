@@ -55,10 +55,10 @@ function Home({navigation}) {
             textColor="#000"
             fontSize={buttonFontSize}
             btnColor="#A9BCD0"
-            icon={coolerIcon}
             btnHeight="72px"
             btnWidth={buttonWidth}
-            onPress={() => console.log('Informações Cooler')}
+            icon={coolerIcon}
+            onPress={() => navigation.navigate('Info')}
           />
 
           <BtnDefault
