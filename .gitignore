@@ -1,7 +1,7 @@
 # OSX
 #
 .DS_Store
-.env
+
 # Xcode
 #
 build/
@@ -28,7 +28,6 @@ build/
 .gradle
 local.properties
 *.iml
-.vscode/
 
 # node.js
 #
