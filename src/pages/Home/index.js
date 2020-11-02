@@ -1,79 +1,57 @@
 import React, {useState, useEffect} from 'react';
-import {Alert} from 'react-native'
-import {Header} from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 
 // Components
-import BtnDefault from '../../components/BtnDefault';
-import SmallBtn from '../../components/SmallBtn';
+import BtnDefault from '~/components/BtnDefault';
+import SmallBtn from '~/components/SmallBtn';
+import CustomHeader from '~/components/CustomHeader';
 
 // Styles
-import {
-  Container,
-  Image,
-  ButtonsRow,
-  TextName,
-  InfoText,
-  ButtonView,
-} from './styles';
+import {Container, ButtonsRow, TextName, InfoText, ButtonView} from './styles';
 
 // Icons
 import coolerIcon from '../../assets/cooler.png';
 import configIcon from '../../assets/config.png';
 import bluetoothIcon from '../../assets/bluetooth.png';
-import appIcon from '../../assets/appIcon.png';
 import refreshIcon from '../../assets/refresh.png';
 import quemSomosIcon from '../../assets/quem_somos.png';
 import ideaIcon from '../../assets/idea.png';
-import {View} from 'react-native';
 
-function Home() {
-  const buttonFontSize = '18px';
-  const buttonWidth = '46%';
-
+function Home({navigation}) {
+  // states
   const [userName, setUserName] = useState('');
+  const [buttonWidth, setButtonWidth] = useState('46%');
+  const [fontSize, setFontSize] = useState('18px');
 
   useEffect(() => {
-    saveName();
     loadUserName();
+    handleFontSize();
   });
 
-  loadUserName = async() =>{
-    let name = await AsyncStorage.getItem('@username');
-    setUserName(name);
-  };
-  
-  saveName = async () => {
-    try {
-      await AsyncStorage.setItem('@username', 'Maria');
-      Alert.alert('Sucesso', 'Nome de usuário salvo com sucesso');
-    } catch (e) {
-      alert(e);
+  const handleFontSize = async () => {
+    const fontSizeStorage = await AsyncStorage.getItem('fontSize');
+
+    // se existir no asyncStorage pega o valor, se não seta um valor inicial
+    const size = !fontSizeStorage
+      ? '18px'
+      : fontSizeStorage;
+    
+    if(!fontSizeStorage){
+      await AsyncStorage.setItem('fontSize', '18px')
     }
+
+    setFontSize(size);
+  };
+
+  const loadUserName = async () => {
+    const asyncName = await AsyncStorage.getItem('username');
+    const name = asyncName ? asyncName : '(Cadastre seu nome)';
+    setUserName(name);
   };
 
   return (
     <>
-      <Header
-        placement="center"
-        leftComponent={<Image source={appIcon} />}
-        centerComponent={{
-          text: 'Track Cooler',
-          style: {
-            width: '100%',
-            color: '#fff',
-            fontWeight: 'bold',
-            fontSize: 36,
-          },
-        }}
-        rightContainerStyle={{flex: 0}}
-        containerStyle={{
-          backgroundColor: '#373F51',
-          justifyContent: 'space-evenly',
-        }}
-        z
-      />
-
+      <CustomHeader isHome />
       <Container>
         <TextName fontSize="30px"> Olá, {userName}</TextName>
 
@@ -81,7 +59,7 @@ function Home() {
           <BtnDefault
             text="Info Cooler"
             textColor="#000"
-            fontSize={buttonFontSize}
+            fontSize={fontSize}
             btnColor="#A9BCD0"
             icon={coolerIcon}
             btnHeight="72px"
@@ -92,12 +70,12 @@ function Home() {
           <BtnDefault
             text="Configurações"
             textColor="#fff"
-            fontSize={buttonFontSize}
+            fontSize={fontSize}
             btnColor="#218380"
             btnHeight="72px"
             btnWidth={buttonWidth}
             icon={configIcon}
-            onPress={() => console.log('Configurações')}
+            onPress={() => navigation.navigate('Settings')}
           />
         </ButtonsRow>
 
@@ -105,7 +83,7 @@ function Home() {
           <BtnDefault
             text="Conectar Cooler"
             textColor="#fff"
-            fontSize={buttonFontSize}
+            fontSize={fontSize}
             btnColor="#218380"
             btnHeight="72px"
             btnWidth={buttonWidth}
@@ -116,7 +94,7 @@ function Home() {
           <BtnDefault
             text="Atualizar Cooler"
             textColor="#000"
-            fontSize={buttonFontSize}
+            fontSize={fontSize}
             btnColor="#A9BCD0"
             btnHeight="72px"
             btnWidth={buttonWidth}
@@ -130,7 +108,7 @@ function Home() {
           <SmallBtn
             text="Quem Somos"
             btnColor="#218380"
-            fontSize={buttonFontSize}
+            fontSize={fontSize}
             btnHeight="80px"
             btnWidth="80px"
             icon={quemSomosIcon}
@@ -141,7 +119,7 @@ function Home() {
             <SmallBtn
               text="Sobre o projeto"
               btnColor="#A9BCD0"
-              fontSize={buttonFontSize}
+              fontSize={fontSize}
               btnHeight="80px"
               btnWidth="80px"
               icon={ideaIcon}

@@ -1,5 +1,9 @@
 # App Track Cooler
 
+[![Build Status](https://travis-ci.com/track-cooler/app_track_cooler.svg?branch=devel)](https://travis-ci.com/track-cooler/app_track_cooler)
+
+[![codecov](https://codecov.io/gh/track-cooler/app_track_cooler/branch/devel/graph/badge.svg?token=HFXFYXWA48)](undefined)
+
 É um aplicatico com interface que permitirá a conexão do aparelho ao Track Cooler, atualizações, ações por comando de voz e monitoramento do status de consumo das baterias e temperatura do cooler. Além de fazer o envio das coordenadas do celular do usuário para que o cooler possa segui-lo.
 
 ## Equipe do Projeto

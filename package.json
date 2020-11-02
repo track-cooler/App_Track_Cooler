@@ -7,19 +7,22 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest  --silent",
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-navigation/compat": "^5.2.8",
     "@react-navigation/native": "^5.7.6",
     "@react-navigation/stack": "^5.9.3",
-    "@react-native-community/async-storage": "^1.12.1",
     "axios": "^0.20.0",
-    "@react-native-community/async-storage": "^1.12.1",
     "react": "16.13.1",
     "react-native": "0.63.3",
+    "react-native-ble-plx": "^2.0.1",
+    "react-native-dotenv": "^2.4.1",
     "react-native-elements": "^3.0.0-alpha.1",
+    "react-native-geolocation-service": "^5.0.0",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-reanimated": "^1.13.1",
     "react-native-safe-area-context": "^3.1.8",
@@ -32,8 +35,11 @@
     "@babel/core": "^7.8.4",
     "@babel/runtime": "^7.8.4",
     "@react-native-community/eslint-config": "^1.1.0",
+    "@testing-library/jest-native": "^3.4.3",
     "babel-jest": "^25.1.0",
     "babel-plugin-root-import": "^6.5.0",
+    "codecov": "^3.8.0",
+    "dotenv": "^8.2.0",
     "eslint": "^6.5.1",
     "eslint-import-resolver-babel-plugin-root-import": "^1.1.1",
     "eslint-plugin-react-hooks": "^4.1.2",
@@ -43,6 +49,24 @@
     "source-map": "^0.7.3"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-native/extend-expect"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|@react-native-community|@react-navigation)"
+    ],
+    "setupFiles": [
+      "./node_modules/react-native-gesture-handler/jestSetup.js",
+      "./src/setupTests.js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   }
 }
