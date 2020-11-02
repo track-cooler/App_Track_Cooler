@@ -3,6 +3,7 @@ import { Text, TextInput, StyleSheet, View, Keyboard, Alert, PermissionsAndroid}
 import AsyncStorage from '@react-native-community/async-storage';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import { Switch } from 'react-native-paper';
+import moment from 'moment';
 
 // components
 import CustomHeader from '~/components/CustomHeader';
@@ -13,13 +14,33 @@ function Settings({navigation}) {
     const [hasLocationPermission, setHasLocationPermission] = useState(false);
     const [userPosition, setUserPosition] = useState({});
     const [isSwitchOn, setIsSwitchOn] = useState(false);
+    const [currentDate, setCurrentDate] = useState('');
+    const [showLoading, setShowLoading] = useState(false)
+
+
+
+    let date = moment()
+        .utcOffset('-03:00');
+    let aux = date;
+
+    if(isSwitchOn){
+        console.log(' entrou if');
+        aux = date;
+    }else {
+        aux = 0;
+    }
+
 
     useEffect(() => {
-        console.log(' while');
-        console.log('hasLocation2: ' , hasLocationPermission);
 
-        if (isSwitchOn) {
-            console.log(' entrou if');
+        let timer1 = setTimeout(() => setShowLoading(null), 10000)
+        console.log(' 1--------------------------------------------');
+        console.log('isSwitchOn: ' , isSwitchOn);
+
+
+
+        if (hasLocationPermission) {
+
             Geolocation.getCurrentPosition(
                 position => {
                     setUserPosition({
@@ -32,24 +53,51 @@ function Settings({navigation}) {
                 }
             );
         }
-        console.log("userPosition", userPosition);
-    }, [isSwitchOn]);
 
-    const onToggleSwitch = async () => {
+
+        console.log("userPosition1", userPosition);
+        console.log("currentDate1", date);
+        return () => {
+            clearTimeout(timer1)
+        }
+    }, [aux]);
+
+
+
+
+
+    console.log("userPosition", userPosition);
+    console.log("currentDate", date);
+
+    let aux2 = true;
+    const onToggleSwitch = async (aux) => {
+        console.log(' 3--------------------------------------------');
+
         setIsSwitchOn(!isSwitchOn);
-        console.log('isSwitchOn: ', isSwitchOn);
+
+
+        console.log('isSwitchOn: Dentro onToggle', isSwitchOn);
 
         const granted = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
             setHasLocationPermission(true);
-            console.log('hasLocation: ' , hasLocationPermission);
             console.log('permissão concedida');
         } else {
             console.error('permissão negada');
             setHasLocationPermission(false);
         }
+        console.log('isSwitchOn:ANTES WHILE', isSwitchOn);
+
+        // while (isSwitchOn){
+        //     if(!isSwitchOn){
+        //         window.stop();
+        //     }
+        //     count++;
+        //     await onToggleSwitch(1);
+        //
+        // };
 
         // while(!isSwitchOn) {
         //     console.log(' while');
@@ -76,6 +124,8 @@ function Settings({navigation}) {
     }
 
     const saveName = async () => {
+        setIsSwitchOn(!isSwitchOn);
+
         try {
             await AsyncStorage.setItem('username', userName);
             Keyboard.dismiss();
@@ -97,6 +147,9 @@ function Settings({navigation}) {
 
                 <TouchableOpacity style={styles.botao} onPress={saveName}>
                     <Text style={styles.textBotao}>Salvar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.botao} onPress={saveName}>
+                    <Text style={styles.textBotao}>mudar</Text>
                 </TouchableOpacity>
 
                 <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
