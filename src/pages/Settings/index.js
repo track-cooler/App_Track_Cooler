@@ -10,7 +10,6 @@ import {Image} from './styles';
 // components
 import CustomHeader from '~/components/CustomHeader';
 import Geolocation from "react-native-geolocation-service";
-import coolerIcon from "~/assets/cooler.png";
 
 
 
@@ -85,14 +84,12 @@ function Settings({navigation}) {
         <>
             <CustomHeader />
             <View style={styles.container}>
-                <View>
-                    <View>
-                        <View>
-                            <Text style={title.style}>Configurações</Text>
-                        </View>
-                        <View style={title.icon}>
-                            <Image source={config}/>
-                        </View>
+                <View style={title.container}>
+                    <View style={title.config}>
+                        <Text style={title.configura}>Configurações</Text>
+                    </View>
+                    <View style={title.containerIcon} >
+                        <Image style={title.icon} source={config}/>
                     </View>
                 </View>
                 <TextInput
@@ -111,19 +108,30 @@ function Settings({navigation}) {
 }
 
 const title = StyleSheet.create({
-    style: {
-        marginTop: -230,
-        marginRight: 130,
-        marginBottom: 100,
-
-        paddingVertical: 8,
-        color: "#20232a",
-        textAlign: "center",
-        fontSize: 30,
-        fontWeight: "bold"
+    container: {
+        height: 400,
+        flexDirection: 'row',
+        paddingLeft:50,
+        justifyContent: "space-between",
     },
-    icon: {
-        marginRight: 130,
+    config:{
+        width: 60,
+        fontWeight: 'bold',
+
+    },
+    configura:{
+        marginLeft:-100,
+        fontSize: 24,
+    },
+    containerIcon:{
+        paddingHorizontal: 50,
+        fontSize: 24,
+        justifyContent: "flex-start",
+
+    },
+    icon:{
+        marginLeft:-50,
+
     }
 });
 
