@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {Text, Keyboard, Alert, PermissionsAndroid} from 'react-native';
+import {
+  Text,
+  Keyboard,
+  Alert,
+  PermissionsAndroid,
+  ScrollView,
+} from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -109,55 +115,56 @@ function Settings({navigation}) {
   return (
     <>
       <CustomHeader />
+      <ScrollView>
+        <Container>
+          <ToggleDefault
+            text="Bluetooth"
+            fontSize="24px"
+            value={btStatus}
+            icon={bluetoothIcon}
+            onChange={(event) => {
+              event.persist();
+              changeStateBlutooth(event.nativeEvent.value).then(() => {
+                setBluetooth(event.nativeEvent.value);
+              });
+            }}
+          />
 
-      <Container>
-        <ToggleDefault
-          text="Bluetooth"
-          fontSize="24px"
-          value={btStatus}
-          icon={bluetoothIcon}
-          onChange={(event) => {
-            event.persist();
-            changeStateBlutooth(event.nativeEvent.value).then(() => {
-              setBluetooth(event.nativeEvent.value);
-            });
-          }}
-        />
+          <ToggleDefault
+            text="Localização"
+            fontSize="24px"
+            value={gpsStatus}
+            icon={locateIcon}
+            onChange={(event) => {
+              event.persist();
+              changeStateGps(event.nativeEvent.value).then(() => {
+                setGpsStatus(event.nativeEvent.value);
+              });
+            }}
+          />
 
-        <ToggleDefault
-          text="Localização"
-          fontSize="24px"
-          value={gpsStatus}
-          icon={locateIcon}
-          onChange={(event) => {
-            event.persist();
-            changeStateGps(event.nativeEvent.value).then(() => {
-              setGpsStatus(event.nativeEvent.value);
-            });
-          }}
-        />
+          <Input
+            fontSize={fontSize}
+            placeholder="Digite um nome de usuário"
+            onChangeText={(text) => setUserName(text)}
+          />
+          <Button onPress={saveName}>
+            <TextButton fontSize={fontSize}>Salvar</TextButton>
+          </Button>
 
-        <Input
-          fontSize={fontSize}
-          placeholder="Digite um nome de usuário"
-          onChangeText={(text) => setUserName(text)}
-        />
-        <Button onPress={saveName}>
-          <TextButton fontSize={fontSize}>Salvar</TextButton>
-        </Button>
+          <Button onPress={setFontSizeSmall}>
+            <TextButton fontSize={fontSize}>Letra pequena</TextButton>
+          </Button>
 
-        <Button onPress={setFontSizeSmall}>
-          <TextButton fontSize={fontSize}>Letra pequena</TextButton>
-        </Button>
+          <Button onPress={setFontSizeNormal}>
+            <TextButton fontSize={fontSize}>Letra normal</TextButton>
+          </Button>
 
-        <Button onPress={setFontSizeNormal}>
-          <TextButton fontSize={fontSize}>Letra normal</TextButton>
-        </Button>
-
-        <Button onPress={setFontSizeLarge}>
-          <TextButton fontSize={fontSize}>Letra grande</TextButton>
-        </Button>
-      </Container>
+          <Button onPress={setFontSizeLarge}>
+            <TextButton fontSize={fontSize}>Letra grande</TextButton>
+          </Button>
+        </Container>
+      </ScrollView>
     </>
   );
 }
