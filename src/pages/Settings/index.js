@@ -6,6 +6,8 @@ import { Switch } from 'react-native-paper';
 import moment from 'moment';
 import config from '../../assets/config.png';
 import place from '../../assets/place.png';
+import bluetooth from '../../assets/bluetooth.png';
+import location from '../../assets/location.png';
 import {Image} from './styles';
 
 // components
@@ -19,6 +21,8 @@ function Settings({navigation}) {
     const [hasLocationPermission, setHasLocationPermission] = useState(false);
     const [userPosition, setUserPosition] = useState({});
     const [isSwitchOn, setIsSwitchOn] = useState(false);
+    const [isSwitchOn2, setIsSwitchOn2] = useState(false);
+
 
     let date = moment()
         .utcOffset('-03:00');
@@ -69,6 +73,10 @@ function Settings({navigation}) {
         }
     }
 
+    const onToggleSwitch2 = async () => {
+        setIsSwitchOn2(!isSwitchOn2);
+    }
+
     const saveName = async () => {
         setIsSwitchOn(!isSwitchOn);
 
@@ -109,7 +117,24 @@ function Settings({navigation}) {
                     </View>
                     <View style={styles.containerIcon} >
                         <Switch  value={isSwitchOn} onValueChange={onToggleSwitch} />
-
+                    </View>
+                </View>
+                <View style={styles.container3}>
+                    <View style={styles.containerSwitch} >
+                        <Image style={styles.icon2} source={bluetooth}/>
+                        <Text style={styles.textLocal} >Bluetooth</Text>
+                    </View>
+                    <View style={styles.containerIcon} >
+                        <Switch  value={isSwitchOn2} onValueChange={onToggleSwitch2} />
+                    </View>
+                </View>
+                <View style={styles.container4}>
+                    <View style={styles.containerSwitch} >
+                        <Image style={styles.icon3} source={location}/>
+                        <Text style={styles.textLocal} > Modo Seguir </Text>
+                    </View>
+                    <View style={styles.containerIcon} >
+                        <Switch  value={isSwitchOn2} onValueChange={onToggleSwitch2} />
                     </View>
                 </View>
             </View>
@@ -128,7 +153,6 @@ const title = StyleSheet.create({
     config:{
         width: 60,
         fontWeight: 'bold',
-
     },
     configura:{
         marginLeft:-100,
@@ -138,7 +162,6 @@ const title = StyleSheet.create({
         paddingHorizontal: 50,
         fontSize: 24,
         justifyContent: "flex-start",
-
     },
     icon:{
         marginLeft: -50,
@@ -156,18 +179,33 @@ const styles = StyleSheet.create({
     container2: {
         flexDirection: 'row',
         justifyContent: "space-evenly",
-
+    },
+    container3: {
+        flexDirection: 'row',
+        justifyContent: "space-evenly",
+        marginTop: 30
+    },
+    container4: {
+        flexDirection: 'row',
+        justifyContent: "space-evenly",
+        marginTop: 30
     },
     icon1:{
         marginLeft:90,
         padding:30,
-
+    },
+    icon2:{
+        marginLeft:85,
+        padding:30,
+    },
+    icon3:{
+        marginLeft:100,
+        padding:30,
     },
     containerIcon:{
         marginTop: 13,
         paddingLeft: 50,
         paddingRight: 50,
-
     },
     containerSwitch: {
         fontSize: 16,
@@ -182,7 +220,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginLeft:170,
         marginTop:-35,
-
     },
 
     input: {
