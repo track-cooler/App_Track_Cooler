@@ -5,6 +5,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import { Switch } from 'react-native-paper';
 import moment from 'moment';
 import config from '../../assets/config.png';
+import place from '../../assets/place.png';
 import {Image} from './styles';
 
 // components
@@ -102,7 +103,9 @@ function Settings({navigation}) {
                     <Text style={styles.textBotao}>Salvar</Text>
                 </TouchableOpacity>
                 <Switch  value={isSwitchOn} onValueChange={onToggleSwitch} />
-
+                <View style={title.containerIcon} >
+                        <Image style={title.icon} source={place}/>
+                </View>
             </View>
         </>
     );
@@ -132,8 +135,7 @@ const title = StyleSheet.create({
 
     },
     icon:{
-        marginLeft:-50,
-
+        marginLeft: -50,
     }
 });
 
