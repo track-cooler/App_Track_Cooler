@@ -1,6 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import DatePicker from 'react-native-datepicker';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Alert} from 'react-native';
 
@@ -27,7 +26,6 @@ function Info({navigation}) {
 
   const buttonFontSize = '10px';
   const buttonWidth = '20%';
-  const [update] = useState('');
 
 //Alert
   const alertInfo = async () => {
@@ -64,6 +62,7 @@ function Info({navigation}) {
                 icon={refreshIcon}
                 onPress={alertInfo}
                 onClick={refreshPage}
+
               />
             </ButtonsRow>
           </Title>
