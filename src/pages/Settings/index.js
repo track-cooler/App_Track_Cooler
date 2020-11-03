@@ -92,6 +92,7 @@ function Settings({navigation}) {
                         <Image style={title.icon} source={config}/>
                     </View>
                 </View>
+
                 <TextInput
                     style={styles.input}
                     placeholder="Digite um nome de usuário"
@@ -109,7 +110,8 @@ function Settings({navigation}) {
 
 const title = StyleSheet.create({
     container: {
-        height: 400,
+        marginTop:-280,
+        height: 500,
         flexDirection: 'row',
         paddingLeft:50,
         justifyContent: "space-between",
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     input: {
-        marginTop: 10,
+        marginTop: -400,
         padding: 10,
         width: 300,
         backgroundColor: '#fff',
