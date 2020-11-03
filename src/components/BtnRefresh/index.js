@@ -10,10 +10,12 @@ const BtnRefresh = ({
   btnWidth,
   btnHeight,
   onPress,
+  onClick,
 }) => (
   <ButtonColumn>
     <Button
       onPress={onPress}
+      onClick={onClick}
       btnColor={btnColor}
       btnHeight={btnHeight}
       btnWidth={btnWidth}>

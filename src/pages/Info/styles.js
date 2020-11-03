@@ -22,8 +22,8 @@ export const Image = styled.Image`
 
 export const ImageBat = styled.Image`
   width: 45px;
-  height: 60px;
-  padding: 0.1%;
+  height: 70px;
+  padding: 1%;
 `;
 
 // Title
@@ -38,8 +38,11 @@ export const Title = styled.View`
 export const Section = styled.View`
   flex-direction: row;
   align-items: center;
+  borderBottomColor: #ccc;
+  borderBottomWidth: 1;
   margin-top: 25px;
   margin-bottom: 10px;
+  height: 50;
 `;
 
 // Text
@@ -50,14 +53,6 @@ export const Text = styled.Text`
 `;
 
 export const InfoText = styled.Text`
-  font-size: ${(props) => props.fontSize};
-  font-weight: bold;
-  text-align: left;
-  margin-top: 10px;
-  margin-bottom: 10px;
-`;
-
-export const FakeInfo = styled.Text`
   font-size: ${(props) => props.fontSize};
   font-weight: bold;
   text-align: left;
@@ -87,4 +82,11 @@ export const HistoryCard = styled.View`
 export const Date = styled.View`
   width: 350;
   background: #FFF;
+`;
+
+//Line
+export const Line = styled.View`
+  flexDirection: row;
+  borderBottomColor: #ccc;
+  borderBottomWidth: 1;
 `;

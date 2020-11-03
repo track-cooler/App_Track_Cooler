@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import DatePicker from 'react-native-datepicker';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import {Alert} from 'react-native';
 
+// Components
 import CustomHeader from '~/components/CustomHeader';
 import BtnDefault from '~/components/BtnDefault';
 import BtnRefresh from '~/components/BtnRefresh';
@@ -20,8 +21,13 @@ import bateriaIcon from '../../assets/bateria.png';
 
 function Info({navigation}) {
 
+  function refreshPage() {
+    window.location.reload(true);
+  }
+
   const buttonFontSize = '10px';
   const buttonWidth = '20%';
+  const [update] = useState('');
 
 //Alert
   const alertInfo = async () => {
@@ -31,6 +37,7 @@ function Info({navigation}) {
       Alert.alert(e);
     }
   };
+
 
 //  state = {
 //   data: ''
@@ -45,7 +52,6 @@ function Info({navigation}) {
       <CustomHeader />
       <Container>
         <ScrollContainer>
-
           <Title>
             <Image source={coolerIcon} />
             <Text fontSize="26px"> Informações  Cooler</Text>
@@ -57,12 +63,14 @@ function Info({navigation}) {
                 btnWidth="50px"
                 icon={refreshIcon}
                 onPress={alertInfo}
+                onClick={refreshPage}
+
               />
             </ButtonsRow>
           </Title>
 
           <Section>
-            <InfoText fontSize="20px"> Status: </InfoText>
+            <InfoText fontSize="20px"> Status </InfoText>
           </Section>
           <InfoText fontSize="30px"> Conectado </InfoText>
 
