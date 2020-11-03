@@ -144,7 +144,7 @@ function Settings({navigation}) {
 
 const title = StyleSheet.create({
     container: {
-        marginTop:-250,
+        marginTop:-200,
         height: 500,
         flexDirection: 'row',
         paddingLeft:50,
