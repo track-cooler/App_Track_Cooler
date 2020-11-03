@@ -22,7 +22,7 @@ function Settings({navigation}) {
     const [userPosition, setUserPosition] = useState({});
     const [isSwitchOn, setIsSwitchOn] = useState(false);
     const [isSwitchOn2, setIsSwitchOn2] = useState(false);
-
+    const [isSwitchOn3, setIsSwitchOn3] = useState(false);
 
     let date = moment()
         .utcOffset('-03:00');
@@ -77,6 +77,10 @@ function Settings({navigation}) {
         setIsSwitchOn2(!isSwitchOn2);
     }
 
+    const onToggleSwitch3 = async () => {
+        setIsSwitchOn3(!isSwitchOn3);
+    }
+
     const saveName = async () => {
         setIsSwitchOn(!isSwitchOn);
 
@@ -124,7 +128,7 @@ function Settings({navigation}) {
                         <Image style={styles.icon2} source={bluetooth}/>
                         <Text style={styles.textLocal} >Bluetooth</Text>
                     </View>
-                    <View style={styles.containerIcon} >
+                    <View style={styles.containerIcon2} >
                         <Switch  value={isSwitchOn2} onValueChange={onToggleSwitch2} />
                     </View>
                 </View>
@@ -133,8 +137,8 @@ function Settings({navigation}) {
                         <Image style={styles.icon3} source={location}/>
                         <Text style={styles.textLocal} > Modo Seguir </Text>
                     </View>
-                    <View style={styles.containerIcon} >
-                        <Switch  value={isSwitchOn2} onValueChange={onToggleSwitch2} />
+                    <View style={styles.containerIcon3} >
+                        <Switch  value={isSwitchOn3} onValueChange={onToggleSwitch3} />
                     </View>
                 </View>
             </View>
@@ -195,16 +199,26 @@ const styles = StyleSheet.create({
         padding:30,
     },
     icon2:{
-        marginLeft:85,
+        marginLeft:90,
         padding:30,
     },
     icon3:{
-        marginLeft:100,
-        padding:30,
+        marginLeft: 100,
+        padding: 30,
     },
     containerIcon:{
         marginTop: 13,
         paddingLeft: 50,
+        paddingRight: 50,
+    },
+    containerIcon2:{
+        marginTop: 13,
+        paddingLeft: 70,
+        paddingRight: 50,
+    },
+    containerIcon3:{
+        marginTop: 13,
+        paddingLeft: 40,
         paddingRight: 50,
     },
     containerSwitch: {
