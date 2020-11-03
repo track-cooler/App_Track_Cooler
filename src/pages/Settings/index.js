@@ -94,17 +94,23 @@ function Settings({navigation}) {
                     </View>
                 </View>
 
-                <TextInput
-                    style={styles.input}
-                    placeholder="Digite um nome de usuário"
-                    onChangeText={(text) => setUserName(text)}
-                />
-                <TouchableOpacity style={styles.botao} onPress={saveName}>
-                    <Text style={styles.textBotao}>Salvar</Text>
-                </TouchableOpacity>
-                <Switch  value={isSwitchOn} onValueChange={onToggleSwitch} />
-                <View style={title.containerIcon} >
-                        <Image style={title.icon} source={place}/>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Digite um nome de usuário"
+                        onChangeText={(text) => setUserName(text)}
+                    />
+                    <TouchableOpacity style={styles.botao} onPress={saveName}>
+                        <Text style={styles.textBotao}>Salvar</Text>
+                    </TouchableOpacity>
+                <View style={styles.container2}>
+                    <View style={styles.containerSwitch} >
+                        <Image style={styles.icon1} source={place}/>
+                        <Text style={styles.textLocal} >Localização</Text>
+                    </View>
+                    <View style={styles.containerIcon} >
+                        <Switch  value={isSwitchOn} onValueChange={onToggleSwitch} />
+
+                    </View>
                 </View>
             </View>
         </>
@@ -113,7 +119,7 @@ function Settings({navigation}) {
 
 const title = StyleSheet.create({
     container: {
-        marginTop:-280,
+        marginTop:-250,
         height: 500,
         flexDirection: 'row',
         paddingLeft:50,
@@ -136,6 +142,7 @@ const title = StyleSheet.create({
     },
     icon:{
         marginLeft: -50,
+
     }
 });
 
@@ -146,6 +153,38 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    container2: {
+        flexDirection: 'row',
+        justifyContent: "space-evenly",
+
+    },
+    icon1:{
+        marginLeft:90,
+        padding:30,
+
+    },
+    containerIcon:{
+        marginTop: 13,
+        paddingLeft: 50,
+        paddingRight: 50,
+
+    },
+    containerSwitch: {
+        fontSize: 16,
+        color: '#fff',
+        fontWeight: 'bold',
+        alignSelf: "flex-start",
+        alignContent: "flex-end",
+    },
+    textLocal: {
+        fontSize: 20,
+        color: 'black',
+        fontWeight: 'bold',
+        marginLeft:170,
+        marginTop:-35,
+
+    },
+
     input: {
         marginTop: -400,
         padding: 10,
@@ -164,6 +203,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom:50,
     },
     textBotao: {
         fontSize: 16,
