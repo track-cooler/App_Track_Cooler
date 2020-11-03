@@ -64,7 +64,6 @@ function Info({navigation}) {
                 icon={refreshIcon}
                 onPress={alertInfo}
                 onClick={refreshPage}
-
               />
             </ButtonsRow>
           </Title>

@@ -9,7 +9,7 @@ export const Button = styled.TouchableOpacity`
   margin: 0px 2% 0px 2%;
   padding: 10px 0px 0px 0px;
   width: ${(props) => props.btnWidth};
-  height: ${(props) => props.btnHeight};
+  min-height: 76px
   border-radius: 10px;
   background-color: ${(props) => props.btnColor};
 `;

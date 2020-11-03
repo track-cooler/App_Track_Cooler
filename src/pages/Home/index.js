@@ -18,30 +18,36 @@ import quemSomosIcon from '../../assets/quem_somos.png';
 import ideaIcon from '../../assets/idea.png';
 
 function Home({navigation}) {
-  const buttonFontSize = '18px';
-  const buttonWidth = '46%';
-
+  // states
   const [userName, setUserName] = useState('');
+  const [buttonWidth, setButtonWidth] = useState('46%');
+  const [fontSize, setFontSize] = useState('18px');
 
   useEffect(() => {
     loadUserName();
-    // saveName();
+    handleFontSize();
   });
+
+  const handleFontSize = async () => {
+    const fontSizeStorage = await AsyncStorage.getItem('fontSize');
+
+    // se existir no asyncStorage pega o valor, se não seta um valor inicial
+    const size = !fontSizeStorage
+      ? '18px'
+      : fontSizeStorage;
+    
+    if(!fontSizeStorage){
+      await AsyncStorage.setItem('fontSize', '18px')
+    }
+
+    setFontSize(size);
+  };
 
   const loadUserName = async () => {
     const asyncName = await AsyncStorage.getItem('username');
     const name = asyncName ? asyncName : '(Cadastre seu nome)';
     setUserName(name);
   };
-
-  // const saveName = async () => {
-  //   try {
-  //     await AsyncStorage.setItem('username', 'Maria');
-  //     // Alert.alert('Sucesso', 'Nome de usuário salvo com sucesso');
-  //   } catch (e) {
-  //     Alert.alert(e);
-  //   }
-  // };
 
   return (
     <>
@@ -53,7 +59,7 @@ function Home({navigation}) {
           <BtnDefault
             text="Info Cooler"
             textColor="#000"
-            fontSize={buttonFontSize}
+            fontSize={fontSize}
             btnColor="#A9BCD0"
             btnHeight="72px"
             btnWidth={buttonWidth}
@@ -64,7 +70,7 @@ function Home({navigation}) {
           <BtnDefault
             text="Configurações"
             textColor="#fff"
-            fontSize={buttonFontSize}
+            fontSize={fontSize}
             btnColor="#218380"
             btnHeight="72px"
             btnWidth={buttonWidth}
@@ -77,7 +83,7 @@ function Home({navigation}) {
           <BtnDefault
             text="Conectar Cooler"
             textColor="#fff"
-            fontSize={buttonFontSize}
+            fontSize={fontSize}
             btnColor="#218380"
             btnHeight="72px"
             btnWidth={buttonWidth}
@@ -88,7 +94,7 @@ function Home({navigation}) {
           <BtnDefault
             text="Atualizar Cooler"
             textColor="#000"
-            fontSize={buttonFontSize}
+            fontSize={fontSize}
             btnColor="#A9BCD0"
             btnHeight="72px"
             btnWidth={buttonWidth}
@@ -102,7 +108,7 @@ function Home({navigation}) {
           <SmallBtn
             text="Quem Somos"
             btnColor="#218380"
-            fontSize={buttonFontSize}
+            fontSize={fontSize}
             btnHeight="80px"
             btnWidth="80px"
             icon={quemSomosIcon}
@@ -113,7 +119,7 @@ function Home({navigation}) {
             <SmallBtn
               text="Sobre o projeto"
               btnColor="#A9BCD0"
-              fontSize={buttonFontSize}
+              fontSize={fontSize}
               btnHeight="80px"
               btnWidth="80px"
               icon={ideaIcon}
