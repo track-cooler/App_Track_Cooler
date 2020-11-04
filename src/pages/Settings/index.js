@@ -6,8 +6,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {BleManager} from 'react-native-ble-plx';
 import Geolocation from 'react-native-geolocation-service';
 import moment from 'moment';
-
-
+import {Location} from '~/services/location';
 
 // styles
 import {Container, Input, Button, TextButton} from './styles';
@@ -18,7 +17,6 @@ import ToggleDefault from '~/components/Toggle';
 import bluetoothIcon from '../../assets/bluetooth.png';
 import locateIcon from '../../assets/locate.png';
 
-
 function Settings({navigation}) {
   // states
   const [userName, setUserName] = useState('');
@@ -26,11 +24,12 @@ function Settings({navigation}) {
   const [gpsStatus, setGpsStatus] = useState(false);
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
   const [isSwitchOn, setIsSwitchOn] = useState(false);
-  const [userPosition, setUserPosition] = useState({});
+
 
 
   let func = require('../../Switch.js');
 
+  let location = new Location();
 
   let date = moment()
       .utcOffset('-03:00');
@@ -42,43 +41,22 @@ function Settings({navigation}) {
     aux = 0;
   }
 
-  useEffect(() => {
-
-
-    if (hasLocationPermission) {
-
-      Geolocation.getCurrentPosition(
-          position => {
-            setUserPosition({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            });
-          },
-          error => {
-            console.log(error.code, error.message);
-          }
-      );
-    }
-
-    console.log("userPosition1", userPosition);
-  }, [aux]);
-
   const onToggleSwitch = async () => {
 
     setIsSwitchOn(!isSwitchOn);
 
     const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-    );
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      setHasLocationPermission(true);
-      console.log('permissão concedida');
-    } else {
-      console.error('permissão negada');
-      setHasLocationPermission(false);
-    }
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        setHasLocationPermission(true);
+        console.log('permissão concedida');
+        location.startLocation(hasLocationPermission);
+      } else {
+        console.error('permissão negada');
+        setHasLocationPermission(false);
+      }
   }
-
 
 
 
@@ -202,9 +180,7 @@ function Settings({navigation}) {
             fontSize="24px"
             value={isSwitchOn}
             icon={locateIcon}
-            onChange={func()}
-
-
+            onChange={onToggleSwitch}
         />
 
         <Input
