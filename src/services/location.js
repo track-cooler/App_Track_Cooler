@@ -21,7 +21,7 @@ export class Location {
                             latitude: position.coords.latitude,
                             longitude: position.coords.longitude,
                         }
-                        console.log("position: ", position);
+                        console.log("position1: ", position);
                     },
                     error => {
                         console.log(error.code, error.message);
