@@ -5,6 +5,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {BleManager} from 'react-native-ble-plx';
 import Geolocation from 'react-native-geolocation-service';
+import moment from 'moment';
+
+
 
 // styles
 import {Container, Input, Button, TextButton} from './styles';
@@ -15,11 +18,69 @@ import ToggleDefault from '~/components/Toggle';
 import bluetoothIcon from '../../assets/bluetooth.png';
 import locateIcon from '../../assets/locate.png';
 
+
 function Settings({navigation}) {
   // states
   const [userName, setUserName] = useState('');
   const [btStatus, setBluetooth] = useState(false);
   const [gpsStatus, setGpsStatus] = useState(false);
+  const [hasLocationPermission, setHasLocationPermission] = useState(false);
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const [userPosition, setUserPosition] = useState({});
+
+
+  let func = require('../../Switch.js');
+
+
+  let date = moment()
+      .utcOffset('-03:00');
+  let aux = date;
+
+  if(isSwitchOn){
+    aux = date;
+  }else {
+    aux = 0;
+  }
+
+  useEffect(() => {
+
+
+    if (hasLocationPermission) {
+
+      Geolocation.getCurrentPosition(
+          position => {
+            setUserPosition({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
+          },
+          error => {
+            console.log(error.code, error.message);
+          }
+      );
+    }
+
+    console.log("userPosition1", userPosition);
+  }, [aux]);
+
+  const onToggleSwitch = async () => {
+
+    setIsSwitchOn(!isSwitchOn);
+
+    const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+    );
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      setHasLocationPermission(true);
+      console.log('permissão concedida');
+    } else {
+      console.error('permissão negada');
+      setHasLocationPermission(false);
+    }
+  }
+
+
+
 
   useEffect(() => {
     getFontSizeFromStorage();
@@ -135,6 +196,15 @@ function Settings({navigation}) {
               setGpsStatus(event.nativeEvent.value);
             });
           }}
+        />
+        <ToggleDefault
+            text="Localização2"
+            fontSize="24px"
+            value={isSwitchOn}
+            icon={locateIcon}
+            onChange={func()}
+
+
         />
 
         <Input
