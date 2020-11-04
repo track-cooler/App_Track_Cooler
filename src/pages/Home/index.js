@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 // Components
@@ -32,12 +33,10 @@ function Home({navigation}) {
     const fontSizeStorage = await AsyncStorage.getItem('fontSize');
 
     // se existir no asyncStorage pega o valor, se não seta um valor inicial
-    const size = !fontSizeStorage
-      ? '18px'
-      : fontSizeStorage;
-    
-    if(!fontSizeStorage){
-      await AsyncStorage.setItem('fontSize', '18px')
+    const size = !fontSizeStorage ? '18px' : fontSizeStorage;
+
+    if (!fontSizeStorage) {
+      await AsyncStorage.setItem('fontSize', '18px');
     }
 
     setFontSize(size);
@@ -52,82 +51,84 @@ function Home({navigation}) {
   return (
     <>
       <CustomHeader isHome />
-      <Container>
-        <TextName fontSize="30px"> Olá, {userName}</TextName>
+      <ScrollView>
+        <Container>
+          <TextName fontSize="30px"> Olá, {userName}</TextName>
 
-        <ButtonsRow>
-          <BtnDefault
-            text="Info Cooler"
-            textColor="#000"
-            fontSize={fontSize}
-            btnColor="#A9BCD0"
-            btnHeight="72px"
-            btnWidth={buttonWidth}
-            icon={coolerIcon}
-            onPress={() => navigation.navigate('Info')}
-          />
-
-          <BtnDefault
-            text="Configurações"
-            textColor="#fff"
-            fontSize={fontSize}
-            btnColor="#218380"
-            btnHeight="72px"
-            btnWidth={buttonWidth}
-            icon={configIcon}
-            onPress={() => navigation.navigate('Settings')}
-          />
-        </ButtonsRow>
-
-        <ButtonsRow>
-          <BtnDefault
-            text="Conectar Cooler"
-            textColor="#fff"
-            fontSize={fontSize}
-            btnColor="#218380"
-            btnHeight="72px"
-            btnWidth={buttonWidth}
-            icon={bluetoothIcon}
-            onPress={() => console.log('Conectar Cooler')}
-          />
-
-          <BtnDefault
-            text="Atualizar Cooler"
-            textColor="#000"
-            fontSize={fontSize}
-            btnColor="#A9BCD0"
-            btnHeight="72px"
-            btnWidth={buttonWidth}
-            icon={refreshIcon}
-            onPress={() => console.log('Atualizar Cooler')}
-          />
-        </ButtonsRow>
-
-        <InfoText fontSize="25px"> Mais sobre nós </InfoText>
-        <ButtonsRow>
-          <SmallBtn
-            text="Quem Somos"
-            btnColor="#218380"
-            fontSize={fontSize}
-            btnHeight="80px"
-            btnWidth="80px"
-            icon={quemSomosIcon}
-            onPress={() => console.log('Sobre Nós')}
-          />
-
-          <ButtonView>
-            <SmallBtn
-              text="Sobre o projeto"
+          <ButtonsRow>
+            <BtnDefault
+              text="Info Cooler"
+              textColor="#000"
+              fontSize={fontSize}
               btnColor="#A9BCD0"
+              icon={coolerIcon}
+              btnHeight="72px"
+              btnWidth={buttonWidth}
+              onPress={() => console.log('Informações Cooler')}
+            />
+
+            <BtnDefault
+              text="Configurações"
+              textColor="#fff"
+              fontSize={fontSize}
+              btnColor="#218380"
+              btnHeight="72px"
+              btnWidth={buttonWidth}
+              icon={configIcon}
+              onPress={() => navigation.navigate('Settings')}
+            />
+          </ButtonsRow>
+
+          <ButtonsRow>
+            <BtnDefault
+              text="Conectar Cooler"
+              textColor="#fff"
+              fontSize={fontSize}
+              btnColor="#218380"
+              btnHeight="72px"
+              btnWidth={buttonWidth}
+              icon={bluetoothIcon}
+              onPress={() => console.log('Conectar Cooler')}
+            />
+
+            <BtnDefault
+              text="Atualizar Cooler"
+              textColor="#000"
+              fontSize={fontSize}
+              btnColor="#A9BCD0"
+              btnHeight="72px"
+              btnWidth={buttonWidth}
+              icon={refreshIcon}
+              onPress={() => console.log('Atualizar Cooler')}
+            />
+          </ButtonsRow>
+
+          <InfoText fontSize="25px"> Mais sobre nós </InfoText>
+          <ButtonsRow>
+            <SmallBtn
+              text="Quem Somos"
+              btnColor="#218380"
               fontSize={fontSize}
               btnHeight="80px"
               btnWidth="80px"
-              icon={ideaIcon}
-              onPress={() => console.log('Sobre o Projeto')}
+              icon={quemSomosIcon}
+              onPress={() => console.log('Sobre Nós')}
             />
-          </ButtonView>
-        </ButtonsRow>
-      </Container>
+
+            <ButtonView>
+              <SmallBtn
+                text="Sobre o projeto"
+                btnColor="#A9BCD0"
+                fontSize={fontSize}
+                btnHeight="80px"
+                btnWidth="80px"
+                icon={ideaIcon}
+                onPress={() => console.log('Sobre o Projeto')}
+              />
+            </ButtonView>
+          </ButtonsRow>
+        </Container>
+      </ScrollView>
     </>
   );
 }
