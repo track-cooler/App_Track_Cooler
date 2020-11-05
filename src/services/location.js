@@ -7,26 +7,33 @@ export class Location {
     canStart = true;
     userPosition;
 
+
     startLocation(hasPermission) {
         this.isOn = true;
         this.canStart = true;
 
         console.log("cantStart1: ", this.canStart);
         console.log("hasPermission: ", hasPermission);
-        if (hasPermission) {
-            setInterval(() => {
-                    Geolocation.getCurrentPosition(
-                    position => {
-                        this.userPosition = {
-                            latitude: position.coords.latitude,
-                            longitude: position.coords.longitude,
-                        }
-                        console.log("position: ", position);
-                    },
-                    error => {
-                        console.log(error.code, error.message);
+
+        let intervalID = setInterval(() => {
+            Geolocation.getCurrentPosition(
+                position => {
+                    this.userPosition = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
                     }
-                )}, 2000);
+                    console.log("position: ", position);
+                },
+                error => {
+                    console.log(error.code, error.message);
+                }
+            )}, 4000);
+
+        if (hasPermission) {
+            console.log(intervalID);
+
+            clearInterval(intervalID);
+
         }
     }
 
@@ -34,6 +41,8 @@ export class Location {
         this.isOn = false;
         this.canStart = false;
     }
+
+
 
     getLocationIsOn() {
         return this.isOn;
