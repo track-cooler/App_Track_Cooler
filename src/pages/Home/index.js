@@ -50,10 +50,12 @@ function Home({navigation}) {
   };
 
   const voice = async () =>{
-    await Voice.start('pt-BR');
-    Voice.onSpeechEnd((e) => {
+    await Voice.start('en-US');
+    console.log('entrou');
+    Voice.onSpeechPartialResults =(e) => {
+      console.log('parou de escutar');
       console.log(e);
-    });
+    };
   };
 
   return (
@@ -96,7 +98,7 @@ function Home({navigation}) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={bluetoothIcon}
-              onPress={() => console.log('Conectar Cooler')}
+              onPress={() => Voice.stop()}
             />
 
             <BtnDefault
