@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {ScrollView} from 'react-native';
+import {ScrollView, ToastAndroid} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Voice from '@react-native-community/voice';
 
@@ -49,11 +49,41 @@ function Home({navigation}) {
     setUserName(name);
   };
 
-  const voice = async () =>{
-    await Voice.start('pt-BR');
-    Voice.onSpeechEnd((e) => {
-      console.log(e);
-    });
+  Voice.onSpeechPartialResults =(e) => {
+    console.log('onSpeechPartialResults');
+    console.log(e);
+  };
+
+  Voice.onSpeechResults =(e) => {
+    console.log('onSpeechResults');
+    console.log(e);
+  };
+
+  Voice.onSpeechRecognized = (e) => {
+    console.log('onSpeechRecognized');
+    console.log(e);
+  };
+
+  Voice.onSpeechEnd = (e) => {
+    console.log('onSpeechEnd');
+    console.log(e);
+  };
+
+  Voice.onSpeechError = (e) => {
+    console.log('onSpeechError');
+    console.log(e);
+  };
+
+  const startVoice = async () =>{
+    try {
+      await Voice.start('pt-BR');
+      const isRecognizing = await Voice.isRecognizing();
+      if (isRecognizing) {
+        ToastAndroid.show('Escuatando...', 1000);
+      }
+    } catch (e) {
+      console.log('erro ao iniciar '+ e);
+    }    
   };
 
   return (
@@ -96,7 +126,7 @@ function Home({navigation}) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={bluetoothIcon}
-              onPress={() => console.log('Conectar Cooler')}
+              onPress={() => console.log('Conectar cooler')}
             />
 
             <BtnDefault
