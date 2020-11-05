@@ -25,7 +25,7 @@ function Settings({navigation}) {
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
   const [isSwitchOn, setIsSwitchOn] = useState(false);
 
-
+  let aux2 = false;
 
   let func = require('../../Switch.js');
 
@@ -35,30 +35,41 @@ function Settings({navigation}) {
       .utcOffset('-03:00');
   let aux = date;
 
-  if(isSwitchOn){
-    aux = date;
+  if(!isSwitchOn){
+    aux = false;
   }else {
-    aux = 0;
+    aux = true;
   }
+
+  console.log("1isSwitchon", isSwitchOn);
+  let switchValue = isSwitchOn;
 
   const onToggleSwitch = async () => {
 
     setIsSwitchOn(!isSwitchOn);
 
+    console.log("2isSwitchon", isSwitchOn);
+
     const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        setHasLocationPermission(true);
+        aux2 = true;
         console.log('permissão concedida');
-        location.startLocation(hasLocationPermission);
+
       } else {
         console.error('permissão negada');
         setHasLocationPermission(false);
       }
+
+    if(aux2) {
+      console.log("AAAAAAAAAAAAAAAAAAAAA: ", switchValue);
+      location.startLocation(!switchValue);
+    }
+    if(!switchValue) {
+      location.endLocation();
+    }
   }
-
-
 
   useEffect(() => {
     getFontSizeFromStorage();
