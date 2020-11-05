@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import Voice from '@react-native-community/voice';
 
 // Components
 import BtnDefault from '~/components/BtnDefault';
@@ -46,6 +47,13 @@ function Home({navigation}) {
     const asyncName = await AsyncStorage.getItem('username');
     const name = asyncName ? asyncName : '(Cadastre seu nome)';
     setUserName(name);
+  };
+
+  const voice = async () =>{
+    await Voice.start('pt-BR');
+    Voice.onSpeechEnd((e) => {
+      console.log(e);
+    });
   };
 
   return (
@@ -99,7 +107,7 @@ function Home({navigation}) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={refreshIcon}
-              onPress={() => console.log('Atualizar Cooler')}
+              onPress={() => voice()}
             />
           </ButtonsRow>
 
