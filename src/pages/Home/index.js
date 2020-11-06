@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, ToastAndroid } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Voice from '@react-native-community/voice';
+import Tts from 'react-native-tts';
 import StringSimilarity from 'string-similarity';
 
 // Components
@@ -34,15 +35,17 @@ function Home({ navigation }) {
   });
 
   function initVoiceListeners() {
+    Tts.addEventListener('tts-start', (event) => Voice.stop());
+    Tts.addEventListener('tts-finish', (event) => startVoice());
+
     Voice.onSpeechPartialResults = (e) => {
       console.log('onSpeechPartialResults');
       console.log(e);
     };
 
     Voice.onSpeechResults = (e) => {
+      Voice.stop();
       const phrase = e.value;
-      console.log('onSpeechResults');
-      console.log(phrase);
       executeVoiceCommand(phrase);
     };
 
@@ -53,36 +56,38 @@ function Home({ navigation }) {
     };
   }
 
-  async function executeVoiceCommand(phrase) {
-    initTts();
+  async function executeVoiceCommand(phrase) {    
     const phraseLowerCase = phrase[0].toLowerCase();
     const initialCommand = 'elsa';
 
     if (phraseLowerCase.includes(initialCommand)) {
       if (StringSimilarity.compareTwoStrings(phraseLowerCase, `${initialCommand} para configurações`) >= 0.75) {
         goToSettings();
+        Tts.speak('Indo para configurações');
       } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `${initialCommand} ver informação`) >= 0.75) {
         goToInfo();
+        Tts.speak('Indo para informações');
       } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `${initialCommand} conectar cooler`) >= 0.75) {
         goToConnect();
+        Tts.speak('Indo para conexão');
       } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `${initialCommand} quem somos`) >= 0.75) {
         goToAboutUs();
+        Tts.speak('Indo para quem somos de onde viemos');
       } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `${initialCommand} sobre o projeto`) >= 0.75) {
         goToAboutProject();
+        Tts.speak('Indo para sobre o projeto');
       } else {
         ToastAndroid.show('Não foi possível reconhecer o comando. Tente novamente', 2000);
-        startVoice();
+        Tts.speak('Desculpa, não te entendi. Por favor repita. Let it go!');
       }
-    } else {
-      startVoice();
     }
   }
 
   async function startVoice() {
     try {
-      await Voice.start('pt-BR');
       const isRecognizing = await Voice.isRecognizing();
-      if (isRecognizing) {
+      if (!isRecognizing) {
+        await Voice.start('pt-BR');
         console.log('escutando');
       }
     } catch (e) {
@@ -116,7 +121,6 @@ function Home({ navigation }) {
       startVoice(navigation);
     }
   }
-
 
   const handleFontSize = async () => {
     const fontSizeStorage = await AsyncStorage.getItem('fontSize');
@@ -188,7 +192,7 @@ function Home({ navigation }) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={refreshIcon}
-              onPress={() => startVoice(navigation)}
+              onPress={() => console.log('Atualizar Cooler')}
             />
           </ButtonsRow>
 
