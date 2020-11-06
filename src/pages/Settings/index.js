@@ -18,14 +18,18 @@ import {Container, Input, Button, TextButton} from './styles';
 // components
 import CustomHeader from '~/components/CustomHeader';
 import ToggleDefault from '~/components/Toggle';
+
+// icons
 import bluetoothIcon from '../../assets/bluetooth.png';
 import locateIcon from '../../assets/locate.png';
+import colorPalette from '../../assets/color-palette.png';
 
 function Settings({navigation}) {
   // states
   const [userName, setUserName] = useState('');
   const [btStatus, setBluetooth] = useState(false);
   const [gpsStatus, setGpsStatus] = useState(false);
+  const [colorChange, setColorChange] = useState(false);
 
   useEffect(() => {
     getFontSizeFromStorage();
@@ -141,6 +145,14 @@ function Settings({navigation}) {
                 setGpsStatus(event.nativeEvent.value);
               });
             }}
+          />
+
+          <ToggleDefault
+            text="Alterar Contraste"
+            fontSize="24px"
+            value={colorChange}
+            icon={colorPalette}
+            // onChange={(event) =>{}}
           />
 
           <Input
