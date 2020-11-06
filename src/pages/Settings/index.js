@@ -23,8 +23,6 @@ function Settings({navigation}) {
   // states
   const [userName, setUserName] = useState('');
   const [btStatus, setBluetooth] = useState(false);
-  const [gpsStatus, setGpsStatus] = useState(false);
-  const [hasLocationPermission, setHasLocationPermission] = useState(false);
   const [isSwitchOn, setIsSwitchOn] = useState(location.getLocationIsOn);
 
   const onToggleSwitch = async (state) => {
@@ -38,7 +36,6 @@ function Settings({navigation}) {
 
         } else {
           console.error('permissão negada');
-          setHasLocationPermission(false);
         }
     }else {
         location.startLocation(state);
@@ -68,34 +65,8 @@ function Settings({navigation}) {
     }
   };
 
-  const changeStateGps = async (state) => {
-    if (state) {
-      const hasPermission = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      );
-      if (hasPermission) {
-        Geolocation.getCurrentPosition(
-          async (position) => {
-            await AsyncStorage.setItem('gpsStatus', 'true');
-          },
-          (error) => {
-            // eslint-disable-next-line no-alert
-            alert('GPS do dispositivo desativado, por favor, ative-o.');
-          },
-        );
-      } else {
-        await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        );
-        changeStateGps(state);
-      }
-    } else {
-      AsyncStorage.setItem('gpsStatus', 'false');
-    }
-  };
-
   getStateBluetooth().then((status) => setBluetooth(status));
-  getStateGps().then((status) => setGpsStatus(status));
+
   const [fontSize, setFontSize] = useState('18px');
 
   const getFontSizeFromStorage = async () => {
@@ -149,19 +120,7 @@ function Settings({navigation}) {
         />
 
         <ToggleDefault
-          text="Localização"
-          fontSize="24px"
-          value={gpsStatus}
-          icon={locateIcon}
-          onChange={(event) => {
-            event.persist();
-            changeStateGps(event.nativeEvent.value).then(() => {
-              setGpsStatus(event.nativeEvent.value);
-            });
-          }}
-        />
-        <ToggleDefault
-            text="Localização2"
+            text="Localização"
             fontSize="24px"
             value={isSwitchOn}
             icon={locateIcon}
