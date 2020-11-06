@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {ScrollView, ToastAndroid} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, ToastAndroid } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Voice from '@react-native-community/voice';
 
@@ -9,7 +9,7 @@ import SmallBtn from '~/components/SmallBtn';
 import CustomHeader from '~/components/CustomHeader';
 
 // Styles
-import {Container, ButtonsRow, TextName, InfoText, ButtonView} from './styles';
+import { Container, ButtonsRow, TextName, InfoText, ButtonView } from './styles';
 
 // Icons
 import coolerIcon from '../../assets/cooler.png';
@@ -19,7 +19,78 @@ import refreshIcon from '../../assets/refresh.png';
 import quemSomosIcon from '../../assets/quem_somos.png';
 import ideaIcon from '../../assets/idea.png';
 
-function Home({navigation}) {
+function initVoiceListeners(navigation) {
+  Voice.onSpeechPartialResults = (e) => {
+    console.log('onSpeechPartialResults');
+    console.log(e);
+  };
+
+  Voice.onSpeechResults = (e) => {
+    const phrase = e.value;
+    executeVoiceCommand(phrase, navigation);
+  };
+
+  Voice.onSpeechRecognized = (e) => {
+    console.log('onSpeechRecognized');
+    console.log(e);
+  };
+
+  Voice.onSpeechError = (e) => {
+    console.log('onSpeechError');
+    console.log(e);
+  };
+}
+
+async function executeVoiceCommand(phrase, navigation) {
+  if (phrase.includes('ir para configurações')) {
+    goToSettings(navigation);
+  } else if (phrase.includes('ver informação')){
+    goToInfo(navigation);
+  } else if (phrase.includes('conectar cooler')) {
+    goToConnect(navigation);
+  } else if (phrase.includes('quem somos')) {
+    goToAboutUs(navigation);
+  } else if(phrase.includes('sobre o projeto')) {
+    goToAboutProject(navigation);
+  } else {
+    ToastAndroid.show('Não foi possível reconhecer o comando. Tente novamente', 2000);
+  }
+}
+
+async function startVoice(navigation) {
+  try {
+    initVoiceListeners(navigation);
+    await Voice.start('pt-BR');
+    const isRecognizing = await Voice.isRecognizing();
+    if (isRecognizing) {
+      ToastAndroid.show('Escuatando...', 1000);
+    }
+  } catch (e) {
+    console.log('erro ao iniciar ' + e);
+  }
+};
+
+function goToSettings(navigation) {
+  navigation.navigate('Settings');
+}
+
+function goToInfo(navigation) {
+  navigation.navigate('Info');
+}
+
+function goToConnect(navigation) {
+  console.log('goToConnect');
+}
+
+function goToAboutUs(navigation) {
+  console.log('goToAboutUs');
+}
+
+function goToAboutProject(navigation) {
+  console.log('goToAboutProject');
+}
+
+function Home({ navigation }) {
   // states
   const [userName, setUserName] = useState('');
   const [buttonWidth, setButtonWidth] = useState('46%');
@@ -49,43 +120,6 @@ function Home({navigation}) {
     setUserName(name);
   };
 
-  Voice.onSpeechPartialResults =(e) => {
-    console.log('onSpeechPartialResults');
-    console.log(e);
-  };
-
-  Voice.onSpeechResults =(e) => {
-    console.log('onSpeechResults');
-    console.log(e);
-  };
-
-  Voice.onSpeechRecognized = (e) => {
-    console.log('onSpeechRecognized');
-    console.log(e);
-  };
-
-  Voice.onSpeechEnd = (e) => {
-    console.log('onSpeechEnd');
-    console.log(e);
-  };
-
-  Voice.onSpeechError = (e) => {
-    console.log('onSpeechError');
-    console.log(e);
-  };
-
-  const startVoice = async () =>{
-    try {
-      await Voice.start('pt-BR');
-      const isRecognizing = await Voice.isRecognizing();
-      if (isRecognizing) {
-        ToastAndroid.show('Escuatando...', 1000);
-      }
-    } catch (e) {
-      console.log('erro ao iniciar '+ e);
-    }    
-  };
-
   return (
     <>
       <CustomHeader isHome />
@@ -102,7 +136,7 @@ function Home({navigation}) {
               icon={coolerIcon}
               btnHeight="72px"
               btnWidth={buttonWidth}
-              onPress={() => console.log('Informações Cooler')}
+              onPress={() => goToInfo(navigation)}
             />
 
             <BtnDefault
@@ -113,7 +147,7 @@ function Home({navigation}) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={configIcon}
-              onPress={() => navigation.navigate('Settings')}
+              onPress={() => goToSettings(navigation)}
             />
           </ButtonsRow>
 
@@ -126,7 +160,7 @@ function Home({navigation}) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={bluetoothIcon}
-              onPress={() => console.log('Conectar cooler')}
+              onPress={() => goToConnect(navigation)}
             />
 
             <BtnDefault
@@ -137,7 +171,7 @@ function Home({navigation}) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={refreshIcon}
-              onPress={() => voice()}
+              onPress={() => startVoice(navigation)}
             />
           </ButtonsRow>
 
@@ -150,7 +184,7 @@ function Home({navigation}) {
               btnHeight="80px"
               btnWidth="80px"
               icon={quemSomosIcon}
-              onPress={() => console.log('Sobre Nós')}
+              onPress={() => goToAboutUs(navigation)}
             />
 
             <ButtonView>
@@ -161,7 +195,7 @@ function Home({navigation}) {
                 btnHeight="80px"
                 btnWidth="80px"
                 icon={ideaIcon}
-                onPress={() => console.log('Sobre o Projeto')}
+                onPress={() => goToAboutProject(navigation)}
               />
             </ButtonView>
           </ButtonsRow>
