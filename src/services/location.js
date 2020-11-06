@@ -3,18 +3,13 @@ import {useState, useEffect} from "react";
 import Geolocation from 'react-native-geolocation-service';
 
 let intervalID;
+let isOn = false;
 
 export class Location {
-    isOn = false;
-    canStart = true;
     userPosition;
 
     startLocation(switchValue) {
-        this.isOn = true;
-        this.canStart = true;
-
-        console.log("cantStart1: ", this.canStart);
-        console.log("SwitchValue DENTRO DO STARTLOCATION: ", switchValue);
+        isOn = true;
         if(switchValue) {
             intervalID = setInterval(() => {
             Geolocation.getCurrentPosition(
@@ -28,21 +23,15 @@ export class Location {
                 error => {
                     console.log(error.code, error.message);
                 },
-                console.log("ContinuouID: ", intervalID),
             )}, 4000);
         }else{
-            console.log("PAROU!", intervalID);
+            isOn = false;
             clearInterval(intervalID);
         }
     }
 
-    endLocation() {
-        this.isOn = false;
-        this.canStart = false;
-    }
-
     getLocationIsOn() {
-        return this.isOn;
+        return isOn;
     }
 }
 

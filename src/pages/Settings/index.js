@@ -18,61 +18,35 @@ import bluetoothIcon from '../../assets/bluetooth.png';
 import locateIcon from '../../assets/locate.png';
 
 function Settings({navigation}) {
+
+  let location = new Location();
   // states
   const [userName, setUserName] = useState('');
   const [btStatus, setBluetooth] = useState(false);
   const [gpsStatus, setGpsStatus] = useState(false);
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
-  const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const [isSwitchOn, setIsSwitchOn] = useState(location.getLocationIsOn);
 
-  let aux2 = false;
+  const onToggleSwitch = async (state) => {
+    if(state) {
+      const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('permissão concedida');
+          location.startLocation(state);
 
-  let func = require('../../Switch.js');
-
-  let location = new Location();
-
-  let date = moment()
-      .utcOffset('-03:00');
-  let aux = date;
-
-  if(!isSwitchOn){
-    aux = false;
-  }else {
-    aux = true;
-  }
-
-  console.log("1isSwitchon", isSwitchOn);
-  let switchValue = isSwitchOn;
-
-  const onToggleSwitch = async () => {
-
-    setIsSwitchOn(!isSwitchOn);
-
-    console.log("2isSwitchon", isSwitchOn);
-
-    const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        aux2 = true;
-        console.log('permissão concedida');
-
-      } else {
-        console.error('permissão negada');
-        setHasLocationPermission(false);
-      }
-
-    if(aux2) {
-      console.log("AAAAAAAAAAAAAAAAAAAAA: ", switchValue);
-      location.startLocation(!switchValue);
-    }
-    if(!switchValue) {
-      location.endLocation();
+        } else {
+          console.error('permissão negada');
+          setHasLocationPermission(false);
+        }
+    }else {
+        location.startLocation(state);
     }
   }
 
   useEffect(() => {
-    getFontSizeFromStorage();
+    getFontSizeFromStorage().then();
   });
 
   const bleManager = new BleManager();
@@ -191,7 +165,12 @@ function Settings({navigation}) {
             fontSize="24px"
             value={isSwitchOn}
             icon={locateIcon}
-            onChange={onToggleSwitch}
+            onChange={(event) => {
+              event.persist();
+              onToggleSwitch(event.nativeEvent.value).then(() => {
+                setIsSwitchOn(event.nativeEvent.value);
+              });
+            }}
         />
 
         <Input
