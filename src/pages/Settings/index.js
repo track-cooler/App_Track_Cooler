@@ -116,6 +116,10 @@ function Settings({navigation}) {
     setFontSize('16px');
   };
 
+  const changeColor = async () => {
+
+  };
+
   return (
     <>
       <CustomHeader />
@@ -152,7 +156,7 @@ function Settings({navigation}) {
             fontSize="24px"
             value={colorChange}
             icon={colorPalette}
-            // onChange={(event) =>{}}
+            // onChange={() =>{}}
           />
 
           <Input
