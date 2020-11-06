@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {Text, Keyboard, Alert, PermissionsAndroid} from 'react-native';
+import {
+  Text,
+  Keyboard,
+  Alert,
+  PermissionsAndroid,
+  ScrollView,
+} from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -104,7 +110,6 @@ function Settings({navigation}) {
   return (
     <>
       <CustomHeader />
-
       <Container>
         <ToggleDefault
           text="Bluetooth"

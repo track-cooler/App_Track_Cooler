@@ -6,6 +6,7 @@ import CustomHeader from '~/components/CustomHeader';
 // pages
 import Home from './pages/Home';
 import Settings from './pages/Settings';
+import Info from './pages/Info';
 
 const Navigation = createStackNavigator();
 
@@ -18,6 +19,7 @@ const Routes = () => {
       }}>
       <Navigation.Screen name="Home" component={Home} />
       <Navigation.Screen name="Settings" component={Settings} />
+      <Navigation.Screen name="Info" component={Info} />
     </Navigation.Navigator>
   );
 };
