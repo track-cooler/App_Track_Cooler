@@ -10,6 +10,8 @@ import 'react-native-geolocation-service';
 import 'react-native-ble-plx';
 import {BleManager} from 'react-native-ble-plx';
 
+import DatePicker from 'react-native-datepicker';
+
 import {expect, jest, test} from '@jest/globals';
 
 // Note: test renderer must be required after react-native.
@@ -20,6 +22,8 @@ import renderer from 'react-test-renderer';
 jest.mock('react-native-ble-plx', () => ({}));
 
 jest.mock('react-native-geolocation-service', () => ({}));
+
+jest.mock('react-native-datepicker', () => ({}));
 
 jest.useFakeTimers();
 it('renders correctly', async () => {
