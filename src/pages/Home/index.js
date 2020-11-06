@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, ToastAndroid } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Voice from '@react-native-community/voice';
+import StringSimilarity from 'string-similarity';
 
 // Components
 import BtnDefault from '~/components/BtnDefault';
@@ -19,77 +20,6 @@ import refreshIcon from '../../assets/refresh.png';
 import quemSomosIcon from '../../assets/quem_somos.png';
 import ideaIcon from '../../assets/idea.png';
 
-function initVoiceListeners(navigation) {
-  Voice.onSpeechPartialResults = (e) => {
-    console.log('onSpeechPartialResults');
-    console.log(e);
-  };
-
-  Voice.onSpeechResults = (e) => {
-    const phrase = e.value;
-    executeVoiceCommand(phrase, navigation);
-  };
-
-  Voice.onSpeechRecognized = (e) => {
-    console.log('onSpeechRecognized');
-    console.log(e);
-  };
-
-  Voice.onSpeechError = (e) => {
-    console.log('onSpeechError');
-    console.log(e);
-  };
-}
-
-async function executeVoiceCommand(phrase, navigation) {
-  if (phrase.includes('ir para configurações')) {
-    goToSettings(navigation);
-  } else if (phrase.includes('ver informação')){
-    goToInfo(navigation);
-  } else if (phrase.includes('conectar cooler')) {
-    goToConnect(navigation);
-  } else if (phrase.includes('quem somos')) {
-    goToAboutUs(navigation);
-  } else if(phrase.includes('sobre o projeto')) {
-    goToAboutProject(navigation);
-  } else {
-    ToastAndroid.show('Não foi possível reconhecer o comando. Tente novamente', 2000);
-  }
-}
-
-async function startVoice(navigation) {
-  try {
-    initVoiceListeners(navigation);
-    await Voice.start('pt-BR');
-    const isRecognizing = await Voice.isRecognizing();
-    if (isRecognizing) {
-      ToastAndroid.show('Escuatando...', 1000);
-    }
-  } catch (e) {
-    console.log('erro ao iniciar ' + e);
-  }
-};
-
-function goToSettings(navigation) {
-  navigation.navigate('Settings');
-}
-
-function goToInfo(navigation) {
-  navigation.navigate('Info');
-}
-
-function goToConnect(navigation) {
-  console.log('goToConnect');
-}
-
-function goToAboutUs(navigation) {
-  console.log('goToAboutUs');
-}
-
-function goToAboutProject(navigation) {
-  console.log('goToAboutProject');
-}
-
 function Home({ navigation }) {
   // states
   const [userName, setUserName] = useState('');
@@ -99,7 +29,94 @@ function Home({ navigation }) {
   useEffect(() => {
     loadUserName();
     handleFontSize();
+    initVoiceListeners();
+    checkVoiceIsEnabled();
   });
+
+  function initVoiceListeners() {
+    Voice.onSpeechPartialResults = (e) => {
+      console.log('onSpeechPartialResults');
+      console.log(e);
+    };
+
+    Voice.onSpeechResults = (e) => {
+      const phrase = e.value;
+      console.log('onSpeechResults');
+      console.log(phrase);
+      executeVoiceCommand(phrase);
+    };
+
+    Voice.onSpeechError = (e) => {
+      console.log('onSpeechError');
+      console.log(e);
+      startVoice();
+    };
+  }
+
+  async function executeVoiceCommand(phrase) {
+    initTts();
+    const phraseLowerCase = phrase[0].toLowerCase();
+    const initialCommand = 'elsa';
+
+    if (phraseLowerCase.includes(initialCommand)) {
+      if (StringSimilarity.compareTwoStrings(phraseLowerCase, `${initialCommand} para configurações`) >= 0.75) {
+        goToSettings();
+      } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `${initialCommand} ver informação`) >= 0.75) {
+        goToInfo();
+      } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `${initialCommand} conectar cooler`) >= 0.75) {
+        goToConnect();
+      } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `${initialCommand} quem somos`) >= 0.75) {
+        goToAboutUs();
+      } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `${initialCommand} sobre o projeto`) >= 0.75) {
+        goToAboutProject();
+      } else {
+        ToastAndroid.show('Não foi possível reconhecer o comando. Tente novamente', 2000);
+        startVoice();
+      }
+    } else {
+      startVoice();
+    }
+  }
+
+  async function startVoice() {
+    try {
+      await Voice.start('pt-BR');
+      const isRecognizing = await Voice.isRecognizing();
+      if (isRecognizing) {
+        console.log('escutando');
+      }
+    } catch (e) {
+      console.log('erro ao iniciar ' + e);
+    }
+  };
+
+  function goToSettings() {
+    navigation.navigate('Settings');
+  }
+
+  function goToInfo() {
+    navigation.navigate('Info');
+  }
+
+  function goToConnect() {
+    console.log('goToConnect');
+  }
+
+  function goToAboutUs() {
+    console.log('goToAboutUs');
+  }
+
+  function goToAboutProject() {
+    console.log('goToAboutProject');
+  }
+
+  async function checkVoiceIsEnabled() {
+    const isEnabled = await AsyncStorage.getItem('voiceEnabled') === 'true';
+    if (isEnabled) {
+      startVoice(navigation);
+    }
+  }
+
 
   const handleFontSize = async () => {
     const fontSizeStorage = await AsyncStorage.getItem('fontSize');
