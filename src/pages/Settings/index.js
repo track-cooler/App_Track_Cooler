@@ -5,13 +5,15 @@ import {
   Alert,
   PermissionsAndroid,
   ScrollView,
+  ToastAndroid,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { BleManager } from 'react-native-ble-plx';
 import Geolocation from 'react-native-geolocation-service';
 import Voice from '@react-native-community/voice';
+import StringSimilarity from 'string-similarity';
+import Tts from 'react-native-tts';
 
 // styles
 import { Container, Input, Button, TextButton } from './styles';
@@ -19,8 +21,12 @@ import { Container, Input, Button, TextButton } from './styles';
 // components
 import CustomHeader from '~/components/CustomHeader';
 import ToggleDefault from '~/components/Toggle';
+import FloatActionButton from '~/components/FloatActionButton';
+
+// icons
 import bluetoothIcon from '../../assets/bluetooth.png';
 import locateIcon from '../../assets/locate.png';
+import micIcon from '../../assets/mic.png';
 
 function Settings({ navigation }) {
   // states
@@ -28,11 +34,89 @@ function Settings({ navigation }) {
   const [btStatus, setBluetooth] = useState(false);
   const [gpsStatus, setGpsStatus] = useState(false);
   const [voiceStatus, setVoiceStatus] = useState(false);
+  const [fontSize, setFontSize] = useState('18px');
 
   useEffect(() => {
     getFontSizeFromStorage();
-    Voice.stop();
+    checkVoiceIsEnabled();
+
+    getStateBluetooth().then((status) => setBluetooth(status));
+    getStateGps().then((status) => setGpsStatus(status));
+    getStateVoice().then((status) => setVoiceStatus(status));
   });
+
+  function initVoiceListeners() {
+    Voice.onSpeechPartialResults = (e) => {
+      console.log('onSpeechPartialResults');
+      console.log(e);
+    };
+
+    Voice.onSpeechResults = (e) => {
+      console.log('onSpeechResults')
+      Voice.stop();
+      const phrase = e.value;
+      executeVoiceCommand(phrase);
+    };
+  }
+
+  async function checkVoiceIsEnabled() {
+    if (voiceStatus) {
+      initVoiceListeners();
+    }
+  }
+
+  async function executeVoiceCommand(phrase) {
+    const phraseLowerCase = phrase[0].toLowerCase();
+    const initialCommand = 'elsa';
+
+    console.log('Elsa ouviu isto: ' + phraseLowerCase);
+
+    if (phraseLowerCase === initialCommand) {
+      Tts.speak('Você quer brincar na neve?');
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `ligar bluetooth`) >= 0.95) {
+      changeStateBlutooth(true);
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `desligar bluetooth`) >= 0.95) {
+      changeStateBlutooth(false);
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `ativar localização`) >= 0.95) {
+      changeStateGps(true);
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `desativar localização`) >= 0.95) {
+      changeStateGps(false);
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar letra para pequena`) >= 0.75) {
+      setFontSizeSmall()
+      Tts.speak('Mudando letra para pequena');
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar letra para normal`) >= 0.75) {
+      setFontSizeNormal()
+      Tts.speak('Mudando letra para normal');
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar letra para grande`) >= 0.75) {
+      setFontSizeLarge()
+      Tts.speak('Mudando letra para grande');
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar nome para`) >= 0.75) {
+      const userName = phraseLowerCase.split(' ').pop();
+      await AsyncStorage.setItem('username', userName);
+      Tts.speak(`Nome alterado para ${userName}`);
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `voltar`) >= 0.75) {
+      goToPage('Home');
+      Tts.speak(`Indo para menu`);
+    } else {
+      ToastAndroid.show('Não foi possível reconhecer o comando. Tente novamente', 2000);
+      Tts.speak('Let it go! Desculpa, não te entendi. Por favor repita.');
+    }
+  }
+
+  async function startVoice() {
+    try {
+      await Voice.start('pt-BR');
+      const isRecognizing = await Voice.isRecognizing();
+    } catch (e) {
+      console.log('erro ao iniciar ' + e);
+    }
+  };
+
+  async function goToPage(page) {
+    navigation.navigate(page);
+    Voice.removeAllListeners();
+    console.log(await Voice.stop());
+  }
 
   const bleManager = new BleManager();
   async function getStateBluetooth() {
@@ -51,48 +135,83 @@ function Settings({ navigation }) {
   }
 
   const changeStateBlutooth = async (state) => {
-    if (state) {
-      await bleManager.enable();
-    } else {
-      await bleManager.disable();
-    }
+    try {
+      if (state != (await getStateBluetooth())) {
+        if (state) {
+          await bleManager.enable();
+          if (voiceStatus) {
+            Tts.speak('Ligando bluetooth.');
+          }
+        } else {
+          await bleManager.disable();
+          if (voiceStatus) {
+            Tts.speak('Desligando bluetooth.');
+          }
+        }
+      } else if (voiceStatus) {
+        if (state) {
+          Tts.speak('O Bluetooth está ligado.');
+        } else {
+          Tts.speak('O Bluetooth está desligado.');
+        }
+      }
+      setBluetooth(state);
+    } catch (e) { }
+
   };
 
   const changeStateGps = async (state) => {
-    if (state) {
-      const hasPermission = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      );
-      if (hasPermission) {
-        Geolocation.getCurrentPosition(
-          async (position) => {
-            await AsyncStorage.setItem('gpsStatus', 'true');
-          },
-          (error) => {
-            // eslint-disable-next-line no-alert
-            alert('GPS do dispositivo desativado, por favor, ative-o.');
-          },
-        );
-      } else {
-        await PermissionsAndroid.request(
+    if (state != (await getStateGps())) {
+      if (state) {
+        const hasPermission = await PermissionsAndroid.check(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         );
-        changeStateGps(state);
+
+        if (hasPermission) {
+          Geolocation.getCurrentPosition(
+            async (position) => {
+              await AsyncStorage.setItem('gpsStatus', 'true');
+              changeStateGps(state);
+              if (voiceStatus) {
+                Tts.speak('Ativando GPS');
+              }
+            },
+            (error) => {
+              // eslint-disable-next-line no-alert
+              alert('GPS do dispositivo desativado, por favor, ative-o.');
+              if (voiceStatus) {
+                Tts.speak('GPS do dispositivo desativado, por favor, ative-o.');
+              }
+            },
+          );
+        } else {
+          await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          );
+          changeStateGps(state);
+          if (voiceStatus) {
+            Tts.speak('Ativando GPS');
+          }
+        }
+      } else {
+        AsyncStorage.setItem('gpsStatus', 'false');
+        setGpsStatus(false);
+        if (voiceStatus) {
+          Tts.speak('Desativando GPS');
+        }
       }
-    } else {
-      AsyncStorage.setItem('gpsStatus', 'false');
+    } else if (voiceStatus) {
+      if (state) {
+        Tts.speak('O GPS está ligado.');
+      } else {
+        Tts.speak('O GPS está desligado.');
+      }
     }
   };
 
   const changeStateVoice = async (state) => {
     await AsyncStorage.setItem('voiceEnabled', `${state}`);
   };
-
-  getStateBluetooth().then((status) => setBluetooth(status));
-  getStateGps().then((status) => setGpsStatus(status));
-  getStateVoice().then((status) => setVoiceStatus(status));
-
-  const [fontSize, setFontSize] = useState('18px');
 
   const getFontSizeFromStorage = async () => {
     const fontSizeStorege = await AsyncStorage.getItem('fontSize');
@@ -129,6 +248,8 @@ function Settings({ navigation }) {
   return (
     <>
       <CustomHeader />
+      {voiceStatus ? <FloatActionButton icon={micIcon} onPress={() => startVoice()} /> : null}
+
       <ScrollView>
         <Container>
           <ToggleDefault
@@ -138,9 +259,7 @@ function Settings({ navigation }) {
             icon={bluetoothIcon}
             onChange={(event) => {
               event.persist();
-              changeStateBlutooth(event.nativeEvent.value).then(() => {
-                setBluetooth(event.nativeEvent.value);
-              });
+              changeStateBlutooth(event.nativeEvent.value);
             }}
           />
 
