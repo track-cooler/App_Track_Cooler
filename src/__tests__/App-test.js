@@ -30,6 +30,10 @@ jest.mock('react-native-datepicker', () => ({}));
 
 jest.mock('@react-native-community/voice', () => ({}));
 
+jest.mock('react-native-tts', () => ({}));
+
+jest.mock('string-similarity', () => ({}));
+
 jest.useFakeTimers();
 it('renders correctly', async () => {
   renderer.create(<App />);
