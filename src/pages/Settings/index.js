@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { BleManager } from 'react-native-ble-plx';
 import Geolocation from 'react-native-geolocation-service';
+import Voice from '@react-native-community/voice';
 
 // styles
 import { Container, Input, Button, TextButton } from './styles';
@@ -30,6 +31,7 @@ function Settings({ navigation }) {
 
   useEffect(() => {
     getFontSizeFromStorage();
+    Voice.stop();
   });
 
   const bleManager = new BleManager();

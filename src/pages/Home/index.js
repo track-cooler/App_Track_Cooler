@@ -9,6 +9,7 @@ import StringSimilarity from 'string-similarity';
 import BtnDefault from '~/components/BtnDefault';
 import SmallBtn from '~/components/SmallBtn';
 import CustomHeader from '~/components/CustomHeader';
+import FloatActionButton from '~/components/FloatActionButton';
 
 // Styles
 import { Container, ButtonsRow, TextName, InfoText, ButtonView } from './styles';
@@ -20,106 +21,85 @@ import bluetoothIcon from '../../assets/bluetooth.png';
 import refreshIcon from '../../assets/refresh.png';
 import quemSomosIcon from '../../assets/quem_somos.png';
 import ideaIcon from '../../assets/idea.png';
+import micIcon from '../../assets/mic.png';
 
 function Home({ navigation }) {
   // states
   const [userName, setUserName] = useState('');
   const [buttonWidth, setButtonWidth] = useState('46%');
   const [fontSize, setFontSize] = useState('18px');
+  const [voiceEnabled, setVoiceEnabled] = useState(false);
 
   useEffect(() => {
     loadUserName();
     handleFontSize();
-    initVoiceListeners();
     checkVoiceIsEnabled();
   });
 
   function initVoiceListeners() {
-    Tts.addEventListener('tts-start', (event) => Voice.stop());
-    Tts.addEventListener('tts-finish', (event) => startVoice());
-
     Voice.onSpeechPartialResults = (e) => {
       console.log('onSpeechPartialResults');
       console.log(e);
     };
 
     Voice.onSpeechResults = (e) => {
-      Voice.stop();
+      console.log('onSpeechResults')
+      Voice.destroy();
       const phrase = e.value;
       executeVoiceCommand(phrase);
     };
-
-    Voice.onSpeechError = (e) => {
-      console.log('onSpeechError');
-      console.log(e);
-      startVoice();
-    };
   }
 
-  async function executeVoiceCommand(phrase) {    
+  async function executeVoiceCommand(phrase) {
     const phraseLowerCase = phrase[0].toLowerCase();
     const initialCommand = 'elsa';
 
-    if (phraseLowerCase.includes(initialCommand)) {
-      if (StringSimilarity.compareTwoStrings(phraseLowerCase, `${initialCommand} para configurações`) >= 0.75) {
-        goToSettings();
-        Tts.speak('Indo para configurações');
-      } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `${initialCommand} ver informação`) >= 0.75) {
-        goToInfo();
-        Tts.speak('Indo para informações');
-      } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `${initialCommand} conectar cooler`) >= 0.75) {
-        goToConnect();
-        Tts.speak('Indo para conexão');
-      } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `${initialCommand} quem somos`) >= 0.75) {
-        goToAboutUs();
-        Tts.speak('Indo para quem somos de onde viemos');
-      } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `${initialCommand} sobre o projeto`) >= 0.75) {
-        goToAboutProject();
-        Tts.speak('Indo para sobre o projeto');
-      } else {
-        ToastAndroid.show('Não foi possível reconhecer o comando. Tente novamente', 2000);
-        Tts.speak('Desculpa, não te entendi. Por favor repita. Let it go!');
-      }
+    console.log('Elsa ouviu isto: ' + phraseLowerCase);
+
+    if (phraseLowerCase === initialCommand) {
+      Tts.speak('Você quer brincar na neve?');
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `para configurações`) >= 0.75) {
+      goToPage('Settings');
+      Tts.speak('Indo para configurações');
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `ver informação`) >= 0.75) {
+      goToPage('Info');
+      Tts.speak('Indo para informações');
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `conectar`) >= 0.75) {
+      // goToPage('Connect');
+      Tts.speak('Indo para conexão');
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `quem somos`) >= 0.75) {
+      // goToPage('AboutUs');
+      Tts.speak('Indo para quem somos de onde viemos');
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `sobre o projeto`) >= 0.75) {
+      // goToPage('AboutProject');
+      Tts.speak('Esse projeto me dá vontade de me jogar da ponte, ó?');
+    } else {
+      ToastAndroid.show('Não foi possível reconhecer o comando. Tente novamente', 2000);
+      Tts.speak('Let it go! Desculpa, não te entendi. Por favor repita.');
     }
   }
 
   async function startVoice() {
     try {
+      await Voice.start('pt-BR');
       const isRecognizing = await Voice.isRecognizing();
-      if (!isRecognizing) {
-        await Voice.start('pt-BR');
-        console.log('escutando');
-      }
     } catch (e) {
       console.log('erro ao iniciar ' + e);
     }
   };
 
-  function goToSettings() {
-    navigation.navigate('Settings');
-  }
-
-  function goToInfo() {
-    navigation.navigate('Info');
-  }
-
-  function goToConnect() {
-    console.log('goToConnect');
-  }
-
-  function goToAboutUs() {
-    console.log('goToAboutUs');
-  }
-
-  function goToAboutProject() {
-    console.log('goToAboutProject');
+  async function goToPage(page) {
+    navigation.navigate(page);
+    Voice.removeAllListeners();
+    console.log(await Voice.stop());
   }
 
   async function checkVoiceIsEnabled() {
     const isEnabled = await AsyncStorage.getItem('voiceEnabled') === 'true';
     if (isEnabled) {
-      startVoice(navigation);
+      initVoiceListeners();
     }
+    setVoiceEnabled(isEnabled);
   }
 
   const handleFontSize = async () => {
@@ -144,8 +124,11 @@ function Home({ navigation }) {
   return (
     <>
       <CustomHeader isHome />
+      {voiceEnabled ? <FloatActionButton icon={micIcon} onPress={() => startVoice()} /> : null}
+
       <ScrollView>
         <Container>
+
           <TextName fontSize="30px"> Olá, {userName}</TextName>
 
           <ButtonsRow>
@@ -157,7 +140,7 @@ function Home({ navigation }) {
               icon={coolerIcon}
               btnHeight="72px"
               btnWidth={buttonWidth}
-              onPress={() => goToInfo(navigation)}
+              onPress={() => goToPage('Info')}
             />
 
             <BtnDefault
@@ -168,7 +151,7 @@ function Home({ navigation }) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={configIcon}
-              onPress={() => goToSettings(navigation)}
+              onPress={() => goToPage('Settings')}
             />
           </ButtonsRow>
 
@@ -181,7 +164,7 @@ function Home({ navigation }) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={bluetoothIcon}
-              onPress={() => goToConnect(navigation)}
+              onPress={() => console.log('Conectar')}
             />
 
             <BtnDefault
@@ -205,7 +188,7 @@ function Home({ navigation }) {
               btnHeight="80px"
               btnWidth="80px"
               icon={quemSomosIcon}
-              onPress={() => goToAboutUs(navigation)}
+              onPress={() => goToPage('AboutUs')}
             />
 
             <ButtonView>
@@ -216,7 +199,7 @@ function Home({ navigation }) {
                 btnHeight="80px"
                 btnWidth="80px"
                 icon={ideaIcon}
-                onPress={() => goToAboutProject(navigation)}
+                onPress={() => goToPage('AboutProject')}
               />
             </ButtonView>
           </ButtonsRow>
