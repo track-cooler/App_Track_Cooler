@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   Keyboard,
@@ -8,12 +8,13 @@ import {
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {BleManager} from 'react-native-ble-plx';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { BleManager } from 'react-native-ble-plx';
 import Geolocation from 'react-native-geolocation-service';
+import Voice from '@react-native-community/voice';
 
 // styles
-import {Container, Input, Button, TextButton} from './styles';
+import { Container, Input, Button, TextButton } from './styles';
 
 // components
 import CustomHeader from '~/components/CustomHeader';
@@ -21,14 +22,16 @@ import ToggleDefault from '~/components/Toggle';
 import bluetoothIcon from '../../assets/bluetooth.png';
 import locateIcon from '../../assets/locate.png';
 
-function Settings({navigation}) {
+function Settings({ navigation }) {
   // states
   const [userName, setUserName] = useState('');
   const [btStatus, setBluetooth] = useState(false);
   const [gpsStatus, setGpsStatus] = useState(false);
+  const [voiceStatus, setVoiceStatus] = useState(false);
 
   useEffect(() => {
     getFontSizeFromStorage();
+    Voice.stop();
   });
 
   const bleManager = new BleManager();
@@ -41,6 +44,11 @@ function Settings({navigation}) {
     const status = await AsyncStorage.getItem('gpsStatus');
     return status ? status === 'true' : false;
   };
+
+  async function getStateVoice() {
+    const status = await AsyncStorage.getItem('voiceEnabled');
+    return status ? status === 'true' : false;
+  }
 
   const changeStateBlutooth = async (state) => {
     if (state) {
@@ -76,8 +84,14 @@ function Settings({navigation}) {
     }
   };
 
+  const changeStateVoice = async (state) => {
+    await AsyncStorage.setItem('voiceEnabled', `${state}`);
+  };
+
   getStateBluetooth().then((status) => setBluetooth(status));
   getStateGps().then((status) => setGpsStatus(status));
+  getStateVoice().then((status) => setVoiceStatus(status));
+
   const [fontSize, setFontSize] = useState('18px');
 
   const getFontSizeFromStorage = async () => {
@@ -139,6 +153,19 @@ function Settings({navigation}) {
               event.persist();
               changeStateGps(event.nativeEvent.value).then(() => {
                 setGpsStatus(event.nativeEvent.value);
+              });
+            }}
+          />
+
+          <ToggleDefault
+            text="Voz"
+            fontSize="24px"
+            value={voiceStatus}
+            // icon={voiceIcon}
+            onChange={(event) => {
+              event.persist();
+              changeStateVoice(event.nativeEvent.value).then(() => {
+                setVoiceStatus(event.nativeEvent.value);
               });
             }}
           />
