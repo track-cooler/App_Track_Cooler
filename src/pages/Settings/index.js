@@ -125,37 +125,43 @@ function Settings({navigation}) {
 
     setBtnFirstColor(firstBtnColor);
     setBtnSecondColor(secondBtnColor);
-  }
+  };
 
-  const changeContrast = async () => {
-    if(constrast){
-      const whiteColor = await AsyncStorage.setItem('btnFirstColor', '#FFF')
-      const blackColor = await AsyncStorage.setItem('btnSecondColor', '#000')
-      const isOn = await AsyncStorage.setItem('contrastMode', 'true')
-  
-      setBtnFirstColor('#FFF')
-      setBtnSecondColor('#000')
-    }else{
-      const whiteColor = await AsyncStorage.setItem('btnFirstColor', '#A9BCD0')
-      const blackColor = await AsyncStorage.setItem('btnSecondColor', '#218380')
-      const isOn = await AsyncStorage.setItem('contrastMode', 'false')
+  const changeContrast = async (status) => {
+    if (!status) {
+      const whiteColor = await AsyncStorage.setItem('btnFirstColor', '#FFF');
+      const blackColor = await AsyncStorage.setItem('btnSecondColor', '#000');
 
-      setBtnFirstColor('#A9BCD0')
-      setBtnSecondColor('#218380')
+      const isOn = await AsyncStorage.setItem('contrastMode', 'true');
+
+      setContrast(true);
+      setBtnFirstColor('#FFF');
+      setBtnSecondColor('#000');
+    } else {
+      const whiteColor = await AsyncStorage.setItem('btnFirstColor', '#A9BCD0');
+      const blackColor = await AsyncStorage.setItem(
+        'btnSecondColor',
+        '#218380',
+      );
+      const isOff = await AsyncStorage.setItem('contrastMode', 'false');
+
+      setContrast(false);
+      setBtnFirstColor('#A9BCD0');
+      setBtnSecondColor('#218380');
     }
-  }
+  };
 
   const getContrastStatus = async () => {
-    let status = await AsyncStorage.getItem('contrastMode')
+    let status = await AsyncStorage.getItem('contrastMode');
 
-    if(!status){
-      status = false
-    }else{
-      status = status === 'true' ? true : false
+    if (!status) {
+      status = false;
+    } else {
+      status = status === 'true' ? true : false;
     }
 
-    setContrast(status)
-  }
+    setContrast(status);
+  };
 
   return (
     <>
@@ -194,8 +200,7 @@ function Settings({navigation}) {
             value={constrast}
             icon={colorPalette}
             onChange={() => {
-              setContrast(!constrast);
-              changeContrast();
+              changeContrast(constrast);
             }}
           />
 
