@@ -14,6 +14,8 @@ import Geolocation from 'react-native-geolocation-service';
 import Voice from '@react-native-community/voice';
 import StringSimilarity from 'string-similarity';
 import Tts from 'react-native-tts';
+import moment from 'moment';
+import {Location} from '~/services/location';
 
 // styles
 import { Container, Input, Button, TextButton } from './styles';
@@ -29,12 +31,15 @@ import locateIcon from '../../assets/locate.png';
 import micIcon from '../../assets/mic.png';
 
 function Settings({ navigation }) {
+  let location = new Location();
+
   // states
   const [userName, setUserName] = useState('');
   const [btStatus, setBluetooth] = useState(false);
   const [gpsStatus, setGpsStatus] = useState(false);
   const [voiceStatus, setVoiceStatus] = useState(false);
   const [fontSize, setFontSize] = useState('18px');
+  const [isSwitchOn, setIsSwitchOn] = useState(location.getLocationIsOn);
 
   useEffect(() => {
     getFontSizeFromStorage();
@@ -43,7 +48,25 @@ function Settings({ navigation }) {
     getStateBluetooth().then((status) => setBluetooth(status));
     getStateGps().then((status) => setGpsStatus(status));
     getStateVoice().then((status) => setVoiceStatus(status));
+  
   });
+
+  const onToggleSwitch = async (state) => {
+    if(state) {
+      const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('permissão concedida');
+          location.startLocation(state);
+
+        } else {
+          console.error('permissão negada');
+        }
+    }else {
+        location.startLocation(state);
+    }
+  }
 
   function initVoiceListeners() {
     Voice.onSpeechPartialResults = (e) => {
@@ -212,6 +235,7 @@ function Settings({ navigation }) {
   const changeStateVoice = async (state) => {
     await AsyncStorage.setItem('voiceEnabled', `${state}`);
   };
+  getStateBluetooth().then((status) => setBluetooth(status));
 
   const getFontSizeFromStorage = async () => {
     const fontSizeStorege = await AsyncStorage.getItem('fontSize');
@@ -266,12 +290,12 @@ function Settings({ navigation }) {
           <ToggleDefault
             text="Localização"
             fontSize="24px"
-            value={gpsStatus}
+            value={isSwitchOn}
             icon={locateIcon}
             onChange={(event) => {
               event.persist();
-              changeStateGps(event.nativeEvent.value).then(() => {
-                setGpsStatus(event.nativeEvent.value);
+              onToggleSwitch(event.nativeEvent.value).then(() => {
+                setIsSwitchOn(event.nativeEvent.value);
               });
             }}
           />
@@ -280,7 +304,7 @@ function Settings({ navigation }) {
             text="Voz"
             fontSize="24px"
             value={voiceStatus}
-            // icon={voiceIcon}
+            icon={micIcon}
             onChange={(event) => {
               event.persist();
               changeStateVoice(event.nativeEvent.value).then(() => {
