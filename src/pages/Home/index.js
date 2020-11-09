@@ -56,14 +56,14 @@ function Home({navigation}) {
     const secondBtnColor = await AsyncStorage.getItem('btnSecondColor');
 
     // se existir no asyncStorage pega o valor, se não seta um valor inicial
-    const firstColor = !firstBtnColor ? '#FFF' : firstBtnColor;
-    const secondColor = !secondBtnColor ? '#000' : secondBtnColor;
+    const firstColor = !firstBtnColor ? '#A9BCD0' : firstBtnColor;
+    const secondColor = !secondBtnColor ? '#218380' : secondBtnColor;
 
-    if (!firstColor) {
+    if (!firstBtnColor) {
       await AsyncStorage.setItem('btnFirstColor', '#A9BCD0');
     }
     
-    if (!secondColor) {
+    if (!secondBtnColor) {
       await AsyncStorage.setItem('btnSecondColor', '#218380');
     }
 

@@ -35,6 +35,7 @@ function Settings({navigation}) {
 
   useEffect(() => {
     getFontSizeFromStorage();
+    getColor();
   });
 
   const bleManager = new BleManager();
@@ -170,19 +171,19 @@ function Settings({navigation}) {
             placeholder="Digite um nome de usuário"
             onChangeText={(text) => setUserName(text)}
           />
-          <Button onPress={saveName}>
+          <Button btnColor={btnSecondColor} onPress={saveName}>
             <TextButton fontSize={fontSize}>Salvar</TextButton>
           </Button>
 
-          <Button onPress={setFontSizeSmall}>
+          <Button btnColor={btnSecondColor} onPress={setFontSizeSmall}>
             <TextButton fontSize={fontSize}>Letra pequena</TextButton>
           </Button>
 
-          <Button onPress={setFontSizeNormal}>
+          <Button btnColor={btnSecondColor} onPress={setFontSizeNormal}>
             <TextButton fontSize={fontSize}>Letra normal</TextButton>
           </Button>
 
-          <Button onPress={setFontSizeLarge}>
+          <Button btnColor={btnSecondColor} onPress={setFontSizeLarge}>
             <TextButton fontSize={fontSize}>Letra grande</TextButton>
           </Button>
         </Container>
