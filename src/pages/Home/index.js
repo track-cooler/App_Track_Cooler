@@ -25,7 +25,6 @@ function Home({navigation}) {
   const [fontSize, setFontSize] = useState('18px');
   const [btnFirstColor, setBtnFirstColor] = useState('#A9BCD0');
   const [btnSecondColor, setBtnSecondColor] = useState('#218380');
-  // const [backGroundColor, setBackGroundColor] = useState('18px');
 
   useEffect(() => {
     loadUserName();

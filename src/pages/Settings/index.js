@@ -30,6 +30,8 @@ function Settings({navigation}) {
   const [btStatus, setBluetooth] = useState(false);
   const [gpsStatus, setGpsStatus] = useState(false);
   const [colorChange, setColorChange] = useState(false);
+  const [btnFirstColor, setBtnFirstColor] = useState('#A9BCD0');
+  const [btnSecondColor, setBtnSecondColor] = useState('#218380');
 
   useEffect(() => {
     getFontSizeFromStorage();
@@ -116,9 +118,13 @@ function Settings({navigation}) {
     setFontSize('16px');
   };
 
-  const changeColor = async () => {
+  const getColor = async () => {
+    const firstBtnColor = await AsyncStorage.getItem('btnFirstColor');
+    const secondBtnColor = await AsyncStorage.getItem('btnSecondColor');
 
-  };
+    setBtnFirstColor(firstBtnColor);
+    setBtnSecondColor(secondBtnColor);
+  }
 
   return (
     <>
