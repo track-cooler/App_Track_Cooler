@@ -29,11 +29,12 @@ function Settings({navigation}) {
   const [userName, setUserName] = useState('');
   const [btStatus, setBluetooth] = useState(false);
   const [gpsStatus, setGpsStatus] = useState(false);
-  const [colorChange, setColorChange] = useState(false);
+  const [constrast, setContrast] = useState(true);
   const [btnFirstColor, setBtnFirstColor] = useState('#A9BCD0');
   const [btnSecondColor, setBtnSecondColor] = useState('#218380');
 
   useEffect(() => {
+    getContrastStatus();
     getFontSizeFromStorage();
     getColor();
   });
@@ -89,7 +90,6 @@ function Settings({navigation}) {
 
   const getFontSizeFromStorage = async () => {
     const fontSizeStorege = await AsyncStorage.getItem('fontSize');
-    console.log('TAMANHO NO ASYNC ', fontSizeStorege);
 
     setFontSize(fontSize);
   };
@@ -127,6 +127,36 @@ function Settings({navigation}) {
     setBtnSecondColor(secondBtnColor);
   }
 
+  const changeContrast = async () => {
+    if(constrast){
+      const whiteColor = await AsyncStorage.setItem('btnFirstColor', '#FFF')
+      const blackColor = await AsyncStorage.setItem('btnSecondColor', '#000')
+      const isOn = await AsyncStorage.setItem('contrastMode', 'true')
+  
+      setBtnFirstColor('#FFF')
+      setBtnSecondColor('#000')
+    }else{
+      const whiteColor = await AsyncStorage.setItem('btnFirstColor', '#A9BCD0')
+      const blackColor = await AsyncStorage.setItem('btnSecondColor', '#218380')
+      const isOn = await AsyncStorage.setItem('contrastMode', 'false')
+
+      setBtnFirstColor('#A9BCD0')
+      setBtnSecondColor('#218380')
+    }
+  }
+
+  const getContrastStatus = async () => {
+    let status = await AsyncStorage.getItem('contrastMode')
+
+    if(!status){
+      status = false
+    }else{
+      status = status === 'true' ? true : false
+    }
+
+    setContrast(status)
+  }
+
   return (
     <>
       <CustomHeader />
@@ -161,9 +191,12 @@ function Settings({navigation}) {
           <ToggleDefault
             text="Alterar Contraste"
             fontSize="24px"
-            value={colorChange}
+            value={constrast}
             icon={colorPalette}
-            // onChange={() =>{}}
+            onChange={() => {
+              setContrast(!constrast);
+              changeContrast();
+            }}
           />
 
           <Input
