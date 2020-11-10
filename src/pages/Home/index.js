@@ -68,14 +68,14 @@ function Home({ navigation }) {
       // goToPage('Connect');
       Tts.speak('Indo para conexão');
     } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `quem somos`) >= 0.75) {
-      // goToPage('AboutUs');
+       goToPage('AboutUs');
       Tts.speak('Indo para quem somos de onde viemos');
     } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `sobre o projeto`) >= 0.75) {
-      // goToPage('AboutProject');
+       goToPage('AboutProject');
       Tts.speak('Esse projeto me dá vontade de me jogar da ponte, ó?');
     } else {
       ToastAndroid.show('Não foi possível reconhecer o comando. Tente novamente', 2000);
-      Tts.speak('Let it go! Desculpa, não te entendi. Por favor repita.');
+      Tts.speak('Desculpa, não te entendi. Por favor repita.');
     }
   }
 
