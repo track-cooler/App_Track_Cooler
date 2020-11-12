@@ -9,43 +9,28 @@ import {AlertContainer,
     AlertBackdrop
 } from "./styles.js";
 
-
-class AlertModal extends Component {
-
-    constructor({display, title, message}) {
-        super();
-    }
-
-    hideModal = () => {
-        this.display = false;
-    }
-
-    render() {
-        if(this.display) {
-            return (
-                <AlertBackdrop>
-                    <AlertContainer>
-                        <AlertMessageBox>
-                            <AlertTitle>
-                                {this.title}
-                            </AlertTitle>
-                            <AlertMessage>
-                                {this.message}
-                            </AlertMessage>
-                        </AlertMessageBox>
-                        <ConfirmAlertButton onPress={this.hideModal}>
-                            <ConfirmAlertText>
-                                Ok
-                            </ConfirmAlertText>
-                        </ConfirmAlertButton>
-                    </AlertContainer>
-                </AlertBackdrop>
-            )
-        }else{
-            return null;
-        }
-    }
-}
+const AlertModal = ({
+    title,
+    message
+}) => (
+    <AlertBackdrop>
+        <AlertContainer>
+            <AlertMessageBox>
+                <AlertTitle>
+                    {title}
+                </AlertTitle>
+                <AlertMessage>
+                    {message}
+                </AlertMessage>
+            </AlertMessageBox>
+            <ConfirmAlertButton>
+                <ConfirmAlertText>
+                    Ok
+                </ConfirmAlertText>
+            </ConfirmAlertButton>
+        </AlertContainer>
+    </AlertBackdrop>
+);
 
 export default AlertModal;
 
