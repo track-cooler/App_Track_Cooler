@@ -10,7 +10,7 @@ import StringSimilarity from 'string-similarity';
 import CustomHeader from '~/components/CustomHeader';
 import BtnDefault from '~/components/BtnDefault';
 import BtnRefresh from '~/components/BtnRefresh';
-import FloatActionButton from '~/components/FloatActionButton';
+import FloatActionButton from '../../components/FloatActionButton'
 
 // Styles
 import {Container, ButtonsRow, Text, Title, Section, InfoText, Image, HistoryCard, ScrollContainer, ImageBat} from './styles';

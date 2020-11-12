@@ -126,6 +126,9 @@ function Settings({ navigation }) {
     } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `voltar`) >= 0.75) {
       goToPage('Home');
       Tts.speak(`Indo para menu`);
+    } else if(StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar constraste`) >= 0.75){
+      changeContrast(constrast);
+      Tts.speak(`Alterando o contraste`);
     } else {
       ToastAndroid.show('Não foi possível reconhecer o comando. Tente novamente', 2000);
       Tts.speak('Let it go! Desculpa, não te entendi. Por favor repita.');
