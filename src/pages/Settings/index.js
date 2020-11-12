@@ -28,6 +28,7 @@ import FloatActionButton from '~/components/FloatActionButton';
 // icons
 import bluetoothIcon from '../../assets/bluetooth.png';
 import locateIcon from '../../assets/locate.png';
+import colorPalette from '../../assets/color-palette.png';
 import micIcon from '../../assets/mic.png';
 
 function Settings({ navigation }) {
@@ -37,12 +38,17 @@ function Settings({ navigation }) {
   const [userName, setUserName] = useState('');
   const [btStatus, setBluetooth] = useState(false);
   const [gpsStatus, setGpsStatus] = useState(false);
+  const [constrast, setContrast] = useState(true);
+  const [btnFirstColor, setBtnFirstColor] = useState('#A9BCD0');
+  const [btnSecondColor, setBtnSecondColor] = useState('#218380');
   const [voiceStatus, setVoiceStatus] = useState(false);
   const [fontSize, setFontSize] = useState('18px');
   const [isSwitchOn, setIsSwitchOn] = useState(location.getLocationIsOn);
 
   useEffect(() => {
+    getContrastStatus();
     getFontSizeFromStorage();
+    getColor();
     checkVoiceIsEnabled();
 
     getStateBluetooth().then((status) => setBluetooth(status));
@@ -120,6 +126,9 @@ function Settings({ navigation }) {
     } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `voltar`) >= 0.75) {
       goToPage('Home');
       Tts.speak(`Indo para menu`);
+    } else if(StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar constraste`) >= 0.75){
+      changeContrast(constrast);
+      Tts.speak(`Alterando o contraste`);
     } else {
       ToastAndroid.show('Não foi possível reconhecer o comando. Tente novamente', 2000);
       Tts.speak('Let it go! Desculpa, não te entendi. Por favor repita.');
@@ -239,7 +248,6 @@ function Settings({ navigation }) {
 
   const getFontSizeFromStorage = async () => {
     const fontSizeStorege = await AsyncStorage.getItem('fontSize');
-    console.log('TAMANHO NO ASYNC ', fontSizeStorege);
 
     setFontSize(fontSize);
   };
@@ -267,6 +275,50 @@ function Settings({ navigation }) {
   const setFontSizeSmall = async () => {
     await AsyncStorage.setItem('fontSize', '16px');
     setFontSize('16px');
+  };
+
+  const getColor = async () => {
+    const firstBtnColor = await AsyncStorage.getItem('btnFirstColor');
+    const secondBtnColor = await AsyncStorage.getItem('btnSecondColor');
+
+    setBtnFirstColor(firstBtnColor);
+    setBtnSecondColor(secondBtnColor);
+  };
+
+  const changeContrast = async (status) => {
+    if (!status) {
+      const whiteColor = await AsyncStorage.setItem('btnFirstColor', '#FFF');
+      const blackColor = await AsyncStorage.setItem('btnSecondColor', '#000');
+
+      const isOn = await AsyncStorage.setItem('contrastMode', 'true');
+
+      setContrast(true);
+      setBtnFirstColor('#FFF');
+      setBtnSecondColor('#000');
+    } else {
+      const whiteColor = await AsyncStorage.setItem('btnFirstColor', '#A9BCD0');
+      const blackColor = await AsyncStorage.setItem(
+        'btnSecondColor',
+        '#218380',
+      );
+      const isOff = await AsyncStorage.setItem('contrastMode', 'false');
+
+      setContrast(false);
+      setBtnFirstColor('#A9BCD0');
+      setBtnSecondColor('#218380');
+    }
+  };
+
+  const getContrastStatus = async () => {
+    let status = await AsyncStorage.getItem('contrastMode');
+
+    if (!status) {
+      status = false;
+    } else {
+      status = status === 'true' ? true : false;
+    }
+
+    setContrast(status);
   };
 
   return (
@@ -313,24 +365,34 @@ function Settings({ navigation }) {
             }}
           />
 
+          <ToggleDefault
+            text="Alterar Contraste"
+            fontSize="24px"
+            value={constrast}
+            icon={colorPalette}
+            onChange={() => {
+              changeContrast(constrast);
+            }}
+          />
+
           <Input
             fontSize={fontSize}
             placeholder="Digite um nome de usuário"
             onChangeText={(text) => setUserName(text)}
           />
-          <Button onPress={saveName}>
+          <Button btnColor={btnSecondColor} onPress={saveName}>
             <TextButton fontSize={fontSize}>Salvar</TextButton>
           </Button>
 
-          <Button onPress={setFontSizeSmall}>
+          <Button btnColor={btnSecondColor} onPress={setFontSizeSmall}>
             <TextButton fontSize={fontSize}>Letra pequena</TextButton>
           </Button>
 
-          <Button onPress={setFontSizeNormal}>
+          <Button btnColor={btnSecondColor} onPress={setFontSizeNormal}>
             <TextButton fontSize={fontSize}>Letra normal</TextButton>
           </Button>
 
-          <Button onPress={setFontSizeLarge}>
+          <Button btnColor={btnSecondColor} onPress={setFontSizeLarge}>
             <TextButton fontSize={fontSize}>Letra grande</TextButton>
           </Button>
         </Container>
