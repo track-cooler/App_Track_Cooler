@@ -5,7 +5,7 @@ import {
   Alert,
   PermissionsAndroid,
   ScrollView,
-  ToastAndroid,
+  ToastAndroid
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -14,7 +14,6 @@ import Geolocation from 'react-native-geolocation-service';
 import Voice from '@react-native-community/voice';
 import StringSimilarity from 'string-similarity';
 import Tts from 'react-native-tts';
-import moment from 'moment';
 import {Location} from '~/services/location';
 
 // styles
@@ -24,11 +23,13 @@ import { Container, Input, Button, TextButton } from './styles';
 import CustomHeader from '~/components/CustomHeader';
 import ToggleDefault from '~/components/Toggle';
 import FloatActionButton from '~/components/FloatActionButton';
+import AlertModal from "~/components/AlertModal";
 
 // icons
 import bluetoothIcon from '../../assets/bluetooth.png';
 import locateIcon from '../../assets/locate.png';
 import micIcon from '../../assets/mic.png';
+import colorPalette from '../../assets/color-palette.png';
 
 function Settings({ navigation }) {
   let location = new Location();
@@ -40,15 +41,20 @@ function Settings({ navigation }) {
   const [voiceStatus, setVoiceStatus] = useState(false);
   const [fontSize, setFontSize] = useState('18px');
   const [isSwitchOn, setIsSwitchOn] = useState(location.getLocationIsOn);
+  const [contrast, setContrast] = useState(true);
+  const [btnFirstColor, setBtnFirstColor] = useState('#A9BCD0');
+  const [btnSecondColor, setBtnSecondColor] = useState('#218380');
+  const [modalDisplay, setModalDisplay] = useState(true);
 
   useEffect(() => {
+    getContrastStatus();
     getFontSizeFromStorage();
     checkVoiceIsEnabled();
 
     getStateBluetooth().then((status) => setBluetooth(status));
     getStateGps().then((status) => setGpsStatus(status));
     getStateVoice().then((status) => setVoiceStatus(status));
-  
+    getColor();
   });
 
   const onToggleSwitch = async (state) => {
@@ -104,6 +110,9 @@ function Settings({ navigation }) {
       changeStateGps(true);
     } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `desativar localização`) >= 0.95) {
       changeStateGps(false);
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar cores`) >= 0.95) {
+      changeContrast(true);
+      Tts.speak('Mudando paleta de cores');
     } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar letra para pequena`) >= 0.75) {
       setFontSizeSmall()
       Tts.speak('Mudando letra para pequena');
@@ -239,7 +248,6 @@ function Settings({ navigation }) {
 
   const getFontSizeFromStorage = async () => {
     const fontSizeStorege = await AsyncStorage.getItem('fontSize');
-    console.log('TAMANHO NO ASYNC ', fontSizeStorege);
 
     setFontSize(fontSize);
   };
@@ -252,6 +260,7 @@ function Settings({ navigation }) {
     } catch (e) {
       Alert.alert(e);
     }
+    setModalDisplay(true);
   };
 
   const setFontSizeLarge = async () => {
@@ -269,9 +278,54 @@ function Settings({ navigation }) {
     setFontSize('16px');
   };
 
+  const getColor = async () => {
+    const firstBtnColor = await AsyncStorage.getItem('btnFirstColor');
+    const secondBtnColor = await AsyncStorage.getItem('btnSecondColor');
+
+    setBtnFirstColor(firstBtnColor);
+    setBtnSecondColor(secondBtnColor);
+  };
+
+  const changeContrast = async (status) => {
+    if (!status) {
+      const whiteColor = await AsyncStorage.setItem('btnFirstColor', '#FFF');
+      const blackColor = await AsyncStorage.setItem('btnSecondColor', '#000');
+
+      const isOn = await AsyncStorage.setItem('contrastMode', 'true');
+
+      setContrast(true);
+      setBtnFirstColor('#FFF');
+      setBtnSecondColor('#000');
+    } else {
+      const whiteColor = await AsyncStorage.setItem('btnFirstColor', '#A9BCD0');
+      const blackColor = await AsyncStorage.setItem(
+        'btnSecondColor',
+        '#218380',
+      );
+      const isOff = await AsyncStorage.setItem('contrastMode', 'false');
+
+      setContrast(false);
+      setBtnFirstColor('#A9BCD0');
+      setBtnSecondColor('#218380');
+    }
+  };
+
+  const getContrastStatus = async () => {
+    let status = await AsyncStorage.getItem('contrastMode');
+
+    if (!status) {
+      status = false;
+    } else {
+      status = status === 'true' ? true : false;
+    }
+
+    setContrast(status);
+  };
+
   return (
     <>
-      <CustomHeader />
+      <AlertModal tittle={"Test tittle"} message={"Message test"} display={modalDisplay}/>
+      <CustomHeader/>
       {voiceStatus ? <FloatActionButton icon={micIcon} onPress={() => startVoice()} /> : null}
 
       <ScrollView>
@@ -313,24 +367,34 @@ function Settings({ navigation }) {
             }}
           />
 
+          <ToggleDefault
+            text="Alterar Contraste"
+            fontSize="24px"
+            value={contrast}
+            icon={colorPalette}
+            onChange={() => {
+              changeContrast(contrast);
+            }}
+          />
+
           <Input
             fontSize={fontSize}
             placeholder="Digite um nome de usuário"
             onChangeText={(text) => setUserName(text)}
           />
-          <Button onPress={saveName}>
+          <Button btnColor={btnSecondColor} onPress={saveName}>
             <TextButton fontSize={fontSize}>Salvar</TextButton>
           </Button>
 
-          <Button onPress={setFontSizeSmall}>
+          <Button btnColor={btnSecondColor} onPress={setFontSizeSmall}>
             <TextButton fontSize={fontSize}>Letra pequena</TextButton>
           </Button>
 
-          <Button onPress={setFontSizeNormal}>
+          <Button btnColor={btnSecondColor} onPress={setFontSizeNormal}>
             <TextButton fontSize={fontSize}>Letra normal</TextButton>
           </Button>
 
-          <Button onPress={setFontSizeLarge}>
+          <Button btnColor={btnSecondColor} onPress={setFontSizeLarge}>
             <TextButton fontSize={fontSize}>Letra grande</TextButton>
           </Button>
         </Container>

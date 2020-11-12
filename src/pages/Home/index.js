@@ -29,11 +29,15 @@ function Home({ navigation }) {
   const [buttonWidth, setButtonWidth] = useState('46%');
   const [fontSize, setFontSize] = useState('18px');
   const [voiceEnabled, setVoiceEnabled] = useState(false);
+  const [btnFirstColor, setBtnFirstColor] = useState('#A9BCD0');
+  const [btnSecondColor, setBtnSecondColor] = useState('#218380');
+
 
   useEffect(() => {
     loadUserName();
     handleFontSize();
     checkVoiceIsEnabled();
+    handleChangeColor();
   });
 
   function initVoiceListeners() {
@@ -121,6 +125,26 @@ function Home({ navigation }) {
     setUserName(name);
   };
 
+  const handleChangeColor = async () => {
+    const firstBtnColor = await AsyncStorage.getItem('btnFirstColor');
+    const secondBtnColor = await AsyncStorage.getItem('btnSecondColor');
+
+    // se existir no asyncStorage pega o valor, se não seta um valor inicial
+    const firstColor = !firstBtnColor ? '#A9BCD0' : firstBtnColor;
+    const secondColor = !secondBtnColor ? '#218380' : secondBtnColor;
+
+    if (!firstBtnColor) {
+      await AsyncStorage.setItem('btnFirstColor', '#A9BCD0');
+    }
+
+    if (!secondBtnColor) {
+      await AsyncStorage.setItem('btnSecondColor', '#218380');
+    }
+
+    setBtnFirstColor(firstColor);
+    setBtnSecondColor(secondColor);
+  }
+
   return (
     <>
       <CustomHeader isHome />
@@ -136,7 +160,7 @@ function Home({ navigation }) {
               text="Info Cooler"
               textColor="#000"
               fontSize={fontSize}
-              btnColor="#A9BCD0"
+              btnColor={btnFirstColor}
               icon={coolerIcon}
               btnHeight="72px"
               btnWidth={buttonWidth}
@@ -147,7 +171,7 @@ function Home({ navigation }) {
               text="Configurações"
               textColor="#fff"
               fontSize={fontSize}
-              btnColor="#218380"
+              btnColor={btnSecondColor}
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={configIcon}
@@ -160,7 +184,7 @@ function Home({ navigation }) {
               text="Conectar Cooler"
               textColor="#fff"
               fontSize={fontSize}
-              btnColor="#218380"
+              btnColor={btnSecondColor}
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={bluetoothIcon}
@@ -171,7 +195,7 @@ function Home({ navigation }) {
               text="Atualizar Cooler"
               textColor="#000"
               fontSize={fontSize}
-              btnColor="#A9BCD0"
+              btnColor={btnFirstColor}
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={refreshIcon}
@@ -183,7 +207,7 @@ function Home({ navigation }) {
           <ButtonsRow>
             <SmallBtn
               text="Quem Somos"
-              btnColor="#218380"
+              btnColor={btnSecondColor}
               fontSize={fontSize}
               btnHeight="80px"
               btnWidth="80px"
@@ -194,7 +218,7 @@ function Home({ navigation }) {
             <ButtonView>
               <SmallBtn
                 text="Sobre o projeto"
-                btnColor="#A9BCD0"
+                btnColor={btnFirstColor}
                 fontSize={fontSize}
                 btnHeight="80px"
                 btnWidth="80px"
