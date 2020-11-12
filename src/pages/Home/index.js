@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ScrollView, ToastAndroid } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {ScrollView, ToastAndroid} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Voice from '@react-native-community/voice';
 import Tts from 'react-native-tts';
@@ -12,7 +12,7 @@ import CustomHeader from '~/components/CustomHeader';
 import FloatActionButton from '~/components/FloatActionButton';
 
 // Styles
-import { Container, ButtonsRow, TextName, InfoText, ButtonView } from './styles';
+import {Container, ButtonsRow, TextName, InfoText, ButtonView} from './styles';
 
 // Icons
 import coolerIcon from '../../assets/cooler.png';
@@ -23,7 +23,7 @@ import quemSomosIcon from '../../assets/quem_somos.png';
 import ideaIcon from '../../assets/idea.png';
 import micIcon from '../../assets/mic.png';
 
-function Home({ navigation }) {
+function Home({navigation}) {
   // states
   const [userName, setUserName] = useState('');
   const [buttonWidth, setButtonWidth] = useState('46%');
@@ -46,7 +46,7 @@ function Home({ navigation }) {
     };
 
     Voice.onSpeechResults = (e) => {
-      console.log('onSpeechResults')
+      console.log('onSpeechResults');
       Voice.destroy();
       const phrase = e.value;
       executeVoiceCommand(phrase);
@@ -61,23 +61,41 @@ function Home({ navigation }) {
 
     if (phraseLowerCase === initialCommand) {
       Tts.speak('Você quer brincar na neve?');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `para configurações`) >= 0.75) {
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'para configurações',
+      ) >= 0.75
+    ) {
       goToPage('Settings');
       Tts.speak('Indo para configurações');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `ver informação`) >= 0.75) {
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'ver informações') >=
+      0.75
+    ) {
       goToPage('Info');
       Tts.speak('Indo para informações');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `conectar`) >= 0.75) {
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'conectar') >= 0.75
+    ) {
       // goToPage('Connect');
       Tts.speak('Indo para conexão');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `quem somos`) >= 0.75) {
-       goToPage('AboutUs');
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'quem somos') >= 0.75
+    ) {
+      goToPage('AboutUs');
       Tts.speak('Indo para quem somos de onde viemos');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `sobre o projeto`) >= 0.75) {
-       goToPage('AboutProject');
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'sobre o projeto') >=
+      0.75
+    ) {
+      goToPage('AboutProject');
       Tts.speak('Esse projeto me dá vontade de me jogar da ponte, ó?');
     } else {
-      ToastAndroid.show('Não foi possível reconhecer o comando. Tente novamente', 2000);
+      ToastAndroid.show(
+        'Não foi possível reconhecer o comando. Tente novamente',
+        2000,
+      );
       Tts.speak('Desculpa, não te entendi. Por favor repita.');
     }
   }
@@ -89,7 +107,7 @@ function Home({ navigation }) {
     } catch (e) {
       console.log('erro ao iniciar ' + e);
     }
-  };
+  }
 
   async function goToPage(page) {
     navigation.navigate(page);
@@ -98,7 +116,7 @@ function Home({ navigation }) {
   }
 
   async function checkVoiceIsEnabled() {
-    const isEnabled = await AsyncStorage.getItem('voiceEnabled') === 'true';
+    const isEnabled = (await AsyncStorage.getItem('voiceEnabled')) === 'true';
     if (isEnabled) {
       initVoiceListeners();
     }
@@ -147,11 +165,12 @@ function Home({ navigation }) {
   return (
     <>
       <CustomHeader isHome />
-      {voiceEnabled ? <FloatActionButton icon={micIcon} onPress={() => startVoice()} /> : null}
+      {voiceEnabled ? (
+        <FloatActionButton icon={micIcon} onPress={() => startVoice()} />
+      ) : null}
 
       <ScrollView>
         <Container>
-
           <TextName fontSize="30px"> Olá, {userName}</TextName>
 
           <ButtonsRow>

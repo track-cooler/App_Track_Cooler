@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   Keyboard,
@@ -8,8 +8,11 @@ import {
   ToastAndroid,
 } from 'react-native';
 
+// api service
+import api from '../../services/api';
+
 import AsyncStorage from '@react-native-community/async-storage';
-import { BleManager } from 'react-native-ble-plx';
+import {BleManager} from 'react-native-ble-plx';
 import Geolocation from 'react-native-geolocation-service';
 import Voice from '@react-native-community/voice';
 import StringSimilarity from 'string-similarity';
@@ -18,7 +21,7 @@ import moment from 'moment';
 import {Location} from '~/services/location';
 
 // styles
-import { Container, Input, Button, TextButton } from './styles';
+import {Container, Input, Button, TextButton} from './styles';
 
 // components
 import CustomHeader from '~/components/CustomHeader';
@@ -31,7 +34,7 @@ import locateIcon from '../../assets/locate.png';
 import colorPalette from '../../assets/color-palette.png';
 import micIcon from '../../assets/mic.png';
 
-function Settings({ navigation }) {
+function Settings({navigation}) {
   let location = new Location();
 
   // states
@@ -54,25 +57,23 @@ function Settings({ navigation }) {
     getStateBluetooth().then((status) => setBluetooth(status));
     getStateGps().then((status) => setGpsStatus(status));
     getStateVoice().then((status) => setVoiceStatus(status));
-  
   });
 
   const onToggleSwitch = async (state) => {
-    if(state) {
+    if (state) {
       const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('permissão concedida');
-          location.startLocation(state);
-
-        } else {
-          console.error('permissão negada');
-        }
-    }else {
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('permissão concedida');
         location.startLocation(state);
+      } else {
+        console.error('permissão negada');
+      }
+    } else {
+      location.startLocation(state);
     }
-  }
+  };
 
   function initVoiceListeners() {
     Voice.onSpeechPartialResults = (e) => {
@@ -81,7 +82,7 @@ function Settings({ navigation }) {
     };
 
     Voice.onSpeechResults = (e) => {
-      console.log('onSpeechResults')
+      console.log('onSpeechResults');
       Voice.stop();
       const phrase = e.value;
       executeVoiceCommand(phrase);
@@ -102,36 +103,77 @@ function Settings({ navigation }) {
 
     if (phraseLowerCase === initialCommand) {
       Tts.speak('Você quer brincar na neve?');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `ligar bluetooth`) >= 0.95) {
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'ligar bluetooth') >=
+      0.95
+    ) {
       changeStateBlutooth(true);
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `desligar bluetooth`) >= 0.95) {
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'desligar bluetooth',
+      ) >= 0.95
+    ) {
       changeStateBlutooth(false);
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `ativar localização`) >= 0.95) {
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'ativar localização',
+      ) >= 0.95
+    ) {
       changeStateGps(true);
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `desativar localização`) >= 0.95) {
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'desativar localização',
+      ) >= 0.95
+    ) {
       changeStateGps(false);
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar letra para pequena`) >= 0.75) {
-      setFontSizeSmall()
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'mudar letra para pequena',
+      ) >= 0.75
+    ) {
+      setFontSizeSmall();
       Tts.speak('Mudando letra para pequena');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar letra para normal`) >= 0.75) {
-      setFontSizeNormal()
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'mudar letra para normal',
+      ) >= 0.75
+    ) {
+      setFontSizeNormal();
       Tts.speak('Mudando letra para normal');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar letra para grande`) >= 0.75) {
-      setFontSizeLarge()
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'mudar letra para grande',
+      ) >= 0.75
+    ) {
+      setFontSizeLarge();
       Tts.speak('Mudando letra para grande');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar nome para`) >= 0.75) {
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'mudar nome para') >=
+      0.75
+    ) {
       const userName = phraseLowerCase.split(' ').pop();
       await AsyncStorage.setItem('username', userName);
       Tts.speak(`Nome alterado para ${userName}`);
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `voltar`) >= 0.75) {
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'voltar') >= 0.75
+    ) {
       goToPage('Home');
       Tts.speak(`Indo para menu`);
     } else if(StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar constraste`) >= 0.75){
       changeContrast(constrast);
       Tts.speak(`Alterando o contraste`);
     } else {
-      ToastAndroid.show('Não foi possível reconhecer o comando. Tente novamente', 2000);
-      Tts.speak('Let it go! Desculpa, não te entendi. Por favor repita.');
+      ToastAndroid.show(
+        'Não foi possível reconhecer o comando. Tente novamente',
+        2000,
+      );
+      Tts.speak(' Desculpa, não te entendi. Por favor repita.');
     }
   }
 
@@ -142,7 +184,7 @@ function Settings({ navigation }) {
     } catch (e) {
       console.log('erro ao iniciar ' + e);
     }
-  };
+  }
 
   async function goToPage(page) {
     navigation.navigate(page);
@@ -188,8 +230,7 @@ function Settings({ navigation }) {
         }
       }
       setBluetooth(state);
-    } catch (e) { }
-
+    } catch (e) {}
   };
 
   const changeStateGps = async (state) => {
@@ -324,7 +365,9 @@ function Settings({ navigation }) {
   return (
     <>
       <CustomHeader />
-      {voiceStatus ? <FloatActionButton icon={micIcon} onPress={() => startVoice()} /> : null}
+      {voiceStatus ? (
+        <FloatActionButton icon={micIcon} onPress={() => startVoice()} />
+      ) : null}
 
       <ScrollView>
         <Container>
