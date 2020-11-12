@@ -1,5 +1,5 @@
 export default function fontSizeReducer(state = 18, action) {
-  console.log(state);
+  // console.log(state);
 
   switch (action.type) {
     case 'INCREASE_FONT_SIZE':
