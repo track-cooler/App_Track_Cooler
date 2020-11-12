@@ -39,10 +39,10 @@ export const Section = styled.View`
   flex-direction: row;
   align-items: center;
   borderBottomColor: #ccc;
-  borderBottomWidth: 1;
+  borderBottomWidth: 1px;
   margin-top: 25px;
   margin-bottom: 10px;
-  height: 50;
+  height: 50px;
 `;
 
 // Text

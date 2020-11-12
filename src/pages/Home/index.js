@@ -1,14 +1,18 @@
-import React, {useState, useEffect} from 'react';
-import {ScrollView} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, ToastAndroid } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import Voice from '@react-native-community/voice';
+import Tts from 'react-native-tts';
+import StringSimilarity from 'string-similarity';
 
 // Components
 import BtnDefault from '~/components/BtnDefault';
 import SmallBtn from '~/components/SmallBtn';
 import CustomHeader from '~/components/CustomHeader';
+import FloatActionButton from '~/components/FloatActionButton';
 
 // Styles
-import {Container, ButtonsRow, TextName, InfoText, ButtonView} from './styles';
+import { Container, ButtonsRow, TextName, InfoText, ButtonView } from './styles';
 
 // Icons
 import coolerIcon from '../../assets/cooler.png';
@@ -17,20 +21,89 @@ import bluetoothIcon from '../../assets/bluetooth.png';
 import refreshIcon from '../../assets/refresh.png';
 import quemSomosIcon from '../../assets/quem_somos.png';
 import ideaIcon from '../../assets/idea.png';
+import micIcon from '../../assets/mic.png';
 
-function Home({navigation}) {
+function Home({ navigation }) {
   // states
   const [userName, setUserName] = useState('');
   const [buttonWidth, setButtonWidth] = useState('46%');
   const [fontSize, setFontSize] = useState('18px');
   const [btnFirstColor, setBtnFirstColor] = useState('#A9BCD0');
   const [btnSecondColor, setBtnSecondColor] = useState('#218380');
+  const [voiceEnabled, setVoiceEnabled] = useState(false);
 
   useEffect(() => {
     loadUserName();
     handleFontSize();
     handleChangeColor();
+    checkVoiceIsEnabled();
   });
+
+  function initVoiceListeners() {
+    Voice.onSpeechPartialResults = (e) => {
+      console.log('onSpeechPartialResults');
+      console.log(e);
+    };
+
+    Voice.onSpeechResults = (e) => {
+      console.log('onSpeechResults')
+      Voice.destroy();
+      const phrase = e.value;
+      executeVoiceCommand(phrase);
+    };
+  }
+
+  async function executeVoiceCommand(phrase) {
+    const phraseLowerCase = phrase[0].toLowerCase();
+    const initialCommand = 'elsa';
+
+    console.log('Elsa ouviu isto: ' + phraseLowerCase);
+
+    if (phraseLowerCase === initialCommand) {
+      Tts.speak('Você quer brincar na neve?');
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `para configurações`) >= 0.75) {
+      goToPage('Settings');
+      Tts.speak('Indo para configurações');
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `ver informação`) >= 0.75) {
+      goToPage('Info');
+      Tts.speak('Indo para informações');
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `conectar`) >= 0.75) {
+      // goToPage('Connect');
+      Tts.speak('Indo para conexão');
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `quem somos`) >= 0.75) {
+       goToPage('AboutUs');
+      Tts.speak('Indo para quem somos de onde viemos');
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `sobre o projeto`) >= 0.75) {
+       goToPage('AboutProject');
+      Tts.speak('Esse projeto me dá vontade de me jogar da ponte, ó?');
+    } else {
+      ToastAndroid.show('Não foi possível reconhecer o comando. Tente novamente', 2000);
+      Tts.speak('Desculpa, não te entendi. Por favor repita.');
+    }
+  }
+
+  async function startVoice() {
+    try {
+      await Voice.start('pt-BR');
+      const isRecognizing = await Voice.isRecognizing();
+    } catch (e) {
+      console.log('erro ao iniciar ' + e);
+    }
+  };
+
+  async function goToPage(page) {
+    navigation.navigate(page);
+    Voice.removeAllListeners();
+    console.log(await Voice.stop());
+  }
+
+  async function checkVoiceIsEnabled() {
+    const isEnabled = await AsyncStorage.getItem('voiceEnabled') === 'true';
+    if (isEnabled) {
+      initVoiceListeners();
+    }
+    setVoiceEnabled(isEnabled);
+  }
 
   const handleFontSize = async () => {
     const fontSizeStorage = await AsyncStorage.getItem('fontSize');
@@ -74,8 +147,11 @@ function Home({navigation}) {
   return (
     <>
       <CustomHeader isHome />
+      {voiceEnabled ? <FloatActionButton icon={micIcon} onPress={() => startVoice()} /> : null}
+
       <ScrollView>
         <Container>
+
           <TextName fontSize="30px"> Olá, {userName}</TextName>
 
           <ButtonsRow>
@@ -87,7 +163,7 @@ function Home({navigation}) {
               icon={coolerIcon}
               btnHeight="72px"
               btnWidth={buttonWidth}
-              onPress={() => console.log('Informações Cooler')}
+              onPress={() => goToPage('Info')}
             />
 
             <BtnDefault
@@ -98,7 +174,7 @@ function Home({navigation}) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={configIcon}
-              onPress={() => navigation.navigate('Settings')}
+              onPress={() => goToPage('Settings')}
             />
           </ButtonsRow>
 
@@ -111,7 +187,7 @@ function Home({navigation}) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={bluetoothIcon}
-              onPress={() => console.log('Conectar Cooler')}
+              onPress={() => console.log('Conectar')}
             />
 
             <BtnDefault
@@ -135,7 +211,7 @@ function Home({navigation}) {
               btnHeight="80px"
               btnWidth="80px"
               icon={quemSomosIcon}
-              onPress={() => console.log('Sobre Nós')}
+              onPress={() => goToPage('AboutUs')}
             />
 
             <ButtonView>
@@ -146,7 +222,7 @@ function Home({navigation}) {
                 btnHeight="80px"
                 btnWidth="80px"
                 icon={ideaIcon}
-                onPress={() => console.log('Sobre o Projeto')}
+                onPress={() => goToPage('AboutProject')}
               />
             </ButtonView>
           </ButtonsRow>
