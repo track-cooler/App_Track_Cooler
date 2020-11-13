@@ -324,7 +324,6 @@ function Settings({ navigation }) {
 
   return (
     <>
-      <AlertModal title={"Alert"} message={"Alert message"}/>
       <CustomHeader/>
       {voiceStatus ? <FloatActionButton icon={micIcon} onPress={() => startVoice()} /> : null}
 

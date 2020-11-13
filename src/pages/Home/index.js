@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Voice from '@react-native-community/voice';
 import Tts from 'react-native-tts';
 import StringSimilarity from 'string-similarity';
+import api from '../../services/api'
 
 // Components
 import BtnDefault from '~/components/BtnDefault';
@@ -18,10 +19,12 @@ import { Container, ButtonsRow, TextName, InfoText, ButtonView } from './styles'
 import coolerIcon from '../../assets/cooler.png';
 import configIcon from '../../assets/config.png';
 import bluetoothIcon from '../../assets/bluetooth.png';
-import refreshIcon from '../../assets/refresh.png';
 import quemSomosIcon from '../../assets/quem_somos.png';
 import ideaIcon from '../../assets/idea.png';
 import micIcon from '../../assets/mic.png';
+import escoarIcon from '../../assets/escoar.png';
+
+let command = false;
 
 function Home({ navigation }) {
   // states
@@ -54,6 +57,21 @@ function Home({ navigation }) {
     };
   }
 
+  async function sendCommandDrain() {
+  // Send a POST request
+    command = !command;
+    console.log(command);
+      if(command) {
+        await api.post('/drain-water-command', {
+          command: 'True',
+        });
+      }else{
+        await api.post('/drain-water-command', {
+          command: 'false',
+        });
+      }
+  }
+
   async function executeVoiceCommand(phrase) {
     const phraseLowerCase = phrase[0].toLowerCase();
     const initialCommand = 'elsa';
@@ -74,6 +92,12 @@ function Home({ navigation }) {
     } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `quem somos`) >= 0.75) {
        goToPage('AboutUs');
       Tts.speak('Indo para quem somos de onde viemos');
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `escoar água`) >= 0.75) {
+      sendCommandDrain();
+      Tts.speak('Água está sendo escoada');
+    }else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `parar de escoar água`) >= 0.75) {
+      sendCommandDrain();
+      Tts.speak('Água não está sendo escoada');
     } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `sobre o projeto`) >= 0.75) {
        goToPage('AboutProject');
       Tts.speak('Esse projeto me dá vontade de me jogar da ponte, ó?');
@@ -192,14 +216,14 @@ function Home({ navigation }) {
             />
 
             <BtnDefault
-              text="Atualizar Cooler"
+              text="Escoar água"
               textColor="#000"
               fontSize={fontSize}
               btnColor={btnFirstColor}
               btnHeight="72px"
               btnWidth={buttonWidth}
-              icon={refreshIcon}
-              onPress={() => console.log('Atualizar Cooler')}
+              icon={escoarIcon}
+              onPress={() => sendCommandDrain()}
             />
           </ButtonsRow>
 
