@@ -21,7 +21,14 @@ import moment from 'moment';
 import {Location} from '~/services/location';
 
 // styles
-import {Container, Input, Button, TextButton} from './styles';
+import {
+  Container,
+  Input,
+  Button,
+  TextButton,
+  Section,
+  InfoText,
+} from './styles';
 
 // components
 import CustomHeader from '~/components/CustomHeader';
@@ -421,14 +428,22 @@ function Settings({navigation}) {
             }}
           />
 
+          <Section>
+            <InfoText fontSize="25px"> Seu Nome </InfoText>
+          </Section>
           <Input
             fontSize={fontSize}
             placeholder="Digite um nome de usuário"
             onChangeText={(text) => setUserName(text)}
           />
+
           <Button btnColor={btnSecondColor} onPress={saveName}>
             <TextButton fontSize={fontSize}>Salvar</TextButton>
           </Button>
+
+          <Section>
+            <InfoText fontSize="25px"> Alterar Fonte </InfoText>
+          </Section>
 
           <Button btnColor={btnSecondColor} onPress={setFontSizeSmall}>
             <TextButton fontSize={fontSize}>Letra pequena</TextButton>

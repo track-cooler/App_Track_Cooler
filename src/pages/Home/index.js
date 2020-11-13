@@ -153,14 +153,14 @@ function Home({navigation}) {
     if (!firstBtnColor) {
       await AsyncStorage.setItem('btnFirstColor', '#A9BCD0');
     }
-    
+
     if (!secondBtnColor) {
       await AsyncStorage.setItem('btnSecondColor', '#218380');
     }
 
     setBtnFirstColor(firstColor);
     setBtnSecondColor(secondColor);
-  }
+  };
 
   return (
     <>
@@ -206,7 +206,7 @@ function Home({navigation}) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={bluetoothIcon}
-              onPress={() => console.log('Conectar')}
+              onPress={() => goToPage('BluetoothConnection')}
             />
 
             <BtnDefault
