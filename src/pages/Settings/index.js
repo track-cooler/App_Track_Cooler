@@ -5,7 +5,7 @@ import {
   Alert,
   PermissionsAndroid,
   ScrollView,
-  ToastAndroid, StyleSheet, View, TouchableHighlight, Modal,
+  ToastAndroid, StyleSheet, View, TouchableHighlight, Modal, Vibration,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -73,7 +73,9 @@ function Settings({ navigation }) {
               console.log('AQUI',count);
               count++;
               if(count === 10) {
+                Vibration.vibrate(10 * 1000);
                 setModalVisible2(true);
+                Tts.speak('cooler parou de te seguir, por favor verificar cooler');
                 count = 0;
               }
             }, 4000);
@@ -133,6 +135,9 @@ function Settings({ navigation }) {
       changeStateGps(false);
     } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar cores`) >= 0.95) {
       changeContrast(true);
+      Tts.speak('Mudando paleta de cores');
+    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `reverter cores`) >= 0.95) {
+      changeContrast(false);
       Tts.speak('Mudando paleta de cores');
     } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar letra para pequena`) >= 0.75) {
       setFontSizeSmall()

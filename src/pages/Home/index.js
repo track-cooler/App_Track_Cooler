@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, ToastAndroid, Modal, StyleSheet, View, Text, TouchableHighlight } from 'react-native';
+import {ScrollView, ToastAndroid, Modal, StyleSheet, View, Text, TouchableHighlight, Vibration} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Voice from '@react-native-community/voice';
 import Tts from 'react-native-tts';
@@ -23,7 +23,6 @@ import quemSomosIcon from '../../assets/quem_somos.png';
 import ideaIcon from '../../assets/idea.png';
 import micIcon from '../../assets/mic.png';
 import escoarIcon from '../../assets/escoar.png';
-import Geolocation from "react-native-geolocation-service";
 
 let count = 0;
 
@@ -44,6 +43,9 @@ function Home({ navigation }) {
     count++;
     if(count === 20) {
       console.log('onSpeechPartialResults');
+      Vibration.vibrate(1000);
+
+      Tts.speak('cooler foi desconectado, por favor verificar cooler');
       setModalVisible(true);
     }
   }, 4000);
@@ -249,7 +251,7 @@ function Home({ navigation }) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={bluetoothIcon}
-              onPress={() => console.log('Conectar Cooler')}
+              onPress={() =>  console.log('Conectar Cooler')}
             />
 
             <BtnDefault
