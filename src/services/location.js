@@ -1,7 +1,6 @@
 import moment from 'moment';
 import {useState, useEffect} from 'react';
 import Geolocation from 'react-native-geolocation-service';
-import api from "~/services/api";
 
 // api service
 import api from './api';
@@ -11,7 +10,6 @@ let isOn = false;
 
 export class Location {
   userPosition;
-
 
   startLocation(switchValue) {
     isOn = true;

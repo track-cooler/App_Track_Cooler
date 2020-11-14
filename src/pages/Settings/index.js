@@ -5,7 +5,12 @@ import {
   Alert,
   PermissionsAndroid,
   ScrollView,
-  ToastAndroid, StyleSheet, View, TouchableHighlight, Modal, Vibration,
+  ToastAndroid,
+  StyleSheet,
+  View,
+  TouchableHighlight,
+  Modal,
+  Vibration,
 } from 'react-native';
 
 // api service
@@ -33,21 +38,18 @@ import {
 import CustomHeader from '~/components/CustomHeader';
 import ToggleDefault from '~/components/Toggle';
 import FloatActionButton from '~/components/FloatActionButton';
-import AlertModal from "~/components/AlertModal";
+import AlertModal from '~/components/AlertModal';
 
 // icons
 import bluetoothIcon from '../../assets/bluetooth.png';
 import locateIcon from '../../assets/locate.png';
 import colorPalette from '../../assets/color-palette.png';
 import micIcon from '../../assets/mic.png';
-import colorPalette from '../../assets/color-palette.png';
 import followIcon from '../../assets/follow.png';
 
-
-function Settings({navigation}) {
+export default function Settings({navigation}) {
   let location = new Location();
   let intervalID;
-
 
   // states
   const [userName, setUserName] = useState('');
@@ -59,12 +61,9 @@ function Settings({navigation}) {
   const [voiceStatus, setVoiceStatus] = useState(false);
   const [fontSize, setFontSize] = useState('18px');
   const [isSwitchOn, setIsSwitchOn] = useState(location.getLocationIsOn);
-  const [contrast, setContrast] = useState(true);
-  const [btnFirstColor, setBtnFirstColor] = useState('#A9BCD0');
-  const [btnSecondColor, setBtnSecondColor] = useState('#218380');
   const [modalVisible2, setModalVisible2] = useState(false);
   const [followStatus, setFollowStatus] = useState(false);
-
+  const [modalDisplay, setModalDisplay] = useState(false);
 
   useEffect(() => {
     getContrastStatus();
@@ -80,54 +79,44 @@ function Settings({navigation}) {
     getColor();
   });
 
-
-
   const onToggleSwitch = async (state) => {
     let count = 0;
-    if(state) {
+    if (state) {
       const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('permissão concedida');
-            console.log('StarModal');
-            const status = await AsyncStorage.getItem('voiceEnabled') === 'true';
-            let aux = status;
-            intervalID = setInterval(() => {
-              console.log('AUX2',aux);
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('permissão concedida');
+        console.log('StarModal');
+        const status = (await AsyncStorage.getItem('voiceEnabled')) === 'true';
+        let aux = status;
+        intervalID = setInterval(() => {
+          console.log('AUX2', aux);
 
-              console.log('PREPARANDO MODAL2');
-              count++;
-              if (count === 10) {
-                onToggleSwitch(false);
-                setIsSwitchOn(false);
-                console.log('Executando modal2');
-                if(aux === true){
-                  Vibration.vibrate(1000);
-                  Tts.speak('Cooler parou de te seguir, por favor verificar cooler');
-                }else{
-                  setModalVisible2(true);
-                }
-              }
-            }, 4000);
+          console.log('PREPARANDO MODAL2');
+          count++;
+          if (count === 10) {
+            onToggleSwitch(false);
+            setIsSwitchOn(false);
+            console.log('Executando modal2');
+            if (aux === true) {
+              Vibration.vibrate(1000);
+              Tts.speak(
+                'Cooler parou de te seguir, por favor verificar cooler',
+              );
+            } else {
+              setModalVisible2(true);
+            }
+          }
+        }, 4000);
 
-
-          location.startLocation(state);
-
-        } else {
-          console.error('permissão negada');
-        }
-    }else {
         location.startLocation(state);
       } else {
         console.error('permissão negada');
       }
-    } else {
-      location.startLocation(state);
     }
-  }
-  console.log(true);
-
+    console.log(true);
+  };
   function initVoiceListeners() {
     Voice.onSpeechPartialResults = (e) => {
       console.log('onSpeechPartialResults');
@@ -168,22 +157,41 @@ function Settings({navigation}) {
       ) >= 0.95
     ) {
       changeStateBlutooth(false);
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `ativar localização`) >= 0.95) {
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'ativar localização',
+      ) >= 0.95
+    ) {
       onToggleSwitch(true);
       setIsSwitchOn(true);
       console.log('setIsSwitchOn ', isSwitchOn);
-
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `desativar localização`) >= 0.95) {
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'desativar localização',
+      ) >= 0.95
+    ) {
       onToggleSwitch(false);
       setIsSwitchOn(false);
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar cores`) >= 0.95) {
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'mudar cores') >= 0.95
+    ) {
       changeContrast(true);
       Tts.speak('Mudando paleta de cores');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `reverter cores`) >= 0.95) {
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'reverter cores') >=
+      0.95
+    ) {
       changeContrast(false);
       Tts.speak('Mudando paleta de cores');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar letra para pequena`) >= 0.75) {
-      setFontSizeSmall()
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'mudar letra para pequena',
+      ) >= 0.75
+    ) {
+      setFontSizeSmall();
       Tts.speak('Mudando letra para pequena');
     } else if (
       StringSimilarity.compareTwoStrings(
@@ -212,10 +220,13 @@ function Settings({navigation}) {
       StringSimilarity.compareTwoStrings(phraseLowerCase, 'voltar') >= 0.75
     ) {
       goToPage('Home');
-      Tts.speak(`Indo para menu`);
-    } else if(StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar constraste`) >= 0.75){
+      Tts.speak('Indo para menu');
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'mudar constraste') >=
+      0.75
+    ) {
       changeContrast(constrast);
-      Tts.speak(`Alterando o contraste`);
+      Tts.speak('Alterando o contraste');
     } else {
       ToastAndroid.show(
         'Não foi possível reconhecer o comando. Tente novamente',
@@ -442,7 +453,6 @@ function Settings({navigation}) {
 
   return (
     <>
-
       <CustomHeader />
       {voiceStatus ? (
         <FloatActionButton icon={micIcon} onPress={() => startVoice()} />
@@ -450,25 +460,25 @@ function Settings({navigation}) {
       <ScrollView>
         <Container>
           <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalVisible2}
-              onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
-              }}
-          >
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible2}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+            }}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Text style={styles.modalText}>Cooler parou de te seguir, por favor verificar cooler</Text>
+                <Text style={styles.modalText}>
+                  Cooler parou de te seguir, por favor verificar cooler
+                </Text>
 
                 <TouchableHighlight
-                    style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                    onPress={() => {
-                      setModalVisible2(!modalVisible2);
-                      clearInterval(intervalID);
-                    }}
-                >
-                  <Text style={styles.textStyle}>     OK     </Text>
+                  style={{...styles.openButton, backgroundColor: '#2196F3'}}
+                  onPress={() => {
+                    setModalVisible2(!modalVisible2);
+                    clearInterval(intervalID);
+                  }}>
+                  <Text style={styles.textStyle}> OK </Text>
                 </TouchableHighlight>
               </View>
             </View>
@@ -493,7 +503,6 @@ function Settings({navigation}) {
               event.persist();
               onToggleSwitch(event.nativeEvent.value).then(() => {
                 setIsSwitchOn(event.nativeEvent.value);
-
               });
             }}
           />
@@ -568,53 +577,50 @@ function Settings({navigation}) {
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
   },
   modalView: {
-    display: "flex",
-    padding: "15px 22px",
-    width: "88%",
+    display: 'flex',
+    padding: '15px 22px',
+    width: '88%',
     margin: 20,
-    backgroundColor: "#218380",
+    backgroundColor: '#218380',
     borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
   },
   openButton: {
-    backgroundColor: "#77B6EA",
+    backgroundColor: '#77B6EA',
     borderRadius: 20,
     padding: 10,
     elevation: 2,
     width: 122,
-    display: "flex"
+    display: 'flex',
   },
   textStyle: {
-    fontWeight: "bold",
-    textAlign: "center",
-    fontFamily: "Montserrat",
-    fontStyle: "normal",
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontFamily: 'Montserrat',
+    fontStyle: 'normal',
     fontSize: 15,
-    color: "#FFFFFF"
+    color: '#FFFFFF',
   },
   modalText: {
-    fontFamily: "Montserrat",
-    fontStyle: "normal",
-    fontWeight: "bold",
+    fontFamily: 'Montserrat',
+    fontStyle: 'normal',
+    fontWeight: 'bold',
     fontSize: 25,
-    color: "#FFFFFF",
+    color: '#FFFFFF',
     marginBottom: 15,
-    textAlign: "center"
-  }
+    textAlign: 'center',
+  },
 });
-
-export default Settings;

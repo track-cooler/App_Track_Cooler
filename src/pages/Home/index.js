@@ -1,10 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import {ScrollView, ToastAndroid, Modal, StyleSheet, View, Text, TouchableHighlight, Vibration} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  ScrollView,
+  ToastAndroid,
+  Modal,
+  StyleSheet,
+  View,
+  Text,
+  TouchableHighlight,
+  Vibration,
+  Alert,
+} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Voice from '@react-native-community/voice';
 import Tts from 'react-native-tts';
 import StringSimilarity from 'string-similarity';
-import api from '../../services/api'
+import api from '../../services/api';
 
 // Components
 import BtnDefault from '~/components/BtnDefault';
@@ -27,9 +37,7 @@ import escoarIcon from '../../assets/escoar.png';
 let count = 0;
 
 let command = false;
- function Home({ navigation }) {
-  let intervalID;
-
+let intervalID;
 
 function Home({navigation}) {
   // states
@@ -40,7 +48,6 @@ function Home({navigation}) {
   const [btnSecondColor, setBtnSecondColor] = useState('#218380');
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-
 
   useEffect(() => {
     loadUserName();
@@ -64,19 +71,19 @@ function Home({navigation}) {
     };
   }
 
-   async function sendCommandDrain() {
-  // Send a POST request
+  async function sendCommandDrain() {
+    // Send a POST request
     command = !command;
     console.log(command);
-      if(command) {
-        await api.post('/drain-water-command', {
-          command: 'True',
-        });
-      }else{
-        await api.post('/drain-water-command', {
-          command: 'false',
-        });
-      }
+    if (command) {
+      await api.post('/drain-water-command', {
+        command: 'True',
+      });
+    } else {
+      await api.post('/drain-water-command', {
+        command: 'false',
+      });
+    }
   }
 
   async function executeVoiceCommand(phrase) {
@@ -111,14 +118,24 @@ function Home({navigation}) {
     ) {
       goToPage('AboutUs');
       Tts.speak('Indo para quem somos de onde viemos');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `escoar água`) >= 0.75) {
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'escoar água') >= 0.75
+    ) {
       sendCommandDrain();
       Tts.speak('Água está sendo escoada');
-    }else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `parar de escoar água`) >= 0.75) {
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'parar de escoar água',
+      ) >= 0.75
+    ) {
       sendCommandDrain();
       Tts.speak('Água não está sendo escoada');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `sobre o projeto`) >= 0.75) {
-       goToPage('AboutProject');
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'sobre o projeto') >=
+      0.75
+    ) {
+      goToPage('AboutProject');
       Tts.speak('Esse projeto me dá vontade de me jogar da ponte, ó?');
     } else {
       ToastAndroid.show(
@@ -165,30 +182,28 @@ function Home({navigation}) {
     setFontSize(size);
   };
 
-  const startModal = async () =>{
+  const startModal = async () => {
     console.log('StarModal');
 
-
-    const status = await AsyncStorage.getItem('voiceEnabled') === 'true';
+    const status = (await AsyncStorage.getItem('voiceEnabled')) === 'true';
     let aux = status;
     intervalID = setInterval(() => {
-      console.log('AUX',aux);
+      console.log('AUX', aux);
 
       console.log('PREPARANDO MODAL');
       count++;
       if (count === 10) {
         console.log('Executando modal');
-        if(aux === true){
+        if (aux === true) {
           Vibration.vibrate(1000);
 
           Tts.speak('cooler foi desconectado, por favor verificar cooler');
-        }else{
+        } else {
           setModalVisible(true);
         }
       }
     }, 4000);
-  }
-
+  };
 
   const loadUserName = async () => {
     const asyncName = await AsyncStorage.getItem('username');
@@ -226,25 +241,25 @@ function Home({navigation}) {
       <ScrollView>
         <Container>
           <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
-              }}
-          >
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+            }}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Text style={styles.modalText}>O Cooler foi desconectado, por favor verificar cooler.</Text>
+                <Text style={styles.modalText}>
+                  O Cooler foi desconectado, por favor verificar cooler.
+                </Text>
 
                 <TouchableHighlight
-                    style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                    onPress={() => {
-                      clearInterval(intervalID);
-                      setModalVisible(!modalVisible);
-                    }}
-                >
-                  <Text style={styles.textStyle}>     ok     </Text>
+                  style={{...styles.openButton, backgroundColor: '#2196F3'}}
+                  onPress={() => {
+                    clearInterval(intervalID);
+                    setModalVisible(!modalVisible);
+                  }}>
+                  <Text style={styles.textStyle}> ok </Text>
                 </TouchableHighlight>
               </View>
             </View>
@@ -297,7 +312,7 @@ function Home({navigation}) {
               btnWidth={buttonWidth}
               icon={escoarIcon}
               onPress={() => sendCommandDrain()}
-              />
+            />
           </ButtonsRow>
 
           <InfoText fontSize="25px"> Mais sobre nós </InfoText>
@@ -330,58 +345,55 @@ function Home({navigation}) {
   );
 }
 
-
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
   },
   modalView: {
-    display: "flex",
-    padding: "15px 22px",
-    width: "88%",
+    display: 'flex',
+    padding: '15px 22px',
+    width: '88%',
     margin: 20,
-    backgroundColor: "#218380",
+    backgroundColor: '#218380',
     borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
   },
   openButton: {
-    backgroundColor: "#77B6EA",
+    backgroundColor: '#77B6EA',
     borderRadius: 20,
     padding: 10,
     elevation: 2,
     width: 122,
-    display: "flex"
+    display: 'flex',
   },
   textStyle: {
-    fontWeight: "bold",
-    textAlign: "center",
-    fontFamily: "Montserrat",
-    fontStyle: "normal",
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontFamily: 'Montserrat',
+    fontStyle: 'normal',
     fontSize: 15,
-    color: "#FFFFFF"
+    color: '#FFFFFF',
   },
   modalText: {
-    fontFamily: "Montserrat",
-    fontStyle: "normal",
-    fontWeight: "bold",
+    fontFamily: 'Montserrat',
+    fontStyle: 'normal',
+    fontWeight: 'bold',
     fontSize: 25,
-    color: "#FFFFFF",
+    color: '#FFFFFF',
     marginBottom: 15,
-    textAlign: "center"
-  }
+    textAlign: 'center',
+  },
 });
-}
 
 export default Home;
