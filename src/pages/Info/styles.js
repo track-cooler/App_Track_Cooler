@@ -3,13 +3,13 @@ import styled from 'styled-components/native';
 //Scroll View
 export const ScrollContainer = styled.ScrollView.attrs({
   front: true,
-  contentContainerStyle: { paddingUp: 10, paddingDown: 30},
+  contentContainerStyle: {paddingUp: 10, paddingDown: 30},
   showsFrontScrollIndicator: false,
 })``;
 
 export const Container = styled.View`
   flex: 1;
-  padding: 15px;
+  padding: 20px;
   background-color: #eff1f9;
 `;
 
@@ -38,8 +38,8 @@ export const Title = styled.View`
 export const Section = styled.View`
   flex-direction: row;
   align-items: center;
-  borderBottomColor: #ccc;
-  borderBottomWidth: 1px;
+  border-bottom-color: #ccc;
+  border-bottom-width: 1px;
   margin-top: 25px;
   margin-bottom: 10px;
   height: 50px;
@@ -74,19 +74,19 @@ export const HistoryCard = styled.View`
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background: #FFF;
+  background: #fff;
   border-radius: 8px;
   margin-top: 10px;
 `;
 
 export const Date = styled.View`
   width: 350;
-  background: #FFF;
+  background: #fff;
 `;
 
 //Line
 export const Line = styled.View`
-  flexDirection: row;
-  borderBottomColor: #ccc;
-  borderBottomWidth: 1;
+  flex-direction: row;
+  border-bottom-color: #ccc;
+  border-bottom-width: 1;
 `;

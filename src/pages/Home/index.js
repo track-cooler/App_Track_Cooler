@@ -13,7 +13,7 @@ import CustomHeader from '~/components/CustomHeader';
 import FloatActionButton from '~/components/FloatActionButton';
 
 // Styles
-import { Container, ButtonsRow, TextName, InfoText, ButtonView } from './styles';
+import {Container, ButtonsRow, TextName, InfoText, ButtonView} from './styles';
 
 // Icons
 import coolerIcon from '../../assets/cooler.png';
@@ -31,10 +31,13 @@ let command = false;
   let intervalID;
 
 
+function Home({navigation}) {
   // states
   const [userName, setUserName] = useState('');
   const [buttonWidth, setButtonWidth] = useState('46%');
   const [fontSize, setFontSize] = useState('18px');
+  const [btnFirstColor, setBtnFirstColor] = useState('#A9BCD0');
+  const [btnSecondColor, setBtnSecondColor] = useState('#218380');
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [btnFirstColor, setBtnFirstColor] = useState('#A9BCD0');
   const [btnSecondColor, setBtnSecondColor] = useState('#218380');
@@ -44,6 +47,7 @@ let command = false;
   useEffect(() => {
     loadUserName();
     handleFontSize();
+    handleChangeColor();
     checkVoiceIsEnabled();
     handleChangeColor();
   });
@@ -55,7 +59,7 @@ let command = false;
     };
 
     Voice.onSpeechResults = (e) => {
-      console.log('onSpeechResults')
+      console.log('onSpeechResults');
       Voice.destroy();
       const phrase = e.value;
       executeVoiceCommand(phrase);
@@ -85,17 +89,29 @@ let command = false;
 
     if (phraseLowerCase === initialCommand) {
       Tts.speak('Você quer brincar na neve?');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `para configurações`) >= 0.75) {
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'para configurações',
+      ) >= 0.75
+    ) {
       goToPage('Settings');
       Tts.speak('Indo para configurações');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `ver informação`) >= 0.75) {
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'ver informações') >=
+      0.75
+    ) {
       goToPage('Info');
       Tts.speak('Indo para informações');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `conectar`) >= 0.75) {
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'conectar') >= 0.75
+    ) {
       // goToPage('Connect');
       Tts.speak('Indo para conexão');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `quem somos`) >= 0.75) {
-       goToPage('AboutUs');
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'quem somos') >= 0.75
+    ) {
+      goToPage('AboutUs');
       Tts.speak('Indo para quem somos de onde viemos');
     } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `escoar água`) >= 0.75) {
       sendCommandDrain();
@@ -107,7 +123,10 @@ let command = false;
        goToPage('AboutProject');
       Tts.speak('Esse projeto me dá vontade de me jogar da ponte, ó?');
     } else {
-      ToastAndroid.show('Não foi possível reconhecer o comando. Tente novamente', 2000);
+      ToastAndroid.show(
+        'Não foi possível reconhecer o comando. Tente novamente',
+        2000,
+      );
       Tts.speak('Desculpa, não te entendi. Por favor repita.');
     }
   }
@@ -119,7 +138,7 @@ let command = false;
     } catch (e) {
       console.log('erro ao iniciar ' + e);
     }
-  };
+  }
 
   async function goToPage(page) {
     navigation.navigate(page);
@@ -128,7 +147,7 @@ let command = false;
   }
 
   async function checkVoiceIsEnabled() {
-    const isEnabled = await AsyncStorage.getItem('voiceEnabled') === 'true';
+    const isEnabled = (await AsyncStorage.getItem('voiceEnabled')) === 'true';
     if (isEnabled) {
       initVoiceListeners();
     }
@@ -202,7 +221,9 @@ let command = false;
   return (
     <>
       <CustomHeader isHome />
-      {voiceEnabled ? <FloatActionButton icon={micIcon} onPress={() => startVoice()} /> : null}
+      {voiceEnabled ? (
+        <FloatActionButton icon={micIcon} onPress={() => startVoice()} />
+      ) : null}
 
       <ScrollView>
         <Container>
