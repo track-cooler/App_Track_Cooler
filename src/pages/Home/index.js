@@ -23,9 +23,12 @@ import quemSomosIcon from '../../assets/quem_somos.png';
 import ideaIcon from '../../assets/idea.png';
 import micIcon from '../../assets/mic.png';
 import escoarIcon from '../../assets/escoar.png';
+import Geolocation from "react-native-geolocation-service";
 
+let count = 0;
+
+let intervalID;
 let command = false;
-
 function Home({ navigation }) {
   // states
   const [userName, setUserName] = useState('');
@@ -35,6 +38,15 @@ function Home({ navigation }) {
   const [btnFirstColor, setBtnFirstColor] = useState('#A9BCD0');
   const [btnSecondColor, setBtnSecondColor] = useState('#218380');
   const [modalVisible, setModalVisible] = useState(false);
+
+
+  intervalID = setInterval( () => {
+    count++;
+    if(count === 20) {
+      console.log('onSpeechPartialResults');
+      setModalVisible(true);
+    }
+  }, 4000);
 
 
   useEffect(() => {
@@ -187,15 +199,16 @@ function Home({ navigation }) {
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Text style={styles.modalText}>Hello World!</Text>
+                <Text style={styles.modalText}>O Cooler foi desconectado, por favor verificar cooler.</Text>
 
                 <TouchableHighlight
                     style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
                     onPress={() => {
+                      clearInterval(intervalID);
                       setModalVisible(!modalVisible);
                     }}
                 >
-                  <Text style={styles.textStyle}>Hide Modal</Text>
+                  <Text style={styles.textStyle}>     ok     </Text>
                 </TouchableHighlight>
               </View>
             </View>
@@ -247,12 +260,8 @@ function Home({ navigation }) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={escoarIcon}
-              onPress={() => {
-                sendCommandDrain().then(
-                    setModalVisible(true)
-                )
-              }}
-            />
+              onPress={() => sendCommandDrain()}
+              />
           </ButtonsRow>
 
           <InfoText fontSize="25px"> Mais sobre nós </InfoText>
@@ -293,8 +302,11 @@ const styles = StyleSheet.create({
     marginTop: 22
   },
   modalView: {
+    display: "flex",
+    padding: "15px 22px",
+    width: "88%",
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: "#218380",
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
@@ -308,17 +320,27 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   openButton: {
-    backgroundColor: "#F194FF",
+    backgroundColor: "#77B6EA",
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
+    width: 122,
+    display: "flex"
   },
   textStyle: {
-    color: "white",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
+    fontFamily: "Montserrat",
+    fontStyle: "normal",
+    fontSize: 15,
+    color: "#FFFFFF"
   },
   modalText: {
+    fontFamily: "Montserrat",
+    fontStyle: "normal",
+    fontWeight: "bold",
+    fontSize: 25,
+    color: "#FFFFFF",
     marginBottom: 15,
     textAlign: "center"
   }

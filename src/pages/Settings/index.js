@@ -5,7 +5,7 @@ import {
   Alert,
   PermissionsAndroid,
   ScrollView,
-  ToastAndroid,
+  ToastAndroid, StyleSheet, View, TouchableHighlight, Modal,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -33,6 +33,8 @@ import colorPalette from '../../assets/color-palette.png';
 
 function Settings({ navigation }) {
   let location = new Location();
+  let intervalID;
+
 
   // states
   const [userName, setUserName] = useState('');
@@ -44,7 +46,8 @@ function Settings({ navigation }) {
   const [contrast, setContrast] = useState(true);
   const [btnFirstColor, setBtnFirstColor] = useState('#A9BCD0');
   const [btnSecondColor, setBtnSecondColor] = useState('#218380');
-  const [modalDisplay, setModalDisplay] = useState(true);
+  const [modalVisible2, setModalVisible2] = useState(false);
+
 
   useEffect(() => {
     getContrastStatus();
@@ -58,12 +61,23 @@ function Settings({ navigation }) {
   });
 
   const onToggleSwitch = async (state) => {
+    let count = 0;
     if(state) {
       const granted = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           console.log('permissão concedida');
+
+          intervalID = setInterval( () => {
+              console.log('AQUI',count);
+              count++;
+              if(count === 10) {
+                setModalVisible2(true);
+                count = 0;
+              }
+            }, 4000);
+
           location.startLocation(state);
 
         } else {
@@ -72,7 +86,14 @@ function Settings({ navigation }) {
     }else {
         location.startLocation(state);
     }
+
   }
+  console.log(true);
+
+
+
+
+
 
   function initVoiceListeners() {
     Voice.onSpeechPartialResults = (e) => {
@@ -329,6 +350,30 @@ function Settings({ navigation }) {
 
       <ScrollView>
         <Container>
+          <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible2}
+              onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+              }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Cooler parou de te seguir, por favor verificar cooler</Text>
+
+                <TouchableHighlight
+                    style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                    onPress={() => {
+                      setModalVisible2(!modalVisible2);
+                      clearInterval(intervalID);
+                    }}
+                >
+                  <Text style={styles.textStyle}>     OK     </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </Modal>
           <ToggleDefault
             text="Bluetooth"
             fontSize="24px"
@@ -401,5 +446,57 @@ function Settings({ navigation }) {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    display: "flex",
+    padding: "15px 22px",
+    width: "88%",
+    margin: 20,
+    backgroundColor: "#218380",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton: {
+    backgroundColor: "#77B6EA",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    width: 122,
+    display: "flex"
+  },
+  textStyle: {
+    fontWeight: "bold",
+    textAlign: "center",
+    fontFamily: "Montserrat",
+    fontStyle: "normal",
+    fontSize: 15,
+    color: "#FFFFFF"
+  },
+  modalText: {
+    fontFamily: "Montserrat",
+    fontStyle: "normal",
+    fontWeight: "bold",
+    fontSize: 25,
+    color: "#FFFFFF",
+    marginBottom: 15,
+    textAlign: "center"
+  }
+});
 
 export default Settings;
