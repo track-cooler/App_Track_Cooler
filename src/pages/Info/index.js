@@ -13,7 +13,7 @@ import api from '../../services/api';
 import CustomHeader from '~/components/CustomHeader';
 import BtnDefault from '~/components/BtnDefault';
 import BtnRefresh from '~/components/BtnRefresh';
-import FloatActionButton from '../../components/FloatActionButton'
+import FloatActionButton from '../../components/FloatActionButton';
 
 // Styles
 import {
@@ -42,19 +42,26 @@ function Info({navigation}) {
 
   // states
   const [voiceEnabled, setVoiceEnabled] = useState(false);
-  const [coolerName, setCooleName] = useState('Nenhum');
-  const [temperature, setTemperature] = useState();
-  const [batteryLevel, setBatteryLevel] = useState();
-  const [coolersRecords, setCoolersRecords] = useState([
-    {
-      name: 'Cooler 1',
-    },
-  ]);
+  const [coolerName, setCoolerName] = useState('Nenhum');
+  const [temperature, setTemperature] = useState(0);
+  const [batteryLevel, setBatteryLevel] = useState(0);
 
   useEffect(() => {
-    loadInfo();
+    checkCooler();
     checkVoiceIsEnabled();
   });
+
+  const checkCooler = async () => {
+    const coolerName = await AsyncStorage.getItem('coolerName');
+
+    if (!coolerName) {
+      return setCoolerName('Nenhum');
+    }
+
+    setCoolerName(coolerName);
+
+    await loadInfo();
+  };
 
   const loadInfo = async () => {
     try {
@@ -63,7 +70,6 @@ function Info({navigation}) {
 
       console.log('\nDADOS', info);
 
-      setCooleName(info.cooler_name);
       setBatteryLevel(info.battery_level);
       setTemperature(info.temperature);
     } catch (err) {
@@ -72,6 +78,13 @@ function Info({navigation}) {
   };
 
   async function udpdateInfo() {
+    if (coolerName === 'Nenhum') {
+      return ToastAndroid.show(
+        'Bluetooth não conectado! Conecte-se ao seu cooler',
+        2000,
+      );
+    }
+
     await loadInfo();
     alertInfo();
   }
@@ -194,20 +207,20 @@ function Info({navigation}) {
             </ButtonsRow>
           </Title>
           <Section>
-            <InfoText fontSize="20px"> Status: {coolerName} conectado</InfoText>
+            <InfoText fontSize="25px"> Status: {coolerName} conectado</InfoText>
           </Section>
           <Section>
-            <InfoText fontSize="20px"> Temperatura </InfoText>
+            <InfoText fontSize="30px"> Temperatura </InfoText>
             <Image source={termometroIcon} />
           </Section>
           <InfoText fontSize="40px"> {temperature}°C </InfoText>
           <Section>
-            <InfoText fontSize="20px"> Nível Bateria </InfoText>
+            <InfoText fontSize="30px"> Nível Bateria </InfoText>
             <ImageBat source={bateriaIcon} />
           </Section>
           <InfoText fontSize="40px">{batteryLevel}%</InfoText>
           <Section>
-            <InfoText fontSize="20px"> Histórico de Coolers </InfoText>
+            <InfoText fontSize="30px"> Histórico de Coolers </InfoText>
           </Section>
           {/* {coolersRecords.map((cooler, i) => (
             <HistoryCard key={i}>
@@ -215,7 +228,7 @@ function Info({navigation}) {
             </HistoryCard>
           ))} */}
           <HistoryCard>
-            <Text fontSize="20px"> {coolerName} </Text>
+            <Text fontSize="22px"> {coolerName} </Text>
           </HistoryCard>
         </ScrollContainer>
       </Container>

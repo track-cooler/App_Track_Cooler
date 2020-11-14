@@ -21,7 +21,14 @@ import moment from 'moment';
 import {Location} from '~/services/location';
 
 // styles
-import {Container, Input, Button, TextButton} from './styles';
+import {
+  Container,
+  Input,
+  Button,
+  TextButton,
+  Section,
+  InfoText,
+} from './styles';
 
 // components
 import CustomHeader from '~/components/CustomHeader';
@@ -33,6 +40,7 @@ import bluetoothIcon from '../../assets/bluetooth.png';
 import locateIcon from '../../assets/locate.png';
 import colorPalette from '../../assets/color-palette.png';
 import micIcon from '../../assets/mic.png';
+import followIcon from '../../assets/follow.png';
 
 function Settings({navigation}) {
   let location = new Location();
@@ -47,11 +55,14 @@ function Settings({navigation}) {
   const [voiceStatus, setVoiceStatus] = useState(false);
   const [fontSize, setFontSize] = useState('18px');
   const [isSwitchOn, setIsSwitchOn] = useState(location.getLocationIsOn);
+  const [followStatus, setFollowStatus] = useState(false);
 
   useEffect(() => {
     getContrastStatus();
     getFontSizeFromStorage();
     getColor();
+    checkFollowMode();
+
     checkVoiceIsEnabled();
 
     getStateBluetooth().then((status) => setBluetooth(status));
@@ -362,6 +373,35 @@ function Settings({navigation}) {
     setContrast(status);
   };
 
+  // Follow Mode functions
+  const checkFollowMode = async () => {
+    let status = await AsyncStorage.getItem('followMode');
+
+    if (!status) {
+      status = false;
+    } else {
+      status = status === 'true' ? true : false;
+    }
+
+    setFollowStatus(status);
+  };
+
+  const handleFollowMode = async (status) => {
+    if (!status) {
+      api.post('/follow', {status: 'ON'});
+
+      await AsyncStorage.setItem('followMode', 'true');
+
+      setFollowStatus(true);
+    } else {
+      api.post('/follow', {status: 'OFF'});
+
+      await AsyncStorage.setItem('followMode', 'false');
+
+      setFollowStatus(false);
+    }
+  };
+
   return (
     <>
       <CustomHeader />
@@ -418,14 +458,32 @@ function Settings({navigation}) {
             }}
           />
 
+          <ToggleDefault
+            text="Modo Seguir"
+            fontSize="24px"
+            value={followStatus}
+            icon={followIcon}
+            onChange={() => {
+              handleFollowMode(followStatus);
+            }}
+          />
+
+          <Section>
+            <InfoText fontSize="25px"> Seu Nome </InfoText>
+          </Section>
           <Input
             fontSize={fontSize}
             placeholder="Digite um nome de usuário"
             onChangeText={(text) => setUserName(text)}
           />
+
           <Button btnColor={btnSecondColor} onPress={saveName}>
             <TextButton fontSize={fontSize}>Salvar</TextButton>
           </Button>
+
+          <Section>
+            <InfoText fontSize="25px"> Alterar Fonte </InfoText>
+          </Section>
 
           <Button btnColor={btnSecondColor} onPress={setFontSizeSmall}>
             <TextButton fontSize={fontSize}>Letra pequena</TextButton>
