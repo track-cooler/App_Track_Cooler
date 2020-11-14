@@ -60,6 +60,8 @@ function Settings({ navigation }) {
     getColor();
   });
 
+
+
   const onToggleSwitch = async (state) => {
     let count = 0;
     if(state) {
@@ -68,17 +70,27 @@ function Settings({ navigation }) {
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           console.log('permissão concedida');
+            console.log('StarModal');
+            const status = await AsyncStorage.getItem('voiceEnabled') === 'true';
+            let aux = status;
+            intervalID = setInterval(() => {
+              console.log('AUX2',aux);
 
-          intervalID = setInterval( () => {
-              console.log('AQUI',count);
+              console.log('PREPARANDO MODAL2');
               count++;
-              if(count === 10) {
-                Vibration.vibrate(10 * 1000);
-                setModalVisible2(true);
-                Tts.speak('cooler parou de te seguir, por favor verificar cooler');
-                count = 0;
+              if (count === 10) {
+                onToggleSwitch(false);
+                setIsSwitchOn(false);
+                console.log('Executando modal2');
+                if(aux === true){
+                  Vibration.vibrate(1000);
+                  Tts.speak('Cooler parou de te seguir, por favor verificar cooler');
+                }else{
+                  setModalVisible2(true);
+                }
               }
             }, 4000);
+
 
           location.startLocation(state);
 
@@ -91,10 +103,6 @@ function Settings({ navigation }) {
 
   }
   console.log(true);
-
-
-
-
 
 
   function initVoiceListeners() {
@@ -130,9 +138,13 @@ function Settings({ navigation }) {
     } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `desligar bluetooth`) >= 0.95) {
       changeStateBlutooth(false);
     } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `ativar localização`) >= 0.95) {
-      changeStateGps(true);
+      onToggleSwitch(true);
+      setIsSwitchOn(true);
+      console.log('setIsSwitchOn ', isSwitchOn);
+
     } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `desativar localização`) >= 0.95) {
-      changeStateGps(false);
+      onToggleSwitch(false);
+      setIsSwitchOn(false);
     } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar cores`) >= 0.95) {
       changeContrast(true);
       Tts.speak('Mudando paleta de cores');
@@ -399,6 +411,7 @@ function Settings({ navigation }) {
               event.persist();
               onToggleSwitch(event.nativeEvent.value).then(() => {
                 setIsSwitchOn(event.nativeEvent.value);
+
               });
             }}
           />

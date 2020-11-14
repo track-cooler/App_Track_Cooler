@@ -26,9 +26,11 @@ import escoarIcon from '../../assets/escoar.png';
 
 let count = 0;
 
-let intervalID;
 let command = false;
-function Home({ navigation }) {
+ function Home({ navigation }) {
+  let intervalID;
+
+
   // states
   const [userName, setUserName] = useState('');
   const [buttonWidth, setButtonWidth] = useState('46%');
@@ -37,18 +39,6 @@ function Home({ navigation }) {
   const [btnFirstColor, setBtnFirstColor] = useState('#A9BCD0');
   const [btnSecondColor, setBtnSecondColor] = useState('#218380');
   const [modalVisible, setModalVisible] = useState(false);
-
-
-  intervalID = setInterval( () => {
-    count++;
-    if(count === 20) {
-      console.log('onSpeechPartialResults');
-      Vibration.vibrate(1000);
-
-      Tts.speak('cooler foi desconectado, por favor verificar cooler');
-      setModalVisible(true);
-    }
-  }, 4000);
 
 
   useEffect(() => {
@@ -72,7 +62,7 @@ function Home({ navigation }) {
     };
   }
 
-  async function sendCommandDrain() {
+   async function sendCommandDrain() {
   // Send a POST request
     command = !command;
     console.log(command);
@@ -157,6 +147,31 @@ function Home({ navigation }) {
 
     setFontSize(size);
   };
+
+  const startModal = async () =>{
+    console.log('StarModal');
+
+
+    const status = await AsyncStorage.getItem('voiceEnabled') === 'true';
+    let aux = status;
+    intervalID = setInterval(() => {
+      console.log('AUX',aux);
+
+      console.log('PREPARANDO MODAL');
+      count++;
+      if (count === 10) {
+        console.log('Executando modal');
+        if(aux === true){
+          Vibration.vibrate(1000);
+
+          Tts.speak('cooler foi desconectado, por favor verificar cooler');
+        }else{
+          setModalVisible(true);
+        }
+      }
+    }, 4000);
+  }
+
 
   const loadUserName = async () => {
     const asyncName = await AsyncStorage.getItem('username');
@@ -251,7 +266,7 @@ function Home({ navigation }) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={bluetoothIcon}
-              onPress={() =>  console.log('Conectar Cooler')}
+              onPress={() => startModal()}
             />
 
             <BtnDefault
