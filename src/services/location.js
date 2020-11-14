@@ -16,7 +16,7 @@ export class Location {
     if (switchValue) {
       intervalID = setInterval(() => {
         Geolocation.getCurrentPosition(
-          (position) => {
+          async (position) => {
             this.userPosition = {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
@@ -26,7 +26,7 @@ export class Location {
               lat: position.coords.latitude,
               lng: position.coords.longitude,
             };
-            api.post('/geoloc', geoloc);
+            await api.post('/geoloc', geoloc);
           },
           (error) => {
             console.log(error.code, error.message);

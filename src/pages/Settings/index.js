@@ -47,9 +47,10 @@ import colorPalette from '../../assets/color-palette.png';
 import micIcon from '../../assets/mic.png';
 import followIcon from '../../assets/follow.png';
 
+let intervalID;
+
 export default function Settings({navigation}) {
   let location = new Location();
-  let intervalID;
 
   // states
   const [userName, setUserName] = useState('');
@@ -91,14 +92,10 @@ export default function Settings({navigation}) {
         const status = (await AsyncStorage.getItem('voiceEnabled')) === 'true';
         let aux = status;
         intervalID = setInterval(() => {
-          console.log('AUX2', aux);
-
-          console.log('PREPARANDO MODAL2');
           count++;
           if (count === 10) {
             onToggleSwitch(false);
             setIsSwitchOn(false);
-            console.log('Executando modal2');
             if (aux === true) {
               Vibration.vibrate(1000);
               Tts.speak(
@@ -114,6 +111,9 @@ export default function Settings({navigation}) {
       } else {
         console.error('permissão negada');
       }
+    }else{
+      location.startLocation(state);
+      clearInterval(intervalID);
     }
     console.log(true);
   };
@@ -476,7 +476,6 @@ export default function Settings({navigation}) {
                   style={{...styles.openButton, backgroundColor: '#2196F3'}}
                   onPress={() => {
                     setModalVisible2(!modalVisible2);
-                    clearInterval(intervalID);
                   }}>
                   <Text style={styles.textStyle}> OK </Text>
                 </TouchableHighlight>
@@ -583,7 +582,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     display: 'flex',
-    padding: '15px 22px',
+    padding: 15,
     width: '88%',
     margin: 20,
     backgroundColor: '#218380',

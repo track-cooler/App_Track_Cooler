@@ -311,7 +311,7 @@ function Home({navigation}) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={escoarIcon}
-              onPress={() => sendCommandDrain()}
+              onPress={() => sendCommandDrain().then(setModalVisible(true))}
             />
           </ButtonsRow>
 
@@ -354,7 +354,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     display: 'flex',
-    padding: '15px 22px',
+    padding: 15,
     width: '88%',
     margin: 20,
     backgroundColor: '#218380',
