@@ -330,6 +330,8 @@ function Home({navigation}) {
   );
 }
 
+export default Home;
+
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
@@ -381,5 +383,3 @@ const styles = StyleSheet.create({
     textAlign: "center"
   }
 });
-
-export default Home;
