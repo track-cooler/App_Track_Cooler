@@ -39,8 +39,6 @@ function Home({navigation}) {
   const [btnFirstColor, setBtnFirstColor] = useState('#A9BCD0');
   const [btnSecondColor, setBtnSecondColor] = useState('#218380');
   const [voiceEnabled, setVoiceEnabled] = useState(false);
-  const [btnFirstColor, setBtnFirstColor] = useState('#A9BCD0');
-  const [btnSecondColor, setBtnSecondColor] = useState('#218380');
   const [modalVisible, setModalVisible] = useState(false);
 
 
