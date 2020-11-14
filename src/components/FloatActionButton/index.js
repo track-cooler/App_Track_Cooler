@@ -1,7 +1,7 @@
 import React from 'react';
-import { FloatButton, Image } from "./styles";
+import {FloatButton, Image} from './styles';
 
-const FloatActionButton = ({ icon, onPress, }) => (
+const FloatActionButton = ({icon, onPress}) => (
   <FloatButton onPress={onPress}>
     <Image source={icon} />
   </FloatButton>

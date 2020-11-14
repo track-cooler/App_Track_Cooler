@@ -1,42 +1,47 @@
-import moment from "moment";
-import {useState, useEffect} from "react";
+import moment from 'moment';
+import {useState, useEffect} from 'react';
 import Geolocation from 'react-native-geolocation-service';
 import api from "~/services/api";
+
+// api service
+import api from './api';
 
 let intervalID;
 let isOn = false;
 
 export class Location {
-    userPosition;
+  userPosition;
 
-    startLocation(switchValue) {
-        isOn = true;
-        if(switchValue) {
-            intervalID = setInterval( () => {
-            Geolocation.getCurrentPosition(
-                async (position) => {
-                    this.userPosition = {
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                    }
-                    console.log("position: ", position);
-                    await api.post('/geoloc', {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
-                    });
-                },
-                error => {
-                    console.log(error.code, error.message);
-                },
-            )}, 4000);
-        }else{
-            isOn = false;
-            clearInterval(intervalID);
-        }
-    }
 
-    getLocationIsOn() {
-        return isOn;
+  startLocation(switchValue) {
+    isOn = true;
+    if (switchValue) {
+      intervalID = setInterval(() => {
+        Geolocation.getCurrentPosition(
+          (position) => {
+            this.userPosition = {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            };
+            console.log('position: ', position);
+            let geoloc = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+            api.post('/geoloc', geoloc);
+          },
+          (error) => {
+            console.log(error.code, error.message);
+          },
+        );
+      }, 4000);
+    } else {
+      isOn = false;
+      clearInterval(intervalID);
     }
+  }
+
+  getLocationIsOn() {
+    return isOn;
+  }
 }
-

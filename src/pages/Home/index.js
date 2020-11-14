@@ -216,7 +216,7 @@ function Home({navigation}) {
 
     setBtnFirstColor(firstColor);
     setBtnSecondColor(secondColor);
-  }
+  };
 
   return (
     <>
@@ -287,7 +287,7 @@ function Home({navigation}) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={bluetoothIcon}
-              onPress={() => startModal()}
+              onPress={() => goToPage('BluetoothConnection')}
             />
 
             <BtnDefault
