@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   Keyboard,
@@ -6,68 +6,100 @@ import {
   PermissionsAndroid,
   ScrollView,
   ToastAndroid,
+  StyleSheet,
+  View,
+  TouchableHighlight,
+  Modal,
+  Vibration,
 } from 'react-native';
 
+// api service
+import api from '../../services/api';
+
 import AsyncStorage from '@react-native-community/async-storage';
-import { BleManager } from 'react-native-ble-plx';
+import {BleManager} from 'react-native-ble-plx';
 import Geolocation from 'react-native-geolocation-service';
 import Voice from '@react-native-community/voice';
 import StringSimilarity from 'string-similarity';
 import Tts from 'react-native-tts';
-import moment from 'moment';
 import {Location} from '~/services/location';
 
 // styles
-import { Container, Input, Button, TextButton } from './styles';
+import {
+  Container,
+  Input,
+  Button,
+  TextButton,
+  Section,
+  InfoText,
+} from './styles';
 
 // components
 import CustomHeader from '~/components/CustomHeader';
 import ToggleDefault from '~/components/Toggle';
 import FloatActionButton from '~/components/FloatActionButton';
+import AlertModal from '~/components/AlertModal';
 
 // icons
 import bluetoothIcon from '../../assets/bluetooth.png';
 import locateIcon from '../../assets/locate.png';
+import colorPalette from '../../assets/color-palette.png';
 import micIcon from '../../assets/mic.png';
+import followIcon from '../../assets/follow.png';
 
-function Settings({ navigation }) {
+let intervalID;
+
+export default function Settings({navigation}) {
   let location = new Location();
 
   // states
   const [userName, setUserName] = useState('');
   const [btStatus, setBluetooth] = useState(false);
   const [gpsStatus, setGpsStatus] = useState(false);
+  const [constrast, setContrast] = useState(true);
+  const [btnFirstColor, setBtnFirstColor] = useState('#A9BCD0');
+  const [btnSecondColor, setBtnSecondColor] = useState('#218380');
   const [voiceStatus, setVoiceStatus] = useState(false);
   const [fontSize, setFontSize] = useState('18px');
   const [isSwitchOn, setIsSwitchOn] = useState(location.getLocationIsOn);
+  const [followStatus, setFollowStatus] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
+    getContrastStatus();
     getFontSizeFromStorage();
+    getColor();
+    checkFollowMode();
+
     checkVoiceIsEnabled();
 
     getStateBluetooth().then((status) => setBluetooth(status));
     getStateGps().then((status) => setGpsStatus(status));
     getStateVoice().then((status) => setVoiceStatus(status));
-  
+    getColor();
   });
 
   const onToggleSwitch = async (state) => {
-    if(state) {
+    if (state) {
       const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('permissão concedida');
-          location.startLocation(state);
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('permissão concedida');
+        const status = (await AsyncStorage.getItem('voiceEnabled')) === 'true';
+        let aux = status;
+        intervalID = setInterval(() => {}, 4000);
 
-        } else {
-          console.error('permissão negada');
-        }
-    }else {
         location.startLocation(state);
+      } else {
+        console.error('permissão negada');
+      }
+    } else {
+      location.startLocation(state);
+      clearInterval(intervalID);
     }
-  }
-
+    console.log(true);
+  };
   function initVoiceListeners() {
     Voice.onSpeechPartialResults = (e) => {
       console.log('onSpeechPartialResults');
@@ -75,7 +107,7 @@ function Settings({ navigation }) {
     };
 
     Voice.onSpeechResults = (e) => {
-      console.log('onSpeechResults')
+      console.log('onSpeechResults');
       Voice.stop();
       const phrase = e.value;
       executeVoiceCommand(phrase);
@@ -96,33 +128,94 @@ function Settings({ navigation }) {
 
     if (phraseLowerCase === initialCommand) {
       Tts.speak('Você quer brincar na neve?');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `ligar bluetooth`) >= 0.95) {
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'ligar bluetooth') >=
+      0.95
+    ) {
       changeStateBlutooth(true);
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `desligar bluetooth`) >= 0.95) {
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'desligar bluetooth',
+      ) >= 0.95
+    ) {
       changeStateBlutooth(false);
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `ativar localização`) >= 0.95) {
-      changeStateGps(true);
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `desativar localização`) >= 0.95) {
-      changeStateGps(false);
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar letra para pequena`) >= 0.75) {
-      setFontSizeSmall()
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'ativar localização',
+      ) >= 0.95
+    ) {
+      onToggleSwitch(true);
+      setIsSwitchOn(true);
+      console.log('setIsSwitchOn ', isSwitchOn);
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'desativar localização',
+      ) >= 0.95
+    ) {
+      onToggleSwitch(false);
+      setIsSwitchOn(false);
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'mudar cores') >= 0.95
+    ) {
+      changeContrast(true);
+      Tts.speak('Mudando paleta de cores');
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'reverter cores') >=
+      0.95
+    ) {
+      changeContrast(false);
+      Tts.speak('Mudando paleta de cores');
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'mudar letra para pequena',
+      ) >= 0.75
+    ) {
+      setFontSizeSmall();
       Tts.speak('Mudando letra para pequena');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar letra para normal`) >= 0.75) {
-      setFontSizeNormal()
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'mudar letra para normal',
+      ) >= 0.75
+    ) {
+      setFontSizeNormal();
       Tts.speak('Mudando letra para normal');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar letra para grande`) >= 0.75) {
-      setFontSizeLarge()
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'mudar letra para grande',
+      ) >= 0.75
+    ) {
+      setFontSizeLarge();
       Tts.speak('Mudando letra para grande');
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar nome para`) >= 0.75) {
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'mudar nome para') >=
+      0.75
+    ) {
       const userName = phraseLowerCase.split(' ').pop();
       await AsyncStorage.setItem('username', userName);
       Tts.speak(`Nome alterado para ${userName}`);
-    } else if (StringSimilarity.compareTwoStrings(phraseLowerCase, `voltar`) >= 0.75) {
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'voltar') >= 0.75
+    ) {
       goToPage('Home');
-      Tts.speak(`Indo para menu`);
+      Tts.speak('Indo para menu');
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'mudar constraste') >=
+      0.75
+    ) {
+      changeContrast(constrast);
+      Tts.speak('Alterando o contraste');
     } else {
-      ToastAndroid.show('Não foi possível reconhecer o comando. Tente novamente', 2000);
-      Tts.speak('Let it go! Desculpa, não te entendi. Por favor repita.');
+      ToastAndroid.show(
+        'Não foi possível reconhecer o comando. Tente novamente',
+        2000,
+      );
+      Tts.speak(' Desculpa, não te entendi. Por favor repita.');
     }
   }
 
@@ -133,7 +226,7 @@ function Settings({ navigation }) {
     } catch (e) {
       console.log('erro ao iniciar ' + e);
     }
-  };
+  }
 
   async function goToPage(page) {
     navigation.navigate(page);
@@ -179,8 +272,7 @@ function Settings({ navigation }) {
         }
       }
       setBluetooth(state);
-    } catch (e) { }
-
+    } catch (e) {}
   };
 
   const changeStateGps = async (state) => {
@@ -239,7 +331,6 @@ function Settings({ navigation }) {
 
   const getFontSizeFromStorage = async () => {
     const fontSizeStorege = await AsyncStorage.getItem('fontSize');
-    console.log('TAMANHO NO ASYNC ', fontSizeStorege);
 
     setFontSize(fontSize);
   };
@@ -269,13 +360,112 @@ function Settings({ navigation }) {
     setFontSize('16px');
   };
 
+  const getColor = async () => {
+    const firstBtnColor = await AsyncStorage.getItem('btnFirstColor');
+    const secondBtnColor = await AsyncStorage.getItem('btnSecondColor');
+
+    setBtnFirstColor(firstBtnColor);
+    setBtnSecondColor(secondBtnColor);
+  };
+
+  const changeContrast = async (status) => {
+    if (!status) {
+      const whiteColor = await AsyncStorage.setItem('btnFirstColor', '#FFF');
+      const blackColor = await AsyncStorage.setItem('btnSecondColor', '#000');
+
+      const isOn = await AsyncStorage.setItem('contrastMode', 'true');
+
+      setContrast(true);
+      setBtnFirstColor('#FFF');
+      setBtnSecondColor('#000');
+    } else {
+      const whiteColor = await AsyncStorage.setItem('btnFirstColor', '#A9BCD0');
+      const blackColor = await AsyncStorage.setItem(
+        'btnSecondColor',
+        '#218380',
+      );
+      const isOff = await AsyncStorage.setItem('contrastMode', 'false');
+
+      setContrast(false);
+      setBtnFirstColor('#A9BCD0');
+      setBtnSecondColor('#218380');
+    }
+  };
+
+  const getContrastStatus = async () => {
+    let status = await AsyncStorage.getItem('contrastMode');
+
+    if (!status) {
+      status = false;
+    } else {
+      status = status === 'true' ? true : false;
+    }
+
+    setContrast(status);
+  };
+
+  // Follow Mode functions
+  const checkFollowMode = async () => {
+    let status = await AsyncStorage.getItem('followMode');
+
+    if (!status) {
+      status = false;
+    } else {
+      status = status === 'true' ? true : false;
+    }
+
+    setFollowStatus(status);
+  };
+
+  const handleFollowMode = async (status) => {
+    if (!status) {
+      try {
+        const res = await api.post('/follow', {status: 'ON'});
+
+        await AsyncStorage.setItem('followMode', 'true');
+
+        setFollowStatus(true);
+      } catch (err) {
+        // handle follow status
+        setFollowStatus(false);
+        await AsyncStorage.setItem('followMode', 'false');
+
+        setModalVisible(true);
+      }
+    } else {
+      try {
+        const res = api.post('/follow', {status: 'OFF'});
+
+        await AsyncStorage.setItem('followMode', 'false');
+
+        setFollowStatus(false);
+      } catch (err) {
+        // handle follow status
+        setFollowStatus(false);
+        await AsyncStorage.setItem('followMode', 'false');
+
+        setModalVisible(true);
+      }
+    }
+  };
+
   return (
     <>
       <CustomHeader />
-      {voiceStatus ? <FloatActionButton icon={micIcon} onPress={() => startVoice()} /> : null}
-
+      {voiceStatus ? (
+        <FloatActionButton icon={micIcon} onPress={() => startVoice()} />
+      ) : null}
       <ScrollView>
         <Container>
+          <AlertModal
+            onPress={() => {
+              setModalVisible(false);
+              AsyncStorage.setItem('coolerName', 'Nenhum');
+            }}
+            isVisible={modalVisible}
+            text="O Cooler está desconectado! Por favor, verifique a conexão com seu cooler."
+          />
+
           <ToggleDefault
             text="Bluetooth"
             fontSize="24px"
@@ -313,24 +503,52 @@ function Settings({ navigation }) {
             }}
           />
 
+          <ToggleDefault
+            text="Alterar Contraste"
+            fontSize="24px"
+            value={constrast}
+            icon={colorPalette}
+            onChange={() => {
+              changeContrast(constrast);
+            }}
+          />
+
+          <ToggleDefault
+            text="Modo Seguir"
+            fontSize="24px"
+            value={followStatus}
+            icon={followIcon}
+            onChange={() => {
+              handleFollowMode(followStatus);
+            }}
+          />
+
+          <Section>
+            <InfoText fontSize="25px"> Seu Nome </InfoText>
+          </Section>
           <Input
             fontSize={fontSize}
             placeholder="Digite um nome de usuário"
             onChangeText={(text) => setUserName(text)}
           />
-          <Button onPress={saveName}>
+
+          <Button btnColor={btnSecondColor} onPress={saveName}>
             <TextButton fontSize={fontSize}>Salvar</TextButton>
           </Button>
 
-          <Button onPress={setFontSizeSmall}>
+          <Section>
+            <InfoText fontSize="25px"> Alterar Fonte </InfoText>
+          </Section>
+
+          <Button btnColor={btnSecondColor} onPress={setFontSizeSmall}>
             <TextButton fontSize={fontSize}>Letra pequena</TextButton>
           </Button>
 
-          <Button onPress={setFontSizeNormal}>
+          <Button btnColor={btnSecondColor} onPress={setFontSizeNormal}>
             <TextButton fontSize={fontSize}>Letra normal</TextButton>
           </Button>
 
-          <Button onPress={setFontSizeLarge}>
+          <Button btnColor={btnSecondColor} onPress={setFontSizeLarge}>
             <TextButton fontSize={fontSize}>Letra grande</TextButton>
           </Button>
         </Container>
@@ -338,5 +556,3 @@ function Settings({ navigation }) {
     </>
   );
 }
-
-export default Settings;

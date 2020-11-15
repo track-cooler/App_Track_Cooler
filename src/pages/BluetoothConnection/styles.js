@@ -9,40 +9,24 @@ export const ScrollContainer = styled.ScrollView.attrs({
 
 export const Container = styled.View`
   flex: 1;
-  padding: 20px;
+  padding: 15px;
   background-color: #eff1f9;
 `;
 
 //Imagem
 export const Image = styled.Image`
-  width: 45px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   padding: 4%;
-`;
-
-export const ImageBat = styled.Image`
-  width: 45px;
-  height: 70px;
-  padding: 1%;
+  margin-left: 10px;
 `;
 
 // Title
 export const Title = styled.View`
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   margin-top: 10px;
-  margin-bottom: 10px;
-`;
-
-export const Section = styled.View`
-  flex-direction: row;
-  align-items: center;
-  border-bottom-color: #ccc;
-  border-bottom-width: 1px;
-  margin-top: 25px;
-  margin-bottom: 10px;
-  height: 50px;
+  margin-bottom: 30px;
 `;
 
 // Text
@@ -50,6 +34,8 @@ export const Text = styled.Text`
   font-size: ${(props) => props.fontSize};
   font-weight: bold;
   text-align: left;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 export const InfoText = styled.Text`
@@ -60,16 +46,7 @@ export const InfoText = styled.Text`
   margin-bottom: 10px;
 `;
 
-// Buttons css
-export const ButtonsRow = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-`;
-
-// Cards
-export const HistoryCard = styled.View`
+export const Button = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -77,16 +54,4 @@ export const HistoryCard = styled.View`
   background: #fff;
   border-radius: 8px;
   margin-top: 10px;
-`;
-
-export const Date = styled.View`
-  width: 350;
-  background: #fff;
-`;
-
-//Line
-export const Line = styled.View`
-  flex-direction: row;
-  border-bottom-color: #ccc;
-  border-bottom-width: 1;
 `;

@@ -9,6 +9,7 @@ import Settings from './pages/Settings';
 import Info from './pages/Info';
 import AboutUs from './pages/AboutUs';
 import AboutProject from './pages/AboutProject';
+import BluetoothConnection from './pages/BluetoothConnection';
 
 const Navigation = createStackNavigator();
 
@@ -24,6 +25,10 @@ const Routes = () => {
       <Navigation.Screen name="Info" component={Info} />
       <Navigation.Screen name="AboutUs" component={AboutUs} />
       <Navigation.Screen name="AboutProject" component={AboutProject} />
+      <Navigation.Screen
+        name="BluetoothConnection"
+        component={BluetoothConnection}
+      />
     </Navigation.Navigator>
   );
 };

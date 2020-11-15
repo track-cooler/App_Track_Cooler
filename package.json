@@ -32,7 +32,7 @@
     "react-native-hyperlink": "^0.0.19",
     "react-native-modal-datetime-picker": "^9.0.0",
     "react-native-reanimated": "^1.13.1",
-    "react-native-safe-area-context": "^3.1.8",
+    "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.11.0",
     "react-native-svg": "^12.1.0",
     "react-native-tts": "^3.2.0",
