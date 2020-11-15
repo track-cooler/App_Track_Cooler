@@ -11,9 +11,9 @@ import api from '../../services/api';
 
 // Components
 import CustomHeader from '~/components/CustomHeader';
-import BtnDefault from '~/components/BtnDefault';
 import BtnRefresh from '~/components/BtnRefresh';
 import FloatActionButton from '../../components/FloatActionButton';
+import AlertModal from '~/components/AlertModal';
 
 // Styles
 import {
@@ -45,6 +45,7 @@ function Info({navigation}) {
   const [coolerName, setCoolerName] = useState('Nenhum');
   const [temperature, setTemperature] = useState(0);
   const [batteryLevel, setBatteryLevel] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     checkCooler();
@@ -52,13 +53,13 @@ function Info({navigation}) {
   });
 
   const checkCooler = async () => {
-    const coolerName = await AsyncStorage.getItem('coolerName');
+    const coolerNameStorage = await AsyncStorage.getItem('coolerName');
 
-    if (!coolerName) {
+    if (!coolerNameStorage) {
       return setCoolerName('Nenhum');
     }
 
-    setCoolerName(coolerName);
+    setCoolerName(coolerNameStorage);
 
     await loadInfo();
   };
@@ -68,21 +69,24 @@ function Info({navigation}) {
       const res = await api.get('/cooler-info');
       const info = res.data;
 
-      console.log('\nDADOS', info);
-
       setBatteryLevel(info.battery_level);
       setTemperature(info.temperature);
     } catch (err) {
       console.log(err);
+
+      setBatteryLevel(0);
+      setTemperature(0);
+      setCoolerName('Nenhum');
+
+      AsyncStorage.setItem('coolerName', 'Nenhum');
+
+      ToastAndroid.show('Erro ao tentar conectar com o cooler.', 2000);
     }
   };
 
   async function udpdateInfo() {
     if (coolerName === 'Nenhum') {
-      return ToastAndroid.show(
-        'Bluetooth não conectado! Conecte-se ao seu cooler',
-        2000,
-      );
+      return setModalVisible(true);
     }
 
     await loadInfo();
@@ -192,9 +196,18 @@ function Info({navigation}) {
 
       <Container>
         <ScrollContainer>
+          <AlertModal
+            onPress={() => {
+              setModalVisible(false);
+              AsyncStorage.setItem('coolerName', 'Nenhum');
+            }}
+            isVisible={modalVisible}
+            text="O Cooler está desconectado! Por favor, verifique a conexão com seu cooler."
+          />
+
           <Title>
             <Image source={coolerIcon} />
-            <Text fontSize="26px"> Informações Cooler</Text>
+            <Text fontSize="25px"> Informações Cooler</Text>
             <ButtonsRow>
               <BtnRefresh
                 btnColor="#A9BCD0"

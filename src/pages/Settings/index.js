@@ -6,6 +6,11 @@ import {
   PermissionsAndroid,
   ScrollView,
   ToastAndroid,
+  StyleSheet,
+  View,
+  TouchableHighlight,
+  Modal,
+  Vibration,
 } from 'react-native';
 
 // api service
@@ -17,7 +22,6 @@ import Geolocation from 'react-native-geolocation-service';
 import Voice from '@react-native-community/voice';
 import StringSimilarity from 'string-similarity';
 import Tts from 'react-native-tts';
-import moment from 'moment';
 import {Location} from '~/services/location';
 
 // styles
@@ -34,6 +38,7 @@ import {
 import CustomHeader from '~/components/CustomHeader';
 import ToggleDefault from '~/components/Toggle';
 import FloatActionButton from '~/components/FloatActionButton';
+import AlertModal from '~/components/AlertModal';
 
 // icons
 import bluetoothIcon from '../../assets/bluetooth.png';
@@ -42,7 +47,9 @@ import colorPalette from '../../assets/color-palette.png';
 import micIcon from '../../assets/mic.png';
 import followIcon from '../../assets/follow.png';
 
-function Settings({navigation}) {
+let intervalID;
+
+export default function Settings({navigation}) {
   let location = new Location();
 
   // states
@@ -56,6 +63,7 @@ function Settings({navigation}) {
   const [fontSize, setFontSize] = useState('18px');
   const [isSwitchOn, setIsSwitchOn] = useState(location.getLocationIsOn);
   const [followStatus, setFollowStatus] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     getContrastStatus();
@@ -68,6 +76,7 @@ function Settings({navigation}) {
     getStateBluetooth().then((status) => setBluetooth(status));
     getStateGps().then((status) => setGpsStatus(status));
     getStateVoice().then((status) => setVoiceStatus(status));
+    getColor();
   });
 
   const onToggleSwitch = async (state) => {
@@ -77,15 +86,20 @@ function Settings({navigation}) {
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         console.log('permissão concedida');
+        const status = (await AsyncStorage.getItem('voiceEnabled')) === 'true';
+        let aux = status;
+        intervalID = setInterval(() => {}, 4000);
+
         location.startLocation(state);
       } else {
         console.error('permissão negada');
       }
     } else {
       location.startLocation(state);
+      clearInterval(intervalID);
     }
+    console.log(true);
   };
-
   function initVoiceListeners() {
     Voice.onSpeechPartialResults = (e) => {
       console.log('onSpeechPartialResults');
@@ -132,14 +146,28 @@ function Settings({navigation}) {
         'ativar localização',
       ) >= 0.95
     ) {
-      changeStateGps(true);
+      onToggleSwitch(true);
+      setIsSwitchOn(true);
+      console.log('setIsSwitchOn ', isSwitchOn);
     } else if (
       StringSimilarity.compareTwoStrings(
         phraseLowerCase,
         'desativar localização',
       ) >= 0.95
     ) {
-      changeStateGps(false);
+      onToggleSwitch(false);
+      setIsSwitchOn(false);
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'mudar cores') >= 0.95
+    ) {
+      changeContrast(true);
+      Tts.speak('Mudando paleta de cores');
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'reverter cores') >=
+      0.95
+    ) {
+      changeContrast(false);
+      Tts.speak('Mudando paleta de cores');
     } else if (
       StringSimilarity.compareTwoStrings(
         phraseLowerCase,
@@ -175,10 +203,13 @@ function Settings({navigation}) {
       StringSimilarity.compareTwoStrings(phraseLowerCase, 'voltar') >= 0.75
     ) {
       goToPage('Home');
-      Tts.speak(`Indo para menu`);
-    } else if(StringSimilarity.compareTwoStrings(phraseLowerCase, `mudar constraste`) >= 0.75){
+      Tts.speak('Indo para menu');
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'mudar constraste') >=
+      0.75
+    ) {
       changeContrast(constrast);
-      Tts.speak(`Alterando o contraste`);
+      Tts.speak('Alterando o contraste');
     } else {
       ToastAndroid.show(
         'Não foi possível reconhecer o comando. Tente novamente',
@@ -388,17 +419,33 @@ function Settings({navigation}) {
 
   const handleFollowMode = async (status) => {
     if (!status) {
-      api.post('/follow', {status: 'ON'});
+      try {
+        const res = await api.post('/follow', {status: 'ON'});
 
-      await AsyncStorage.setItem('followMode', 'true');
+        await AsyncStorage.setItem('followMode', 'true');
 
-      setFollowStatus(true);
+        setFollowStatus(true);
+      } catch (err) {
+        // handle follow status
+        setFollowStatus(false);
+        await AsyncStorage.setItem('followMode', 'false');
+
+        setModalVisible(true);
+      }
     } else {
-      api.post('/follow', {status: 'OFF'});
+      try {
+        const res = api.post('/follow', {status: 'OFF'});
 
-      await AsyncStorage.setItem('followMode', 'false');
+        await AsyncStorage.setItem('followMode', 'false');
 
-      setFollowStatus(false);
+        setFollowStatus(false);
+      } catch (err) {
+        // handle follow status
+        setFollowStatus(false);
+        await AsyncStorage.setItem('followMode', 'false');
+
+        setModalVisible(true);
+      }
     }
   };
 
@@ -408,9 +455,17 @@ function Settings({navigation}) {
       {voiceStatus ? (
         <FloatActionButton icon={micIcon} onPress={() => startVoice()} />
       ) : null}
-
       <ScrollView>
         <Container>
+          <AlertModal
+            onPress={() => {
+              setModalVisible(false);
+              AsyncStorage.setItem('coolerName', 'Nenhum');
+            }}
+            isVisible={modalVisible}
+            text="O Cooler está desconectado! Por favor, verifique a conexão com seu cooler."
+          />
+
           <ToggleDefault
             text="Bluetooth"
             fontSize="24px"
@@ -501,5 +556,3 @@ function Settings({navigation}) {
     </>
   );
 }
-
-export default Settings;

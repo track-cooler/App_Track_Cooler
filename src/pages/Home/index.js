@@ -1,15 +1,27 @@
 import React, {useState, useEffect} from 'react';
-import {ScrollView, ToastAndroid} from 'react-native';
+import {
+  ScrollView,
+  ToastAndroid,
+  Modal,
+  StyleSheet,
+  View,
+  Text,
+  TouchableHighlight,
+  Vibration,
+  Alert,
+} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Voice from '@react-native-community/voice';
 import Tts from 'react-native-tts';
 import StringSimilarity from 'string-similarity';
+import api from '../../services/api';
 
 // Components
 import BtnDefault from '~/components/BtnDefault';
 import SmallBtn from '~/components/SmallBtn';
 import CustomHeader from '~/components/CustomHeader';
 import FloatActionButton from '~/components/FloatActionButton';
+import AlertModal from '~/components/AlertModal';
 
 // Styles
 import {Container, ButtonsRow, TextName, InfoText, ButtonView} from './styles';
@@ -18,10 +30,15 @@ import {Container, ButtonsRow, TextName, InfoText, ButtonView} from './styles';
 import coolerIcon from '../../assets/cooler.png';
 import configIcon from '../../assets/config.png';
 import bluetoothIcon from '../../assets/bluetooth.png';
-import refreshIcon from '../../assets/refresh.png';
 import quemSomosIcon from '../../assets/quem_somos.png';
 import ideaIcon from '../../assets/idea.png';
 import micIcon from '../../assets/mic.png';
+import escoarIcon from '../../assets/escoar.png';
+
+let count = 0;
+
+let command = false;
+let intervalID;
 
 function Home({navigation}) {
   // states
@@ -31,12 +48,14 @@ function Home({navigation}) {
   const [btnFirstColor, setBtnFirstColor] = useState('#A9BCD0');
   const [btnSecondColor, setBtnSecondColor] = useState('#218380');
   const [voiceEnabled, setVoiceEnabled] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     loadUserName();
     handleFontSize();
     handleChangeColor();
     checkVoiceIsEnabled();
+    handleChangeColor();
   });
 
   function initVoiceListeners() {
@@ -51,6 +70,23 @@ function Home({navigation}) {
       const phrase = e.value;
       executeVoiceCommand(phrase);
     };
+  }
+
+  async function sendCommandDrain() {
+    const name = AsyncStorage.getItem('coolerName');
+
+    if (name === 'Nenhum' || !name) {
+      setModalVisible(true);
+    }
+
+    try {
+      // Send a POST request
+      await api.post('/drain-water-command', {
+        command: 'ON',
+      });
+    } catch (err) {
+      setModalVisible(true);
+    }
   }
 
   async function executeVoiceCommand(phrase) {
@@ -85,6 +121,19 @@ function Home({navigation}) {
     ) {
       goToPage('AboutUs');
       Tts.speak('Indo para quem somos de onde viemos');
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'escoar água') >= 0.75
+    ) {
+      sendCommandDrain();
+      Tts.speak('Água está sendo escoada');
+    } else if (
+      StringSimilarity.compareTwoStrings(
+        phraseLowerCase,
+        'parar de escoar água',
+      ) >= 0.75
+    ) {
+      sendCommandDrain();
+      Tts.speak('Água não está sendo escoada');
     } else if (
       StringSimilarity.compareTwoStrings(phraseLowerCase, 'sobre o projeto') >=
       0.75
@@ -171,6 +220,15 @@ function Home({navigation}) {
 
       <ScrollView>
         <Container>
+          <AlertModal
+            onPress={() => {
+              setModalVisible(false);
+              AsyncStorage.setItem('coolerName', 'Nenhum');
+            }}
+            isVisible={modalVisible}
+            text="O Cooler está desconectado! Por favor, verifique a conexão com seu cooler."
+          />
+
           <TextName fontSize="30px"> Olá, {userName}</TextName>
 
           <ButtonsRow>
@@ -210,14 +268,14 @@ function Home({navigation}) {
             />
 
             <BtnDefault
-              text="Atualizar Cooler"
+              text="Escoar água"
               textColor="#000"
               fontSize={fontSize}
               btnColor={btnFirstColor}
               btnHeight="72px"
               btnWidth={buttonWidth}
-              icon={refreshIcon}
-              onPress={() => console.log('Atualizar Cooler')}
+              icon={escoarIcon}
+              onPress={() => sendCommandDrain()}
             />
           </ButtonsRow>
 
