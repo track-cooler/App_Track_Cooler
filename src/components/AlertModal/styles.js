@@ -1,65 +1,54 @@
 import styled from 'styled-components/native';
 
-export const AlertContainer = styled.View`
-  display: flex;
-  flex-direction: column;
+export const CenteredView = styled.View`'
+  flex: 1;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  padding: 15px 22px;
-  width: 88%;
-  border-radius: 10px;
-  background: #218380;
+  margin-top: 22px;
 `;
 
-export const ConfirmAlertButton = styled.TouchableOpacity`
-  border-radius: 5px;
-  background: #77B6EA;
-  padding: 8px 0px;
+export const ModalView = styled.View`
+  display: flex;
+  padding: 15px;
+  width: 88%;
+  margin: 20px;
+  background-color: #218380;
+  border-radius: 20px;
+  align-items: center;
+  shadow-color: #000;
+  shadow-offset: {
+    width: 0;
+    height: 2;
+  }
+  shadow-opacity: 0.25;
+  shadow-radius: 3.84px;
+  elevation: 5;
+`;
+
+export const OpenButton = styled.TouchableHighlight`
+  background-color: #77b6ea;
+  border-radius: 20px;
+  padding: 10px;
+  elevation: 2;
   width: 122px;
   display: flex;
-  align-items: center;
-`
+`;
 
-export const ConfirmAlertText = styled.Text`
+export const TextStyle = styled.Text`
+  font-weight: bold;
+  text-align: center;
+  font-family: Montserrat;
+  font-style: normal;
+  font-size: 15px;
+  color: #ffffff;
+`;
+
+export const ModalText = styled.Text`
   font-family: Montserrat;
   font-style: normal;
   font-weight: bold;
-  font-size: 24px;
-  color: #FFFFFF;
-`
-
-export const AlertTitle = styled.Text`
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 36px;
-  line-height: 44px;
-  color: #FFFFFF;
-`
-
-export const AlertMessage = styled.Text`
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 29px;
-  color: #FFFFFF;
-  margin: 32px 0px;
-`
-
-export const AlertMessageBox = styled.View`
-  width: 100%;
-`
-
-export const AlertBackdrop = styled.View`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.32);
-  z-index: 100;
-`
+  font-size: 25px;
+  color: #ffffff;
+  margin-bottom: 15px;
+  text-align: center;
+`;

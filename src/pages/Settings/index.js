@@ -62,9 +62,8 @@ export default function Settings({navigation}) {
   const [voiceStatus, setVoiceStatus] = useState(false);
   const [fontSize, setFontSize] = useState('18px');
   const [isSwitchOn, setIsSwitchOn] = useState(location.getLocationIsOn);
-  const [modalVisible2, setModalVisible2] = useState(false);
   const [followStatus, setFollowStatus] = useState(false);
-  const [modalDisplay, setModalDisplay] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     getContrastStatus();
@@ -81,37 +80,21 @@ export default function Settings({navigation}) {
   });
 
   const onToggleSwitch = async (state) => {
-    let count = 0;
     if (state) {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         console.log('permissão concedida');
-        console.log('StarModal');
         const status = (await AsyncStorage.getItem('voiceEnabled')) === 'true';
         let aux = status;
-        intervalID = setInterval(() => {
-          count++;
-          if (count === 10) {
-            onToggleSwitch(false);
-            setIsSwitchOn(false);
-            if (aux === true) {
-              Vibration.vibrate(1000);
-              Tts.speak(
-                'Cooler parou de te seguir, por favor verificar cooler',
-              );
-            } else {
-              setModalVisible2(true);
-            }
-          }
-        }, 4000);
+        intervalID = setInterval(() => {}, 4000);
 
         location.startLocation(state);
       } else {
         console.error('permissão negada');
       }
-    }else{
+    } else {
       location.startLocation(state);
       clearInterval(intervalID);
     }
@@ -360,7 +343,6 @@ export default function Settings({navigation}) {
     } catch (e) {
       Alert.alert(e);
     }
-    setModalDisplay(true);
   };
 
   const setFontSizeLarge = async () => {
@@ -437,17 +419,33 @@ export default function Settings({navigation}) {
 
   const handleFollowMode = async (status) => {
     if (!status) {
-      api.post('/follow', {status: 'ON'});
+      try {
+        const res = await api.post('/follow', {status: 'ON'});
 
-      await AsyncStorage.setItem('followMode', 'true');
+        await AsyncStorage.setItem('followMode', 'true');
 
-      setFollowStatus(true);
+        setFollowStatus(true);
+      } catch (err) {
+        // handle follow status
+        setFollowStatus(false);
+        await AsyncStorage.setItem('followMode', 'false');
+
+        setModalVisible(true);
+      }
     } else {
-      api.post('/follow', {status: 'OFF'});
+      try {
+        const res = api.post('/follow', {status: 'OFF'});
 
-      await AsyncStorage.setItem('followMode', 'false');
+        await AsyncStorage.setItem('followMode', 'false');
 
-      setFollowStatus(false);
+        setFollowStatus(false);
+      } catch (err) {
+        // handle follow status
+        setFollowStatus(false);
+        await AsyncStorage.setItem('followMode', 'false');
+
+        setModalVisible(true);
+      }
     }
   };
 
@@ -459,29 +457,15 @@ export default function Settings({navigation}) {
       ) : null}
       <ScrollView>
         <Container>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible2}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
-            }}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>
-                  Cooler parou de te seguir, por favor verificar cooler
-                </Text>
+          <AlertModal
+            onPress={() => {
+              setModalVisible(false);
+              AsyncStorage.setItem('coolerName', 'Nenhum');
+            }}
+            isVisible={modalVisible}
+            text="O Cooler está desconectado! Por favor, verifique a conexão com seu cooler."
+          />
 
-                <TouchableHighlight
-                  style={{...styles.openButton, backgroundColor: '#2196F3'}}
-                  onPress={() => {
-                    setModalVisible2(!modalVisible2);
-                  }}>
-                  <Text style={styles.textStyle}> OK </Text>
-                </TouchableHighlight>
-              </View>
-            </View>
-          </Modal>
           <ToggleDefault
             text="Bluetooth"
             fontSize="24px"
@@ -572,54 +556,3 @@ export default function Settings({navigation}) {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    display: 'flex',
-    padding: 15,
-    width: '88%',
-    margin: 20,
-    backgroundColor: '#218380',
-    borderRadius: 20,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  openButton: {
-    backgroundColor: '#77B6EA',
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    width: 122,
-    display: 'flex',
-  },
-  textStyle: {
-    fontWeight: 'bold',
-    textAlign: 'center',
-    fontFamily: 'Montserrat',
-    fontStyle: 'normal',
-    fontSize: 15,
-    color: '#FFFFFF',
-  },
-  modalText: {
-    fontFamily: 'Montserrat',
-    fontStyle: 'normal',
-    fontWeight: 'bold',
-    fontSize: 25,
-    color: '#FFFFFF',
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-});

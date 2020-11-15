@@ -117,6 +117,11 @@ function BluetoothConnection({navigation}) {
       StringSimilarity.compareTwoStrings(phraseLowerCase, 'status') >= 0.75
     ) {
       Tts.speak(`${coolerName} está conectado`);
+    } else if (
+      StringSimilarity.compareTwoStrings(phraseLowerCase, 'voltar') >= 0.75
+    ) {
+      goToPage('Home');
+      Tts.speak('Indo para menu');
     } else {
       ToastAndroid.show(
         'Não foi possível reconhecer o comando. Tente novamente',
@@ -124,6 +129,12 @@ function BluetoothConnection({navigation}) {
       );
       Tts.speak('Desculpa, não te entendi. Por favor repita.');
     }
+  }
+
+  async function goToPage(page) {
+    navigation.navigate(page);
+    Voice.removeAllListeners();
+    console.log(await Voice.stop());
   }
 
   const connectBluetooth = async (bluetoothName, pin) => {

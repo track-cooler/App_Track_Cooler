@@ -1,36 +1,30 @@
-import React, {Component} from 'react';
+/*eslint-disable */
 
-import {AlertContainer,
-    ConfirmAlertButton,
-    ConfirmAlertText,
-    AlertTitle,
-    AlertMessage,
-    AlertMessageBox,
-    AlertBackdrop
-} from "./styles.js";
+import {Modal} from 'react-native';
+import React from 'react';
 
-const AlertModal = ({
-    title,
-    message
-}) => (
-    <AlertBackdrop>
-        <AlertContainer>
-            <AlertMessageBox>
-                <AlertTitle>
-                    {title}
-                </AlertTitle>
-                <AlertMessage>
-                    {message}
-                </AlertMessage>
-            </AlertMessageBox>
-            <ConfirmAlertButton>
-                <ConfirmAlertText>
-                    Ok
-                </ConfirmAlertText>
-            </ConfirmAlertButton>
-        </AlertContainer>
-    </AlertBackdrop>
+import {
+  CenteredView,
+  ModalView,
+  OpenButton,
+  TextStyle,
+  ModalText,
+} from './styles';
+
+const AlertModal = ({onPress, isVisible, text}) => (
+  <>
+    <Modal animationType="slide" transparent={true} visible={isVisible}>
+      <CenteredView>
+        <ModalView>
+          <ModalText>{text}</ModalText>
+
+          <OpenButton onPress={onPress}>
+            <TextStyle> OK </TextStyle>
+          </OpenButton>
+        </ModalView>
+      </CenteredView>
+    </Modal>
+  </>
 );
 
 export default AlertModal;
-

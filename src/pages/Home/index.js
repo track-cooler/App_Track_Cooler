@@ -21,6 +21,7 @@ import BtnDefault from '~/components/BtnDefault';
 import SmallBtn from '~/components/SmallBtn';
 import CustomHeader from '~/components/CustomHeader';
 import FloatActionButton from '~/components/FloatActionButton';
+import AlertModal from '~/components/AlertModal';
 
 // Styles
 import {Container, ButtonsRow, TextName, InfoText, ButtonView} from './styles';
@@ -72,17 +73,19 @@ function Home({navigation}) {
   }
 
   async function sendCommandDrain() {
-    // Send a POST request
-    command = !command;
-    console.log(command);
-    if (command) {
+    const name = AsyncStorage.getItem('coolerName');
+
+    if (name === 'Nenhum' || !name) {
+      setModalVisible(true);
+    }
+
+    try {
+      // Send a POST request
       await api.post('/drain-water-command', {
-        command: 'True',
+        command: 'ON',
       });
-    } else {
-      await api.post('/drain-water-command', {
-        command: 'false',
-      });
+    } catch (err) {
+      setModalVisible(true);
     }
   }
 
@@ -182,29 +185,6 @@ function Home({navigation}) {
     setFontSize(size);
   };
 
-  const startModal = async () => {
-    console.log('StarModal');
-
-    const status = (await AsyncStorage.getItem('voiceEnabled')) === 'true';
-    let aux = status;
-    intervalID = setInterval(() => {
-      console.log('AUX', aux);
-
-      console.log('PREPARANDO MODAL');
-      count++;
-      if (count === 10) {
-        console.log('Executando modal');
-        if (aux === true) {
-          Vibration.vibrate(1000);
-
-          Tts.speak('cooler foi desconectado, por favor verificar cooler');
-        } else {
-          setModalVisible(true);
-        }
-      }
-    }, 4000);
-  };
-
   const loadUserName = async () => {
     const asyncName = await AsyncStorage.getItem('username');
     const name = asyncName ? asyncName : '(Cadastre seu nome)';
@@ -240,30 +220,14 @@ function Home({navigation}) {
 
       <ScrollView>
         <Container>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
-            }}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>
-                  O Cooler foi desconectado, por favor verificar cooler.
-                </Text>
-
-                <TouchableHighlight
-                  style={{...styles.openButton, backgroundColor: '#2196F3'}}
-                  onPress={() => {
-                    clearInterval(intervalID);
-                    setModalVisible(!modalVisible);
-                  }}>
-                  <Text style={styles.textStyle}> ok </Text>
-                </TouchableHighlight>
-              </View>
-            </View>
-          </Modal>
+          <AlertModal
+            onPress={() => {
+              setModalVisible(false);
+              AsyncStorage.setItem('coolerName', 'Nenhum');
+            }}
+            isVisible={modalVisible}
+            text="O Cooler está desconectado! Por favor, verifique a conexão com seu cooler."
+          />
 
           <TextName fontSize="30px"> Olá, {userName}</TextName>
 
@@ -311,7 +275,7 @@ function Home({navigation}) {
               btnHeight="72px"
               btnWidth={buttonWidth}
               icon={escoarIcon}
-              onPress={() => sendCommandDrain().then(setModalVisible(true))}
+              onPress={() => sendCommandDrain()}
             />
           </ButtonsRow>
 
@@ -344,56 +308,5 @@ function Home({navigation}) {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    display: 'flex',
-    padding: 15,
-    width: '88%',
-    margin: 20,
-    backgroundColor: '#218380',
-    borderRadius: 20,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  openButton: {
-    backgroundColor: '#77B6EA',
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    width: 122,
-    display: 'flex',
-  },
-  textStyle: {
-    fontWeight: 'bold',
-    textAlign: 'center',
-    fontFamily: 'Montserrat',
-    fontStyle: 'normal',
-    fontSize: 15,
-    color: '#FFFFFF',
-  },
-  modalText: {
-    fontFamily: 'Montserrat',
-    fontStyle: 'normal',
-    fontWeight: 'bold',
-    fontSize: 25,
-    color: '#FFFFFF',
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-});
 
 export default Home;
