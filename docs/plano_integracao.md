@@ -15,7 +15,7 @@ Para que seja possível a conexão da ESP32 com o usuário, habilita-se a biblio
 emparelhe com o celular do usuário, assim sendo possível além da conexão com outro
 aparelho, o envio e recebimento de dados.
 
-![Integração]()
+![Integração](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/elet_soft.jpeg?raw=true)
 
 <center>Figura 1 – Integração do subsistema de Eletrônica com o subsistema de Software. Fonte: Autor.</center>
 
@@ -63,15 +63,15 @@ da caixa térmica (figura 2), tendo 35 mm de largura, 80 mm de comprimento e 10 
 de profundidade.
 
 
-![Display]()
+![Display](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/displaylcdcooler.jpg?raw=true)
 
 <center>Figura 2 – Display LCD integrado ao cooler. Fonte: Autor.</center>
 
-![LCD Frontal]()
+![LCD Frontal](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/RenderCompleto2.jpg?raw=true)
 
 <center>Figura 3 – Visão frontal mostrando o LCD e os sensores ultrassônicos. Fonte: Autor.</center>
 
-![Sensores]()
+![Sensores](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/coolerfinalinferior.jpg?raw=true)
 
 <center>Figura 4 – Vista da parte inferior com a válvula, sensores ultrassônicos, caixa de circuitos e baterias. Fonte: Autor.</center>
 
@@ -79,7 +79,7 @@ Diferentemente do sensor ultrassônico e display LCD, o sensor de temperatura
 deve ficar na parte interna caixa térmica, e para permitir sua correta acomodação foi
 feito um abrigo (figura 5) semicircular com 12 mm de raio e 86 mm de altura.
 
-![Sensor Temperatura]()
+![Sensor Temperatura](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/sensortemp.jpg?raw=true)
 
 <center>Figura 5 – Sensor de temperatura na parte interna. Fonte: Autor.</center>
 
@@ -90,7 +90,7 @@ foi feito um duto na parte inferior da caixa, que terá uma luva de PVC de 1/2"c
 que vai facilitar a união da válvula solenoide a estrutura. As figuras 4 e 6 mostram a
 localização da válvula na parte inferior, e o local do duto de escoamento na parte interna.
 
-![Escoamento]()
+![Escoamento](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/interiorcaixa.jpg?raw=true)
 
 <center>Figura 6 – Visão do interior com o duto para o escoamento da água. Fonte: Autor.</center>
 
@@ -100,15 +100,15 @@ foi feita em uma caixa plástica de material ABS (figura 7) com 100 mm de largur
 passagem dos dissipadores de calor das pontes H e pontos de fixação dos parafusos para
 fixar as placas em suas devidas posições.
 
-![Componetes eletrônicos]()
+![Componetes eletrônicos](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/caixa_componentes.jpeg?raw=true)
 
 <center>Figura 7 –  Caixa dos componentes eletrônicos com os circuitos presos. Fonte: Autor.</center>
 
-![Vista explodida]()
+![Vista explodida](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/caixaeletronics.jpg?raw=true)
 
 <center>Figura 8 –  Vista explodida circuitos e caixa dos componentes eletrônicos. Fonte: Autor.</center>
 
-![Caixa dissipadores]()
+![Caixa dissipadores](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/eletr2.jpg?raw=true)
 
 <center>Figura 9 –  Parte inferior da caixa com os dissipadores para o lado de fora. Fonte: Autor.</center>
 
@@ -119,7 +119,7 @@ troca. Elas são feitas de fibra de vidro, possuindo 65,5 mm de comprimento e 40
 largura (para as tampa do sensor ultrassônico), e 100 mm de comprimento e 55 mm de
 largura (tampa do display LCD).
 
-![Tampas de manutenção]()
+![Tampas de manutenção](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tampas.PNG?raw=true)
 
 <center>Figura 10 –  Tampas de manutenção. Fonte: Autor.</center>
 
@@ -136,17 +136,17 @@ O pino de conexão do carregador escolhido foi um conector P4 fêmea, que está
 localizado em um furo feito na cantoneira transversal traseira do chassi. Essa localização
 foi escolhida por estar próximo das baterias e em um local de fácil acesso.
 
-![Localização do conector]()
+![Localização do conector](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/interruptor2.png?raw=true)
 
 <center>Figura 11 – Localização do conector P4. Fonte: Autor.</center>
 
 A carcaça do carregador, foi feita em impressora 3D com material ABS. Suas
 dimensões são 154 mm de comprimento, 103 mm de largura e 64 mm de altura. A figura 12 mostra o carregador aberto com a PCB e os transformadores em seu interior.
 
-![Carregador]()
+![Carregador](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/carreg.PNG?raw=true)
 
 <center>Figura 12 – Carregador. Fonte: Autor.</center>
 
-![Integração dos Subsistemas]()
+![Integração dos Subsistemas](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/plano_integracao.png?raw=true)
 
 <center>Figura 13 – Integração de todos os subsistemas do Track Cooler. Fonte: Autor.</center>
