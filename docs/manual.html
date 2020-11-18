@@ -1,0 +1,242 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Manual de Usabilidade do APP Track Cooler · Track Cooler</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Com o APP Track Cooler é possível visualizar as informações do cooler e gerenciar"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Manual de Usabilidade do APP Track Cooler · Track Cooler"/><meta property="og:type" content="website"/><meta property="og:url" content="https://track-cooler.github.io/app_track_cooler/"/><meta property="og:description" content="Com o APP Track Cooler é possível visualizar as informações do cooler e gerenciar"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/app_track_cooler/img/logo.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/app_track_cooler/js/scrollSpy.js"></script><link rel="stylesheet" href="/app_track_cooler/css/main.css"/><script src="/app_track_cooler/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/app_track_cooler/"><img class="logo" src="/app_track_cooler/img/logo.png" alt="Track Cooler"/><h2 class="headerTitleWithLogo">Track Cooler</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/app_track_cooler/docs/tecUtilizadas" target="_self">Docs</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Planos de Software</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Arquitetura da Informação</h3><ul class=""><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/tecUtilizadas">Tecnologias Utilizadas</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/manutencao">Manutenção</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/prototipo">Protótipo</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Modelagem de Requisitos</h3><ul class=""><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/casoUso">Especificação de Caso de Uso</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/espSuplementar">Especificação Suplementar</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/requisitos">Requisitos de Software</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Arquitetura do Software</h3><ul class=""><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/definicaoArquitetural">Definicao Arquitetural</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/modelagemDados">Modelagem Dados</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Planos de Software</h3><ul class=""><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/planoConfiguracao">Plano de Gerência e Configuração de Software</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/planoTeste">Plano de Testes</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/app_track_cooler/docs/manual">Manual de Usabilidade do APP Track Cooler</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Inovação</h3><ul class=""><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/inovacao">Inovação</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Sprint</h3><ul class=""><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/sprint0">Sprint 0</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/sprint1">Sprint 1</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/sprint2">Sprint 2</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/sprint3">Sprint 3</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/sprint4">Sprint 4</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/sprint5">Sprint 5</a></li><li class="navListItem"><a class="navItem" href="/app_track_cooler/docs/sprint6">Sprint 6</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Manual de Usabilidade do APP Track Cooler</h1></header><article><div><span><p>Com o APP Track Cooler é possível visualizar as informações do cooler e gerenciar
+algumas de suas funcionalidades. Ele permite que o usuário possa verificar informações
+do cooler como o status da conexão, a temperatura interna, o nível de bateria, alertas
+caso tenha percalços pelo caminho, além de fazer o gerenciamento do escoamento de
+água e de suas configurações gerais. O APP Track Cooler conta também com o modo de
+acessibilidade onde usuários com necessidade visual e daltônicos podem desfrutar de um
+aplicativo com letras adaptadas, mudança de contraste de cores e com comando de voz.
+Neste manual você encontra o passo a passo das funcionalidades do APP Track Cooler.</p>
+<h2><a class="anchor" aria-hidden="true" id="dashboard"></a><a href="#dashboard" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>DASHBOARD</h2>
+<p>O Dashboard representa visualmente de forma rápida as principais funções existentes. Ao acessar o aplicativo, a tela que você irá visualizar será a Figura 153. Entenda
+abaixo o que cada função representa.</p>
+<p><img src="" alt="Home"></p>
+<p><center>Figura 1 –  Dashboard do Aplicativo. Fonte: Autor.</center></p>
+<ol>
+<li><p><strong>Info cooler (Informações do cooler)</strong> -  permite a visualização das informações
+gerais do cooler, como status da conexão com o Bluetooth, a temperatura interna,
+o nível de bateria e o histórico de coolers.</p></li>
+<li><p><strong>Configurações</strong> - – permite que possa ativar o Bluetooth, a localização, a comando
+de voz, alteração de contraste, o cadastro de nome do usuário e mudar o tamanho da letra.</p></li>
+<li><p><strong>Conectar cooler</strong> – permite que o cooler se conecte ao Bluetooth.</p></li>
+<li><p><strong>Escoar Água</strong> – aciona o escoamento de água do cooler.</p></li>
+<li><p><strong>Quem Somos</strong> – informações da equipe de desenvolvimento do projeto.</p></li>
+<li><p><strong>Sobre o Projeto</strong> – informações sobre o projeto.</p></li>
+</ol>
+<h2><a class="anchor" aria-hidden="true" id="info-cooler"></a><a href="#info-cooler" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>INFO COOLER</h2>
+<p>Nesta seção iremos visualizar os dados do cooler. Selecione então a opção Info
+Cooler(Figura 2), disponível no Dashboard.</p>
+<p><img src="" alt="Botão Info"></p>
+<p><center>Figura 2 – Botão Info do Aplicativo. Fonte: Autor.</center></p>
+<p>A tela que você irá visualizar está representada na Figura 3.</p>
+<p><img src="" alt="Tela Info"></p>
+<p><center>Figura 3 – Tela Info do Aplicativo. Fonte: Autor.</center></p>
+<ul>
+<li>Vemos o “Status” de conexão, onde mostra se tem algum cooler conectado ou não
+no momento.</li>
+<li>A temperatura interna do Track Cooler em graus Celsius.</li>
+<li>A porcentagem do nível da bateria do Track Cooler.</li>
+<li>Histórico de coolers, onde podemos ver uma lista de quais foram os coolers que o aplicativo se conectou.</li>
+</ul>
+<p>Para atualizar os dados basta apertar o botão de atualizar (BOTÃO DE ATUALIZAR) e as informações serão atualizadas.</p>
+<h2><a class="anchor" aria-hidden="true" id="configurações"></a><a href="#configurações" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CONFIGURAÇÕES</h2>
+<p>Nesta seção iremos alterar as configurações do aplicativo. Selecione então a opção
+Configurações(Figura 4), disponível no Dashboard.</p>
+<p><img src="" alt="Botão Configuração"></p>
+<p><center>Figura 4 – Botão de Configuração do Aplicativo. Fonte: Autor.</center></p>
+<p>Você visualizará a tela da Figura 5.</p>
+<p><img src="" alt="Tela Configuração"></p>
+<p><center>Figura 5 – Tela de Configuração do Aplicativo. Fonte: Autor.</center></p>
+<p>A tela que você irá visualizar quando mudar o contraste será a da Figura 6.</p>
+<p><img src="" alt="Tela Configuração Contrate"></p>
+<p><center>Figura 6 – Mudança de Constraste do Aplicativo. Fonte: Autor.</center></p>
+<ul>
+<li>Se desejar ativar o Bluetooth basta apenas mover o botão (BOTÃO MOVER PARA O LADO) para a direita.</li>
+<li>Se desejar ativar a localização basta apenas mover o botão (BOTÃO MOVER PARA O LADO) para a direita.</li>
+<li>Se desejar ativar o comando de voz basta apenas mover o botão (BOTÃO MOVER PARA O LADO) para a direita.
+Todos os comando de voz estará no fim deste manual.</li>
+<li>Se desejar ativar a mudança de contraste do aplicativo basta apenas mover o botão (BOTÃO MOVER PARA O LADO) para a direita.</li>
+<li>Para cadastrar o nome basta inserir o nome no campo “Digite um nome de usuário” e apertar o botão (BOTÃO SALVAR)</li>
+<li>Para trocar o tamanho da letra basta apertar no botão que deseja o tamanho (BOTÃO LETRA PEQUENA) (BOTÃO LETRA NORMAL) (BOTÃO LETRA GRANDE)</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="conectar-cooler"></a><a href="#conectar-cooler" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CONECTAR COOLER</h2>
+<p>Nesta seção iremos conectar a um cooler. Selecione então a opção Conectar Cooler, disponível no Dashboard (Figura 7).</p>
+<p><img src="" alt="Botão Conectar"></p>
+<p><center>Figura 7 – Botão de Conexão do Aplicativo. Fonte: Autor.</center></p>
+<p>A tela que você irá visualizar está representada na Figura 8.</p>
+<p><img src="" alt="Tela Conexão"></p>
+<p><center>Figura 8 – Tela de Conexão do Aplicativo. Fonte: Autor.</center></p>
+<h2><a class="anchor" aria-hidden="true" id="escoar-água"></a><a href="#escoar-água" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ESCOAR ÁGUA</h2>
+<p>Nesta seção iremos escoar a água acumulada do cooler. Selecione então a opção Escoar Água, disponível no Dashboard (Figura 9).</p>
+<p><img src="" alt="Botão Escoar Água"></p>
+<p><center>Figura 9 – Botão de Escoamento do Aplicativo. Fonte: Autor.</center></p>
+<h2><a class="anchor" aria-hidden="true" id="quem-somos"></a><a href="#quem-somos" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>QUEM SOMOS</h2>
+<p>Nesta seção iremos visualizar as informações sobre os desenvolvedores. Selecione então a opção Quem Somos, disponível no Dashboard (Figura 10).</p>
+<p><img src="" alt="Botão Quem Somos"></p>
+<p><center>Figura 10 – Botão Quem Somos do Aplicativo. Fonte: Autor.</center></p>
+<p>Você irá visualizar a tela da Figura 11.</p>
+<p><img src="" alt="Tela Quem Somos"></p>
+<p><center>Figura 11 – Tela Quem Somos do Aplicativo. Fonte: Autor.</center></p>
+<p>Essa tela apenas fornece informações sobre os desenvolvedores do projeto Track Cooler.</p>
+<h2><a class="anchor" aria-hidden="true" id="sobre-o-projeto"></a><a href="#sobre-o-projeto" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SOBRE O PROJETO</h2>
+<p>Nesta seção iremos visualizar as informações sobre o projeto. Selecione então a
+opção Sobre o Projeto, disponível no Dashboard (Figura 12).</p>
+<p><img src="" alt="Botão Sobre Projeto"></p>
+<p><center>Figura 12 – Botão Sobre o Projeto do Aplicativo. Fonte: Autor.</center></p>
+<p>A tela que você irá visualizar está apresentada na Figura 13.</p>
+<p><img src="" alt="Tela Sobre Projeto"></p>
+<p><center>Figura 13 – Tela Sobre o Projeto. Fonte: Autor.</center></p>
+<p>Essa tela além de fornecer informações sobre o projeto Track Cooler ela também
+fornece acesso para o nosso GitHub, basta apenas apertar na frase em destaque “GitHub – Track Cooler” e será redirecionado para o nosso GitHub.</p>
+<h2><a class="anchor" aria-hidden="true" id="alertas"></a><a href="#alertas" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ALERTAS</h2>
+<p>O aplicativo exibirá um alerta caso o cooler pare de seguir o usuário ou caso seja desconectado (Figura 14).</p>
+<p><img src="" alt="Tela Alertas"></p>
+<p><center>Figura 14 – Tela de Alerta caso o cooler seja desconectado. Fonte: Autor.</center></p>
+<p>A aplicação possui dois alertas que podem ser disparados para que o usuário seja
+avisado que ocorreu algum erro no cooler. Caso ocorra algum problema na conexão entre
+o aplicativo e o cooler aparecerá um modal alertando o usuário e solicitando ao usuário a
+verificação do cooler. Quando o controle de voz estiver ativado os alertas irão ser através de
+uma vibração no celular e um aviso sonoro avisando o usuário sobre o problema ocorrido.</p>
+<h2><a class="anchor" aria-hidden="true" id="comando-de-voz"></a><a href="#comando-de-voz" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>COMANDO DE VOZ</h2>
+<p>Ao ativar o modo de comando de voz na tela de Configurações, o APP Track Cooler ficará interativo por voz(Figura 15).</p>
+<p><img src="" alt="Botão Comando de Voz"></p>
+<p><center>Figura 15 – Ativação dos comandos de voz. Fonte: Autor.</center></p>
+<p>Se caso seja a primeira vez que esteja ativando o comando de voz, lembre-se de
+aceitar as permissões do celular. Isto só precisa ser feito uma vez.</p>
+<p>Uma vez ativada o modo de voz um botão parecido com um &quot;microfone&quot; que irá aparecer no canto inferior direito de todas as telas do aplicativo. Para indicar o comando basta
+apertar o botão, falar o comando desejado e esperar pela resposta. Caso o sistema não
+entenda, a resposta retornada será: &quot;Desculpa, não te entendi. Por favor repita&quot; e o usuário terá que repetir até que o sistema possa entendê-lo. A lista dos comandos respostas
+esperadas estão listadas logo abaixo.</p>
+<p><strong>Tela de Dashboard</strong></p>
+<table>
+<thead>
+<tr><th style="text-align:center">Comando</th><th style="text-align:center">Resposta esperada</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Para configurações</td><td style="text-align:center">Indo para configurações.</td></tr>
+<tr><td style="text-align:center">Ver informações</td><td style="text-align:center">Indo para informações.</td></tr>
+<tr><td style="text-align:center">Conectar</td><td style="text-align:center">Indo para conexão.</td></tr>
+<tr><td style="text-align:center">Escoar água</td><td style="text-align:center">Escoando água do cooler.</td></tr>
+<tr><td style="text-align:center">Quem somos</td><td style="text-align:center">Indo para quem somos.</td></tr>
+<tr><td style="text-align:center">Sobre o projeto</td><td style="text-align:center">Indo para sobre o projeto.</td></tr>
+</tbody>
+</table>
+<p><strong>Tela de Informação</strong></p>
+<table>
+<thead>
+<tr><th style="text-align:center">Comando</th><th style="text-align:center">Resposta esperada</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Status</td><td style="text-align:center">&quot;Nome do cooler&quot; está conectado.</td></tr>
+<tr><td style="text-align:center">Temperatura</td><td style="text-align:center">A temperatura do cooler é de &quot;temperatura&quot; graus Celsius.</td></tr>
+<tr><td style="text-align:center">Nível de bateria</td><td style="text-align:center">O nível de bateria é de &quot;bateria&quot; por cento.</td></tr>
+<tr><td style="text-align:center">Histórico</td><td style="text-align:center">O último cooler a se conectar foi &quot;nome do cooler&quot;.</td></tr>
+<tr><td style="text-align:center">Atualizar</td><td style="text-align:center">As informações foram atualizadas.</td></tr>
+<tr><td style="text-align:center">Voltar</td><td style="text-align:center">Indo para o menu.</td></tr>
+</tbody>
+</table>
+<p><strong>Tela de Configurações</strong></p>
+<table>
+<thead>
+<tr><th style="text-align:center">Comando</th><th style="text-align:center">Resposta esperada</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Ligar Bluetooth</td><td style="text-align:center">Ligando o Bluetooth.</td></tr>
+<tr><td style="text-align:center">Desligar Bluetooth</td><td style="text-align:center">Desligando o Bluetooth.</td></tr>
+<tr><td style="text-align:center">Ativar localização</td><td style="text-align:center">Ativando GPS.</td></tr>
+<tr><td style="text-align:center">Desativar localização</td><td style="text-align:center">Desativando GPS.</td></tr>
+<tr><td style="text-align:center">Mudar letra para pequena</td><td style="text-align:center">Mudando letra para pequena.</td></tr>
+<tr><td style="text-align:center">Mudar letra para normal</td><td style="text-align:center">Mudando letra para normal.</td></tr>
+<tr><td style="text-align:center">Mudar letra para grande</td><td style="text-align:center">Mudando letra para grande.</td></tr>
+<tr><td style="text-align:center">Mudar nome para &quot;nome&quot;</td><td style="text-align:center">Nome alterado para &quot;nome do usuário&quot;.</td></tr>
+<tr><td style="text-align:center">Mudar contraste</td><td style="text-align:center">Alterando o contraste.</td></tr>
+<tr><td style="text-align:center">Voltar</td><td style="text-align:center">Indo para menu.</td></tr>
+</tbody>
+</table>
+<p><strong>Tela Conectar Cooler</strong></p>
+<table>
+<thead>
+<tr><th style="text-align:center">Comando</th><th style="text-align:center">Resposta esperada</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Status</td><td style="text-align:center">&quot;Cooler&quot; está conectado.</td></tr>
+<tr><td style="text-align:center">Voltar</td><td style="text-align:center">Indo para menu.</td></tr>
+</tbody>
+</table>
+<p><strong>Tela Quem Somos</strong></p>
+<table>
+<thead>
+<tr><th style="text-align:center">Comando</th><th style="text-align:center">Resposta esperada</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Desenvolvedores</td><td style="text-align:center">Grupo de discentes dos cursos de engenharia de software, eletrônica, automotiva, aeroespacial e de energia da Universidade de Brasília que estão matriculados na disciplina Projeto Integrador 2.</td></tr>
+<tr><td style="text-align:center">Voltar</td><td style="text-align:center">Indo para menu.</td></tr>
+</tbody>
+</table>
+<p><strong>Tela Sobre o Projeto</strong></p>
+<table>
+<thead>
+<tr><th style="text-align:center">Comando</th><th style="text-align:center">Resposta esperada</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Projeto</td><td style="text-align:center">O projeto &quot;Track Cooler&quot; consiste no desenvolvimento de um cooler robô, capaz de monitorar a temperatura interna, seguir o usuário de forma autônoma e fornecer informações por celular via aplicativo.</td></tr>
+<tr><td style="text-align:center">Voltar</td><td style="text-align:center">Indo para menu.</td></tr>
+</tbody>
+</table>
+<p>Este manual se concluí aqui!</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/app_track_cooler/docs/planoTeste"><span class="arrow-prev">← </span><span>Plano de Testes</span></a><a class="docs-next button" href="/app_track_cooler/docs/inovacao"><span>Inovação</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#dashboard">DASHBOARD</a></li><li><a href="#info-cooler">INFO COOLER</a></li><li><a href="#configurações">CONFIGURAÇÕES</a></li><li><a href="#conectar-cooler">CONECTAR COOLER</a></li><li><a href="#escoar-água">ESCOAR ÁGUA</a></li><li><a href="#quem-somos">QUEM SOMOS</a></li><li><a href="#sobre-o-projeto">SOBRE O PROJETO</a></li><li><a href="#alertas">ALERTAS</a></li><li><a href="#comando-de-voz">COMANDO DE VOZ</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/app_track_cooler/" class="nav-home"><img src="/app_track_cooler/img/logo.png" alt="Track Cooler" width="66" height="58"/></a><div><h5>Universidade de Brasília</h5><a href="https://github.com/track-cooler/app_track_cooler">Repositório</a><a href="https://github.com/track-cooler/app_track_cooler/blob/master/.github/plano_GCS.pdf">Contribuindo</a></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/app_track_cooler/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2020 Track Cooler</section></footer></div></body></html>
