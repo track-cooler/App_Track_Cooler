@@ -3,7 +3,7 @@
     "Arquitetura da Informação": ["tecUtilizadas", "manutencao", "prototipo"],
     "Modelagem de Requisitos": ["casoUso", "espSuplementar", "requisitos"],
     "Arquitetura do Software": ["definicaoArquitetural", "modelagemDados"],
-    "Planos de Software": ["planoConfiguracao", "planoTeste"],
+    "Planos de Software": ["planoConfiguracao", "planoTeste", "manual"],
     "Inovação": ["inovacao"],
     "Sprint": ["sprint0", "sprint1", "sprint2", "sprint3", "sprint4", "sprint5", "sprint6"]
 

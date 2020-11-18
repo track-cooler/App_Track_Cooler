@@ -49,6 +49,6 @@ As issues podem ser encontradas [aqui](https://github.com/track-cooler/app_track
 # Resultados
 ## Burndown
 
-![Burndown Sprint 2](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/sprint/burndownSprint2.png.png?raw=true)
+![Burndown Sprint 2](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/sprint/sprint2.jpeg?raw=true)
 
 <p align="middle">Resultado da Revisão da Sprint</p>

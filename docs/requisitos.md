@@ -52,3 +52,6 @@ Eu, como usuário, desejo alterar o contraste do aplicativo para melhor visualiz
 ## US11 - Alterar tamanho da fonte da letra:
 
 Eu, como usuário, desejo alterar o tamanho da fonte da letra para melhor adequação ao meu tipo de leitura.
+
+## US12 - Escoar água da caixa térmica:
+Eu, como usuário, desejo poder escoar água da caixa térmica para melhor controle térmico do Track Cooler.

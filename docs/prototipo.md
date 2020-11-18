@@ -5,60 +5,60 @@ title: Protótipo
 
 
 Protótipo é uma ferramenta usada para se obter respostas iniciais sobre os requisitos, através de um modelo funcional do produto esperado antes de efetivamente
-construí-lo. Já que um protótipo é tangível, ele permite que as partes interessadas façam experiências com um modelo do seu produto final, ao invés de somente discutirem
+construí-lo. Já que um protótipo é tangível, ele permite que as partes interessadas façam  experiências com um modelo do seu produto final, ao invés de somente discutirem
 representações abstratas dos seus requisitos.
+
 Foi utilizado o framework Figma para a modelagem do protótipo. O Figma é uma
 ferramenta de design de interface na qual todo o trabalho é feito através do navegador, é
 uma ferramenta multitarefa, ou seja, equipes multidisciplinares podem explorar o mesmo
 projeto juntas vendo as alterações em tempo real.
 
+Após o usuário abrir o aplicativo como vemos na Figura 1, ele tem acesso a
+tela principal, onde pode escolher entre ver informações do cooler, configurações gerais,
+conectar dispositivo celular a um cooler, atualizar cooler e também pode saber sobre o
+time de desenvolvimento e o projeto.
+
 ![Tela Principal](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_principal.png?raw=true)
 
-<center>Figura  – Tela Principal do Aplicativo. Fonte: Autor.</center>
+<center>Figura 1  – Tela Principal do Aplicativo. Fonte: Autor.</center>
 
-Após o usuário abrir o aplicativo ele terá acesso a tela principal, onde poderá
-escolher entre ver informações do cooler, configurações gerais, conectar dispositivo celular
-a um cooler, atualizar cooler e também poderá saber sobre o time de desenvolvimento e
-o projeto.
+Ao escolher a tela de configurações como vemos na Figura 2, o usuário tem acesso
+a diversas configurações de sistema, podendo definir um nome que foi usado no aplicativo,
+ligar/desligar o Bluetooth, ligar/desligar a localização e ligar/desligar o modo seguir.
 
 ![Tela Configuracao](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_configuracoes.png?raw=true)
 
-<center>Figura – Tela de Configurações do Aplicativo. Fonte: Autor.</center>
+<center>Figura 2 – Tela de Configurações do Aplicativo. Fonte: Autor.</center>
 
 
-Ao escolher a tela de configurações, o usuário terá acesso a diversas configurações de sistema, podendo definir um nome que será usado no aplicativo, ligar/desligar o
-bluetooth,ligar/desligar a localização e ligar/desligar o modo seguir.
+Ao escolher a tela de Informações do Cooler como mostrado na Figura 3, o usuário
+tem acesso às diversas informações referentes ao cooler, sendo essas o status de conexão
+mostrando qual cooler está conectado, temperatura interna do cooler, nível de bateria do
+cooler e o histórico de coolers.
 
 ![Tela Informação](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_info_cooler.png?raw=true)
 
-<center>Figura – Tela de Informações do Cooler. Fonte: Autor.</center>
+<center>Figura 3 – Tela de Informações do Cooler. Fonte: Autor.</center>
 
 
-Ao escolher a tela de Informações do Cooler, o usuário terá acesso às diversas
-informações referentes ao cooler, sendo essas o status de conexão mostrando qual cooler
-está conectado, temperatura interna do cooler, nível de bateria do cooler e o histórico de
-coolers.
+Na tela de conexão do cooler mostrada na Figura 4, o usuário tem acesso à
+dispositivos móveis pelo Bluetooth, podendo assim escolher o cooler para fazer a conexão.
 
 ![Tela Conexão](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_conectar.png?raw=true)
 
-<center>Figura – Tela de Conexão ao Cooler. Fonte: Autor.</center>
+<center>Figura 4 – Tela de Conexão ao Cooler. Fonte: Autor.</center>
 
 
-Na tela de conexão do cooler, o usuário terá acesso à dispositivos móveis pelo
-bluetooth, podendo assim escolher o cooler para fazer a conexão.
+As telas de "quem somos"e "sobre o projeto"mostradas nas Figura 5 e 6, terão
+informações sobre a equipe de desenvolvimento e sobre o projeto desenvolvido.
 
 ![Tela Quem Somos](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_quem_somos.png?raw=true)
 
-<center>Figura – Tela Quem Somos. Fonte: Autor.</center>
+<center>Figura 5 – Tela Quem Somos. Fonte: Autor.</center>
 
 ![Tela Sobre Projeto](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/tela_sobre_projeto.png?raw=true)
 
-<center>Figura – Tela Sobre o Projeto. Fonte: Autor.</center>
-
-
-As telas de "quem somos"e "sobre o projeto" terão as informações sobre a equipe
-de desenvolvimento e sobre o projeto desenvolvido.
-
+<center>Figura 6 – Tela Sobre o Projeto. Fonte: Autor.</center>
 
 ## Validação do Protótipo - Usuários Daltônicos
 
