@@ -14,10 +14,10 @@ Neste manual você encontra o passo a passo das funcionalidades do APP Track Coo
 
 ## DASHBOARD
 
-O Dashboard representa visualmente de forma rápida as principais funções existentes. Ao acessar o aplicativo, a tela que você irá visualizar será a Figura 153. Entenda
+O Dashboard representa visualmente de forma rápida as principais funções existentes. Ao acessar o aplicativo, a tela que você irá visualizar será a Figura 1. Entenda
 abaixo o que cada função representa.
 
-![Home]()
+![Home](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/dashboard_app.jpg?raw=true)
 
 <center>Figura 1 –  Dashboard do Aplicativo. Fonte: Autor.</center>
 
@@ -39,15 +39,15 @@ de voz, alteração de contraste, o cadastro de nome do usuário e mudar o taman
 ## INFO COOLER
 
 Nesta seção iremos visualizar os dados do cooler. Selecione então a opção Info
-Cooler(Figura 2), disponível no Dashboard.
+Cooler (Figura 2), disponível no Dashboard.
 
-![Botão Info]()
+![Botão Info](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/botaoInfo.jpg?raw=true)
 
 <center>Figura 2 – Botão Info do Aplicativo. Fonte: Autor.</center>
 
 A tela que você irá visualizar está representada na Figura 3.
 
-![Tela Info]()
+![Tela Info](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/telaInfo.png?raw=true)
 
 <center>Figura 3 – Tela Info do Aplicativo. Fonte: Autor.</center>
 
@@ -57,48 +57,48 @@ no momento.
 * A porcentagem do nível da bateria do Track Cooler.
 * Histórico de coolers, onde podemos ver uma lista de quais foram os coolers que o aplicativo se conectou.
 
-Para atualizar os dados basta apertar o botão de atualizar (BOTÃO DE ATUALIZAR) e as informações serão atualizadas.
+Para atualizar os dados basta apertar o botão de "atualizar" e as informações serão atualizadas.
 
 ## CONFIGURAÇÕES
 
 Nesta seção iremos alterar as configurações do aplicativo. Selecione então a opção
-Configurações(Figura 4), disponível no Dashboard.
+Configurações (Figura 4), disponível no Dashboard.
 
-![Botão Configuração]()
+![Botão Configuração](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/botaoConfig.jpg?raw=true)
 
 <center>Figura 4 – Botão de Configuração do Aplicativo. Fonte: Autor.</center>
 
 Você visualizará a tela da Figura 5.
 
-![Tela Configuração]()
+![Tela Configuração](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/telaConfig.png?raw=true)
 
 <center>Figura 5 – Tela de Configuração do Aplicativo. Fonte: Autor.</center>
 
 A tela que você irá visualizar quando mudar o contraste será a da Figura 6.
 
-![Tela Configuração Contrate]()
+![Tela Configuração Contrate](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/telaConfigContraste.png?raw=true)
 
 <center>Figura 6 – Mudança de Constraste do Aplicativo. Fonte: Autor.</center>
 
-* Se desejar ativar o Bluetooth basta apenas mover o botão (BOTÃO MOVER PARA O LADO) para a direita.
-* Se desejar ativar a localização basta apenas mover o botão (BOTÃO MOVER PARA O LADO) para a direita.
-* Se desejar ativar o comando de voz basta apenas mover o botão (BOTÃO MOVER PARA O LADO) para a direita.
+* Se desejar ativar o Bluetooth basta apenas mover o botão ![Botão Mover](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/botaoConfig.png?raw=true) para a direita.
+* Se desejar ativar a localização basta apenas mover o botão ![Botão Mover](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/botaoConfig.png?raw=true) para a direita.
+* Se desejar ativar o comando de voz basta apenas mover o botão ![Botão Mover](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/botaoConfig.png?raw=true) para a direita.
 Todos os comando de voz estará no fim deste manual.
-* Se desejar ativar a mudança de contraste do aplicativo basta apenas mover o botão (BOTÃO MOVER PARA O LADO) para a direita.
-* Para cadastrar o nome basta inserir o nome no campo “Digite um nome de usuário” e apertar o botão (BOTÃO SALVAR)
-* Para trocar o tamanho da letra basta apertar no botão que deseja o tamanho (BOTÃO LETRA PEQUENA) (BOTÃO LETRA NORMAL) (BOTÃO LETRA GRANDE)
+* Se desejar ativar a mudança de contraste do aplicativo basta apenas mover o botão ![Botão Mover](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/botaoConfig.png?raw=true) para a direita.
+* Para cadastrar o nome basta inserir o nome no campo “Digite um nome de usuário” e apertar o botão ![Botão Salvar](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/botaoSalvar.png?raw=true)
+* Para trocar o tamanho da letra basta apertar no botão que deseja o tamanho ![Botão Letra Pequena](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/botaoPequena.png?raw=true) ![Botão Letra Normal](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/botaoNormal.png?raw=true) ![Botão Letra Grande](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/botaoGrande.png?raw=true)
 
 ##  CONECTAR COOLER
 
 Nesta seção iremos conectar a um cooler. Selecione então a opção Conectar Cooler, disponível no Dashboard (Figura 7).
 
-![Botão Conectar]()
+![Botão Conectar](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/botaoConectar.jpg?raw=true)
 
 <center>Figura 7 – Botão de Conexão do Aplicativo. Fonte: Autor.</center>
 
 A tela que você irá visualizar está representada na Figura 8.
 
-![Tela Conexão]()
+![Tela Conexão](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/telaConexao.jpg?raw=true)
 
 <center>Figura 8 – Tela de Conexão do Aplicativo. Fonte: Autor.</center>
 
@@ -106,7 +106,7 @@ A tela que você irá visualizar está representada na Figura 8.
 
 Nesta seção iremos escoar a água acumulada do cooler. Selecione então a opção Escoar Água, disponível no Dashboard (Figura 9).
 
-![Botão Escoar Água]()
+![Botão Escoar Água](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/botaoEscoamento.jpg?raw=true)
 
 <center>Figura 9 – Botão de Escoamento do Aplicativo. Fonte: Autor.</center>
 
@@ -114,13 +114,13 @@ Nesta seção iremos escoar a água acumulada do cooler. Selecione então a opç
 
 Nesta seção iremos visualizar as informações sobre os desenvolvedores. Selecione então a opção Quem Somos, disponível no Dashboard (Figura 10).
 
-![Botão Quem Somos]()
+![Botão Quem Somos](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/botaoQuemSomos.jpg?raw=true)
 
 <center>Figura 10 – Botão Quem Somos do Aplicativo. Fonte: Autor.</center>
 
 Você irá visualizar a tela da Figura 11.
 
-![Tela Quem Somos]()
+![Tela Quem Somos](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/telaQuemSomos.png?raw=true)
 
 <center>Figura 11 – Tela Quem Somos do Aplicativo. Fonte: Autor.</center>
 
@@ -131,13 +131,13 @@ Essa tela apenas fornece informações sobre os desenvolvedores do projeto Track
 Nesta seção iremos visualizar as informações sobre o projeto. Selecione então a
 opção Sobre o Projeto, disponível no Dashboard (Figura 12).
 
-![Botão Sobre Projeto]()
+![Botão Sobre Projeto](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/botaoSobreProjeto.jpg?raw=true)
 
 <center>Figura 12 – Botão Sobre o Projeto do Aplicativo. Fonte: Autor.</center>
 
 A tela que você irá visualizar está apresentada na Figura 13.
 
-![Tela Sobre Projeto]()
+![Tela Sobre Projeto](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/telaSobre.png?raw=true)
 
 <center>Figura 13 – Tela Sobre o Projeto. Fonte: Autor.</center>
 
@@ -148,7 +148,7 @@ fornece acesso para o nosso GitHub, basta apenas apertar na frase em destaque �
 
 O aplicativo exibirá um alerta caso o cooler pare de seguir o usuário ou caso seja desconectado (Figura 14).
 
-![Tela Alertas]()
+![Tela Alertas](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/telaAlertaDesconexao.jpg?raw=true)
 
 <center>Figura 14 – Tela de Alerta caso o cooler seja desconectado. Fonte: Autor.</center>
 
@@ -160,9 +160,9 @@ uma vibração no celular e um aviso sonoro avisando o usuário sobre o problema
 
 ## COMANDO DE VOZ
 
-Ao ativar o modo de comando de voz na tela de Configurações, o APP Track Cooler ficará interativo por voz(Figura 15).
+Ao ativar o modo de comando de voz na tela de Configurações, o APP Track Cooler ficará interativo por voz (Figura 15).
 
-![Botão Comando de Voz]()
+![Botão Comando de Voz](https://github.com/track-cooler/app_track_cooler/blob/docs/docs/assets/manual/comandoVozBotao.png?raw=true)
 
 <center>Figura 15 – Ativação dos comandos de voz. Fonte: Autor.</center>
 
